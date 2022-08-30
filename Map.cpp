@@ -77,27 +77,20 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
 			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col - 5)->type = 'V';
 		break;
-	
+
 	case topLeft:
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top;
 		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left;
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right -
 			floorSprite.spriteWidth / 2;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
-		
+
 
 		for (int i = traps[leverForWhichTrap].trapTopRightPosition.row;
 			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
 			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col - 5)->type = 'V';
 		break;
-
-
 	}
-
-}
-
-void Map::AddHole(int leverForWhichTrap) {
-
 }
 
 void Map::createMap() {
@@ -235,6 +228,7 @@ void Map::InitializeMap() {
 
 }
 
+
 void Map::UninitializeMap() {
 	floorSprite.Release();
 
@@ -348,4 +342,16 @@ bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollided
 		}
 	}
 	return result;
+}
+
+
+bool Map::collidedToLever(Sprite* character, int* leverForWhichTrap) {
+	for (int i = 0; i <= 3; i++) {
+		if (!traps[i].isSet) continue;
+		if (isCollided(character->positionRect, traps[i].lever.positionRect)) {
+			cout << "COLLIDED" << endl;
+			return true;
+		}
+	}
+	return false;
 }

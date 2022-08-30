@@ -29,6 +29,7 @@ public:
 	void UninitializeMap();
 	void RenderMap();
 	bool collidedToWall(Sprite character, RectCollidedStatus* characterCollidedStatus,int *collidedXAxis,int *collidedYAxis);
+	bool collidedToLever(Sprite *character, int* leverForWhichTrap);
 
 private:
 	char getCellType(int row, int col);
@@ -40,6 +41,5 @@ private:
 	void createTrap();
 	void assignDefaultPosition();
 	void setLeverAndHole(int leverForWhichTrap);
-	void AddHole(int leverForWhichTrap);
 };
 
