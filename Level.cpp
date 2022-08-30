@@ -105,8 +105,11 @@ void Level::Update(int framesToUpdate) {
 		updateCharacterCollidedToWall();
 
 		//touch lever or not
-		int whichTrap;
-		map.collidedToLever(&character.sprite, &whichTrap);
+		//if (map.collidedToLever(&character.sprite, &leverForWhichTrap)) {
+		//	switch (leverForWhichTrap) {
+		//	case topLeft:
+		//	}
+		//}
 
 		// if not moving, character dont move; else move in speed of 10fps
 		updateCharacterAnimation();
