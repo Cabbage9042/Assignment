@@ -3,6 +3,7 @@
 #include "Map.h"
 #include "Character.h"
 
+#include "GameManager.h"
 enum { character };
 enum {
 	walkingUp, walkingDown, walkingLeft, walkingRight

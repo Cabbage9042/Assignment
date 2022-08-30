@@ -18,7 +18,7 @@ public:
 	Sprite floorSprite;
 	int numberOfCellRow;		// included wall
 	int numberOfCellColumn;		// included wall
-	vector<vector<Cell> > cells; //is a wall, a floor or void. "W", "F", "V"
+	vector<vector<Cell*> > cells; //is a wall, a floor or void. "W", "F", "V"
 	D3DXVECTOR2 startPosition;
 	D3DXVECTOR2 endPosition;
 

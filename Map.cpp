@@ -76,7 +76,7 @@ void Map::InitializeMap() {
 	RECT cellPositionRect;
 
 	for (int row = 0; row < numberOfCellRow; row++) {
-		cells.push_back(vector<Cell>());
+		cells.push_back(vector<Cell*>());
 		for (int column = 0; column < numberOfCellColumn; column++) {
 			charCellType = getCellType(row, column);
 
@@ -86,7 +86,7 @@ void Map::InitializeMap() {
 			cellPositionRect.right = cellPositionRect.left + floorSprite.spriteWidth;
 
 
-			cells.back().push_back(Cell(charCellType, cellPositionRect));
+			cells.back().push_back(new Cell(charCellType, cellPositionRect));
 			if (charCellType == 'S') {
 
 				startPosition.x = topLeftCorner.x + (column * floorSprite.spriteWidth);
@@ -100,6 +100,18 @@ void Map::InitializeMap() {
 
 void Map::UninitializeMap() {
 	floorSprite.Release();
+	
+	for (int row = cells.size()-1; row >= 0 ; row--) {
+		for (int col = cells.back().size() -1; col >= 0; col--) {
+			delete cells.back().back();
+			cells.back().at(col) = NULL;
+			cells.back().pop_back();
+			cells.back().shrink_to_fit();
+		}
+		//vector<Cell*>().swap(cells.at(row));
+		cells.pop_back();
+	}
+	
 }
 
 void Map::RenderMap() {
@@ -112,8 +124,8 @@ void Map::RenderMap() {
 				);
 
 			floorSprite.transformation.UpdateMatrix();
-			if (cells.at(row).at(col).type == 'V') continue;
-			if (cells.at(row).at(col).type == 'W') floorSprite.color = D3DCOLOR_XRGB(255 / 2, 255 / 2, 255 / 2);
+			if (cells.at(row).at(col)->type == 'V') continue;
+			if (cells.at(row).at(col)->type == 'W') floorSprite.color = D3DCOLOR_XRGB(255 / 2, 255 / 2, 255 / 2);
 			else floorSprite.color = D3DCOLOR_XRGB(255, 255, 255);
 			Shell::directXManager.spriteBrush->SetTransform(&floorSprite.transformation.matrix);
 			Shell::directXManager.spriteBrush->Draw(floorSprite.texture, &floorSprite.cropRect, NULL, NULL, floorSprite.color);
@@ -126,33 +138,33 @@ bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollided
 	bool result = false;
 	for (int row = 0; row < numberOfCellRow; row++) {
 		for (int col = 0; col < numberOfCellColumn; col++) {
-			if (cells.at(row).at(col).type != 'W') {
+			if (cells.at(row).at(col)->type != 'W') {
 				continue;
 			}
-			if (isCollided(character.positionRect, cells.at(row).at(col).positionRect)) {
+			if (isCollided(character.positionRect, cells.at(row).at(col)->positionRect)) {
 				// character is below wall
 				result = true;
-				if (character.isHoverOn(cells.at(row).at(col).positionRect,
+				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
 					getCenterPoint(topSide, character.positionRect))) {
-					characterCollidedStatus->bottomCollided = cells.at(row).at(col).positionRect;
-					*collidedYAxis = cells.at(row).at(col).positionRect.bottom;
+					characterCollidedStatus->bottomCollided = cells.at(row).at(col)->positionRect;
+					*collidedYAxis = cells.at(row).at(col)->positionRect.bottom;
 					
 				}
-				if (character.isHoverOn(cells.at(row).at(col).positionRect,
+				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
 					getCenterPoint(bottomSide, character.positionRect))) {
-					characterCollidedStatus->topCollided = cells.at(row).at(col).positionRect;
-					*collidedYAxis = cells.at(row).at(col).positionRect.top;
+					characterCollidedStatus->topCollided = cells.at(row).at(col)->positionRect;
+					*collidedYAxis = cells.at(row).at(col)->positionRect.top;
 				}
 				//character is at left of the wall
-				if (character.isHoverOn(cells.at(row).at(col).positionRect,
+				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
 					getCenterPoint(rightSide, character.positionRect))) {
-					characterCollidedStatus->rightCollided = cells.at(row).at(col).positionRect;
-					*collidedXAxis = cells.at(row).at(col).positionRect.left;
+					characterCollidedStatus->rightCollided = cells.at(row).at(col)->positionRect;
+					*collidedXAxis = cells.at(row).at(col)->positionRect.left;
 				}
-				if (character.isHoverOn(cells.at(row).at(col).positionRect,
+				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
 					getCenterPoint(leftSide, character.positionRect))) {
-					characterCollidedStatus->leftCollided = cells.at(row).at(col).positionRect;
-					*collidedXAxis = cells.at(row).at(col).positionRect.right;
+					characterCollidedStatus->leftCollided = cells.at(row).at(col)->positionRect;
+					*collidedXAxis = cells.at(row).at(col)->positionRect.right;
 				}
 				/*if (character.positionRect.bottom > cells.at(row).at(col).positionRect.top) {
 					*collidedWallSide = topSide;

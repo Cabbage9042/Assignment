@@ -1,10 +1,12 @@
 #pragma once
 #include "Shell.h"
 #include "FrameTimer.h"
+#include "GameManager.h"
 
-#define CurrentLevel() shell.levelVector->back()
+#define CurrentLevel() GameManager::levelVector->back()
 
 Shell shell = Shell();
+GameManager gameManager = GameManager();
 FrameTimer timer = FrameTimer();
 
 void Render() {
@@ -13,13 +15,13 @@ void Render() {
 
 void main() {
 
-	shell.InitializeGame();
+	gameManager.InitializeGame();
 	timer.Init(gameFPS);
-	while (shell.windowManager.MyWindowIsRunning()) {
+	while (Shell::windowManager.MyWindowIsRunning()) {
 		CurrentLevel()->GetInput();
 		CurrentLevel()->Update(timer.FramesToUpdate());
 		CurrentLevel()->Render();
 	}
-	shell.UninitializeGame();
+	gameManager.UninitializeGame();
 
 }

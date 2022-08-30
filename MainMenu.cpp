@@ -12,17 +12,17 @@ void MainMenu::InitializeLevel() {
 	sprites = new vector<Sprite*>;
 
 	//button start
-	Shell::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
+	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
 
 
 	//button quit
-	Shell::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96 * 2), centerAlign);
+	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96 * 2), centerAlign);
 
 
 
-	Shell::CreateText(texts, "Walking on a spaceship", Shell::fonts->at(franklin100), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 5), centerAlign);
-	Shell::CreateText(texts, "Start", Shell::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2 + 35), centerAlign);
-	Shell::CreateText(texts, "Quit", Shell::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, ((MyWindowHeight / 2) + 96 * 2) + 35), centerAlign);
+	GameManager::CreateText(texts, "Walking on a spaceship", GameManager::fonts->at(franklin100), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 5), centerAlign);
+	GameManager::CreateText(texts, "Start", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2 + 35), centerAlign);
+	GameManager::CreateText(texts, "Quit", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, ((MyWindowHeight / 2) + 96 * 2) + 35), centerAlign);
 
 	int textureWidth = 54;
 	int textureHeight = 35;
@@ -33,7 +33,7 @@ void MainMenu::InitializeLevel() {
 	int currentColumn = 0;
 	int currentRow = 0;
 	int maxFrame = 1;
-	Shell::CreateSprite(sprites, "Assets/pointer.png", textureWidth, textureHeight, spriteWidth, spriteHeight,
+	GameManager::CreateSprite(sprites, "Assets/pointer.png", textureWidth, textureHeight, spriteWidth, spriteHeight,
 		spriteRow, spriteCol, currentColumn,currentRow, maxFrame, D3DXVECTOR2(0, 0));
 }
 
@@ -72,7 +72,7 @@ void MainMenu::Update(int framesToUpdate) {
 			if (ButtonDown(0)) {
 				Level* level = new Level();
 				level->InitializeLevel();
-				Shell::levelVector->push_back(level);
+				GameManager::levelVector->push_back(level);
 				level = NULL;
 			}
 		}
@@ -111,7 +111,7 @@ void MainMenu::Update(int framesToUpdate) {
 }
 
 void MainMenu::Render() {
-	Shell::RenderBegin();
+	GameManager::RenderBegin();
 	for (int i = textures->size() - 1; i >= 0; i--) {
 		textures->at(i)->Draw();
 	}
@@ -134,12 +134,12 @@ void MainMenu::Render() {
 	//	&sprites->at(pointer)->cropRect, NULL, NULL, sprites->at(pointer)->color);
 
 
-	Shell::RenderEnd();
+	GameManager::RenderEnd();
 }
 
 void MainMenu::UninitializeLevel() {
-	Shell::ReleaseTextures(textures);
-	Shell::ReleaseTexts(texts);
-	Shell::ReleaseSprite(sprites);
+	GameManager::ReleaseTextures(textures);
+	GameManager::ReleaseTexts(texts);
+	GameManager::ReleaseSprite(sprites);
 }
 ;

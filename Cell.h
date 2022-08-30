@@ -7,7 +7,7 @@ class Cell{
 public:
 	char type;
 	RECT positionRect;
-	Cell(char type,RECT positionRect) {
+	Cell(char type, RECT positionRect) {
 		this->type = type;
 		this->positionRect = positionRect;
 	}

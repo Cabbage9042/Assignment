@@ -54,7 +54,7 @@ void Level::InitializeLevel() {
 
 
 	//last
-	Shell::CreateSprite(sprites, "Assets/Level/character.png", textureWidth, textureHeight, spriteWidth, spriteHeight, spriteRow, spriteCol, currentColumn, currentRow, maxFrame, position);
+	GameManager::CreateSprite(sprites, "Assets/Level/character.png", textureWidth, textureHeight, spriteWidth, spriteHeight, spriteRow, spriteCol, currentColumn, currentRow, maxFrame, position);
 
 	map.InitializeMap();
 
@@ -102,10 +102,10 @@ void Level::Update(int framesToUpdate) {
 		return;
 	}
 	if (downKey.isPressed) {
-		Shell::levelVector->back()->UninitializeLevel();
-		delete Shell::levelVector->back();
-		Shell::levelVector->back() = NULL;
-		Shell::levelVector->pop_back();
+		GameManager::levelVector->back()->UninitializeLevel();
+		delete GameManager::levelVector->back();
+		GameManager::levelVector->back() = NULL;
+		GameManager::levelVector->pop_back();
 		return;
 	}
 
@@ -203,7 +203,7 @@ void Level::Update(int framesToUpdate) {
 }
 
 void Level::Render() {
-	Shell::RenderBegin();
+	GameManager::RenderBegin();
 
 
 	map.RenderMap();
@@ -228,12 +228,13 @@ void Level::Render() {
 	//	&sprites->at(pointer)->cropRect, NULL, NULL, sprites->at(pointer)->color);
 
 
-	Shell::RenderEnd();
+	GameManager::RenderEnd();
 }
 
 void Level::UninitializeLevel() {
-	Shell::ReleaseTextures(textures);
-	Shell::ReleaseTexts(texts);
-	Shell::ReleaseSprite(sprites);
+	map.UninitializeMap();
+	GameManager::ReleaseTextures(textures);
+	GameManager::ReleaseTexts(texts);
+	GameManager::ReleaseSprite(sprites);
 }
 
