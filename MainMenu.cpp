@@ -34,7 +34,7 @@ void MainMenu::InitializeLevel() {
 	int currentRow = 0;
 	int maxFrame = 1;
 	GameManager::CreateSprite(sprites, "Assets/pointer.png", textureWidth, textureHeight, spriteWidth, spriteHeight,
-		spriteRow, spriteCol, currentColumn, currentRow, maxFrame, D3DXVECTOR2(0, 0));
+		spriteRow, spriteCol, currentColumn,currentRow, maxFrame, D3DXVECTOR2(0, 0));
 }
 
 void MainMenu::GetInput() {
@@ -44,10 +44,12 @@ void MainMenu::GetInput() {
 	Shell::directXManager.dInputKeyboardDevice->GetDeviceState(256, Shell::directXManager.diKeys);
 	Shell::directXManager.dInputMouseDevice->GetDeviceState(sizeof(Shell::directXManager.mouseState), &Shell::directXManager.mouseState);
 
-
-	GameManager::updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT), &altKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_F4), &f4Key);
-	GameManager::updateKeyStatus(ButtonDown(0), &leftButton);
+	if (KeyDown(DIK_LALT) || KeyDown(DIK_RALT)) {
+		altKeyPressed = true;
+	}
+	if (KeyDown(DIK_F4)) {
+		f4KeyPressed = true;
+	}
 
 
 	sprites->at(pointer)->transformation.position.x += Shell::directXManager.mouseState.lX;
@@ -57,38 +59,33 @@ void MainMenu::GetInput() {
 
 void MainMenu::Update(int framesToUpdate) {
 
-	if ((altKey.isHolding && f4Key.isHolding)) {
+	if ((altKeyPressed && f4KeyPressed) || escKeyPressed) {
 		PostQuitMessage(0);
-		return;
-	}
-	cout << leftButton.isPressed << leftButton.isHolding << leftButton.isReleased << endl;
-	if (sprites->at(pointer)->isHoverOn(textures->at(buttonStart))) {
-		sprites->at(pointer)->currentColumn = 1;
-		if (leftButton.isPressed) {
-			Level* level = new Level();
-			level->InitializeLevel();
-			GameManager::levelVector->push_back(level);
-			level = NULL;
-		}
-	}
-	else if (sprites->at(pointer)->isHoverOn(textures->at(buttonQuit))) {
-
-		sprites->at(pointer)->currentColumn = 1;
-		if (leftButton.isPressed) {
-			PostQuitMessage(0);
-			return;
-		}
-	}
-	else {
-		sprites->at(pointer)->currentColumn = 0;
 	}
 
 	for (int i = 0; i < framesToUpdate; i++) {
 		//cout << "pointer x " << sprites->at(pointer)->transformation.position.x <<
 		//	"y " << sprites->at(pointer)->transformation.position.y;
 
+		if (sprites->at(pointer)->isHoverOn(textures->at(buttonStart))) {
+			sprites->at(pointer)->currentColumn = 1;
+			if (ButtonDown(0)) {
+				Level* level = new Level();
+				level->InitializeLevel();
+				GameManager::levelVector->push_back(level);
+				level = NULL;
+			}
+		}
+		else if (sprites->at(pointer)->isHoverOn(textures->at(buttonQuit))) {
 
-
+			sprites->at(pointer)->currentColumn = 1;
+			if (ButtonDown(0)) {
+				PostQuitMessage(0);
+			}
+		}
+		else {
+			sprites->at(pointer)->currentColumn = 0;
+		}
 	}
 
 	//mouse
@@ -108,9 +105,9 @@ void MainMenu::Update(int framesToUpdate) {
 	sprites->at(pointer)->transformation.UpdateMatrix();
 	sprites->at(pointer)->updateCropRect();
 
-	altKey.isPressed = false;
-	f4Key.isPressed = false;
-	leftButton.isPressed = false;
+	altKeyPressed = false;
+	f4KeyPressed = false;
+	escKeyPressed = false;
 }
 
 void MainMenu::Render() {

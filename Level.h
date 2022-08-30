@@ -8,7 +8,9 @@ enum { character };
 enum {
 	walkingUp, walkingDown, walkingLeft, walkingRight
 };
-
+struct KeyStatus {
+	bool isPressed = false, isHolding = false, isReleased = true;
+};
 
 
 class Level : public Game {
@@ -36,6 +38,7 @@ public:
 	virtual void Render() override;
 	virtual void UninitializeLevel() override;
 private:
+	void updateKeyStatus(bool keyDown, KeyStatus* key);
 	bool rectIsEqual(RECT a, RECT b);
 };
 

@@ -4,7 +4,6 @@
 #include "Shell.h"
 #include "MainMenu.h"
 
-
 class GameManager{
 public:
 	static std::vector<Game*>* levelVector;
@@ -40,8 +39,5 @@ public:
 	//render
 	static void RenderBegin();
 	static void RenderEnd();
-
-
-	static void updateKeyStatus(bool keyDown, KeyStatus* key);
 };
 
