@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Shell">
+      <UniqueIdentifier>{63806056-b9e0-4702-883e-e4fd53a0321c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Shell">
+      <UniqueIdentifier>{35d46b72-4306-4cae-9bf2-cac5c4416d9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{29b81ba2-479e-4cfd-8485-1ac60b12c800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\StuffToBeDrawn">
+      <UniqueIdentifier>{06d1eac5-dbe6-4f0d-8eb6-91f10d5ce15b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\StuffToBeDrawn">
+      <UniqueIdentifier>{8240c553-5b85-41cb-a97a-a3e9177c5728}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{b3c5f645-dfe4-403e-b4f3-489f36f4a55a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXManager.cpp">
+      <Filter>Source Files\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="Shell.cpp">
+      <Filter>Source Files\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="StuffToBeDrawn.cpp">
+      <Filter>Source Files\StuffToBeDrawn</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\StuffToBeDrawn</Filter>
+    </ClCompile>
+    <ClCompile Include="Text.cpp">
+      <Filter>Source Files\StuffToBeDrawn</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformationMatrix.cpp">
+      <Filter>Source Files\StuffToBeDrawn</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files\StuffToBeDrawn</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameTimer.cpp">
+      <Filter>Source Files\Shell</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Header Files\Shell</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXManager.h">
+      <Filter>Header Files\Shell</Filter>
+    </ClInclude>
+    <ClInclude Include="Shell.h">
+      <Filter>Header Files\Shell</Filter>
+    </ClInclude>
+    <ClInclude Include="StuffToBeDrawn.h">
+      <Filter>Header Files\StuffToBeDrawn</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\StuffToBeDrawn</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Text.h">
+      <Filter>Header Files\StuffToBeDrawn</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformationMatrix.h">
+      <Filter>Header Files\StuffToBeDrawn</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameTimer.h">
+      <Filter>Header Files\Shell</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Header Files\StuffToBeDrawn</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

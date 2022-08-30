@@ -1,0 +1,4 @@
+﻿  WindowManager.h
+x64\Debug\WindowManager.obj : warning LNK4042: object specified more than once; extras ignored
+Main.obj : error LNK2019: unresolved external symbol "public: void __cdecl WindowManager::CreateMyWindow(void)" (?CreateMyWindow@WindowManager@@QEAAXXZ) referenced in function main
+E:\TARC\programming\Assignment\x64\Debug\Assignment.exe : fatal error LNK1120: 1 unresolved externals
