@@ -69,6 +69,7 @@ class Sprite : public Texture {
 		this->currentColumn = currentColumn;
 		this->maxFrame = maxFrame;
 
+		updateCropRect();
 		updatePositionRect();
 	}
 
