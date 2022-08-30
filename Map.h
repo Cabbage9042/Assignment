@@ -5,6 +5,7 @@
 #include "Character.h"
 #include "GameManager.h"
 #include "Trap.h"
+#define PI 3.1415926
 
 enum { bottomSide, topSide, leftSide, rightSide};
 enum { topRight, bottomRight, bottomLeft, topLeft };
@@ -29,7 +30,6 @@ public:
 	void RenderMap();
 	bool collidedToWall(Sprite character, RectCollidedStatus* characterCollidedStatus,int *collidedXAxis,int *collidedYAxis);
 
-
 private:
 	char getCellType(int row, int col);
 	bool isCollided(RECT a, RECT b);
@@ -39,6 +39,7 @@ private:
 	void createMap();
 	void createTrap();
 	void assignDefaultPosition();
-	void setLeverRect(int leverForWhichTrap);
+	void setLeverAndHole(int leverForWhichTrap);
+	void AddHole(int leverForWhichTrap);
 };
 

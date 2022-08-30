@@ -35,9 +35,10 @@ bool Map::isCollided(RECT a, RECT b) {
 }
 
 
-void Map::setLeverRect(int leverForWhichTrap) {
+void Map::setLeverAndHole(int leverForWhichTrap) {
 	int col = traps[leverForWhichTrap].lever.nthColumn;
 	int row = traps[leverForWhichTrap].lever.nthRow;
+
 
 	switch (leverForWhichTrap) {
 	case topRight:
@@ -46,29 +47,56 @@ void Map::setLeverRect(int leverForWhichTrap) {
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom -
 			floorSprite.spriteHeight / 2;
+
+		for (int i = traps[leverForWhichTrap].trapTopRightPosition.row;
+			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
+			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col + 1)->type = 'V';
+
 		break;
 	case bottomRight:
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top;
-		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left -
+		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left +
 			floorSprite.spriteWidth / 2;;
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
 		break;
+
+		for (int i = traps[leverForWhichTrap].trapTopRightPosition.row;
+			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
+			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col + 1)->type = 'V';
+
 	case bottomLeft:
-		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top -
+		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top +
 			floorSprite.spriteHeight / 2;
 		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left;
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
+
+
+		for (int i = traps[leverForWhichTrap].trapTopRightPosition.row;
+			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
+			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col - 5)->type = 'V';
 		break;
+	
 	case topLeft:
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top;
 		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left;
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right -
 			floorSprite.spriteWidth / 2;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
+		
+
+		for (int i = traps[leverForWhichTrap].trapTopRightPosition.row;
+			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
+			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col - 5)->type = 'V';
 		break;
+
+
 	}
+
+}
+
+void Map::AddHole(int leverForWhichTrap) {
 
 }
 
@@ -110,8 +138,8 @@ void Map::createTrap() {
 
 		traps[i].lever.nthColumn = leverPosition[i].col;
 		traps[i].lever.nthRow = leverPosition[i].row;
-		setLeverRect(i);
 		traps[i].trapTopRightPosition = trapTopRightPosition[i];
+		setLeverAndHole(i);
 
 		for (int j = traps[i].trapTopRightPosition.row;
 			j >= traps[i].trapTopRightPosition.row - 3; j--) {
@@ -124,6 +152,7 @@ void Map::createTrap() {
 
 			}
 		}
+
 
 	}
 }
@@ -154,6 +183,9 @@ void Map::assignDefaultPosition() {
 	trapTopRightPosition[topLeft].row = 4;
 
 }
+
+
+
 
 
 D3DXVECTOR2 Map::getCenterPoint(int side, RECT rect) {
@@ -194,6 +226,7 @@ void Map::InitializeMap() {
 	floorSprite = Sprite("Assets/Level/floor.png", 160, 64, 32, 32, 2, 5, 0, 0, 9, D3DXVECTOR2(0, 0));
 
 	lever = Texture("Assets/Level/lever.png", 32, 32, D3DXVECTOR2(0, 0));
+	lever.transformation.rotationCenter = D3DXVECTOR2(lever.textureWidth / 2, lever.textureHeight / 2);
 
 	createMap();
 
@@ -246,6 +279,19 @@ void Map::RenderMap() {
 
 			floorSprite.Draw();
 
+
+			/*Lever*/
+			for (int leverLoop = 0; leverLoop < 4; leverLoop++) {
+				if (!traps[leverLoop].isSet) continue;
+				if (traps[leverLoop].lever.nthRow == row && traps[leverLoop].lever.nthColumn == col) {
+					lever.transformation.position.x = cells.at(row).at(col)->positionRect.left;
+					lever.transformation.position.y = cells.at(row).at(col)->positionRect.top;
+					lever.transformation.rotation = leverLoop * 90 * PI / 180;
+					lever.transformation.UpdateMatrix();
+					lever.Draw();
+					break;
+				}
+			}
 
 		}
 	}
