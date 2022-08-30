@@ -11,6 +11,7 @@ char Map::getCellType(int row, int col) {
 		return 'W';
 	else if (row == 1 && col == numberOfCellColumn / 2)
 		return 'S';
+	else if (row == 1 && col == numberOfCellColumn / 2 - 2) return 'E';
 
 	else return 'F';
 }
@@ -32,6 +33,128 @@ bool Map::isCollided(RECT a, RECT b) {
 	return collided;
 
 }
+
+
+void Map::setLeverRect(int leverForWhichTrap) {
+	int col = traps[leverForWhichTrap].lever.nthColumn;
+	int row = traps[leverForWhichTrap].lever.nthRow;
+
+	switch (leverForWhichTrap) {
+	case topRight:
+		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top;
+		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left;
+		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
+		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom -
+			floorSprite.spriteHeight / 2;
+		break;
+	case bottomRight:
+		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top;
+		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left -
+			floorSprite.spriteWidth / 2;;
+		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
+		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
+		break;
+	case bottomLeft:
+		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top -
+			floorSprite.spriteHeight / 2;
+		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left;
+		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
+		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
+		break;
+	case topLeft:
+		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top;
+		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left;
+		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right -
+			floorSprite.spriteWidth / 2;
+		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
+		break;
+	}
+
+}
+
+void Map::createMap() {
+	char charCellType;
+	RECT cellPositionRect;
+
+	for (int row = 0; row < numberOfCellRow; row++) {
+		cells.push_back(vector<Cell*>());
+		for (int column = 0; column < numberOfCellColumn; column++) {
+			charCellType = getCellType(row, column);
+
+
+			cellPositionRect.top = topLeftCorner.y + (row * floorSprite.spriteHeight);
+			cellPositionRect.bottom = cellPositionRect.top + floorSprite.spriteHeight;
+			cellPositionRect.left = topLeftCorner.x + (column * floorSprite.spriteWidth);
+			cellPositionRect.right = cellPositionRect.left + floorSprite.spriteWidth;
+
+
+			cells.back().push_back(new Cell(
+				GameManager::randomNumber(0, 5), GameManager::randomNumber(0, 2),
+				charCellType, cellPositionRect));
+			if (charCellType == 'S') {
+				startPosition.x = topLeftCorner.x + (column * floorSprite.spriteWidth);
+				startPosition.y = topLeftCorner.y + (row * floorSprite.spriteHeight);
+
+			}
+
+		}
+	}
+}
+
+void Map::createTrap() {
+	int createdTrapCount = 0;
+	for (int i = 0; i < 4; i++) {
+		traps[i].isSet = GameManager::randomNumber(0, 2);
+		if (i == 3 && createdTrapCount == 0) traps[i].isSet = true;
+		if (!traps[i].isSet) continue; else createdTrapCount++;
+
+		traps[i].lever.nthColumn = leverPosition[i].col;
+		traps[i].lever.nthRow = leverPosition[i].row;
+		setLeverRect(i);
+		traps[i].trapTopRightPosition = trapTopRightPosition[i];
+
+		for (int j = traps[i].trapTopRightPosition.row;
+			j >= traps[i].trapTopRightPosition.row - 3; j--) {
+
+			for (int k = traps[i].trapTopRightPosition.col;
+				k >= traps[i].trapTopRightPosition.col - 4; k--) {
+
+				cells.at(j).at(k)->type = 'T';
+
+
+			}
+		}
+
+	}
+}
+
+void Map::assignDefaultPosition() {
+	leverPosition[topRight].col = 10;
+	leverPosition[topRight].row = 1;
+
+	leverPosition[bottomRight].col = 16;
+	leverPosition[bottomRight].row = 11;
+
+	leverPosition[bottomLeft].col = 7;
+	leverPosition[bottomLeft].row = 16;
+
+	leverPosition[topLeft].col = 1;
+	leverPosition[topLeft].row = 6;
+
+	trapTopRightPosition[topRight].col = 16;
+	trapTopRightPosition[topRight].row = 4;
+
+	trapTopRightPosition[bottomRight].col = 16;
+	trapTopRightPosition[bottomRight].row = 16;
+
+	trapTopRightPosition[bottomLeft].col = 5;
+	trapTopRightPosition[bottomLeft].row = 16;
+
+	trapTopRightPosition[topLeft].col = 5;
+	trapTopRightPosition[topLeft].row = 4;
+
+}
+
 
 D3DXVECTOR2 Map::getCenterPoint(int side, RECT rect) {
 	D3DXVECTOR2 tempPosition;
@@ -57,6 +180,8 @@ D3DXVECTOR2 Map::getCenterPoint(int side, RECT rect) {
 
 
 void Map::InitializeMap() {
+	assignDefaultPosition();
+
 	numberOfCellRow = numberOfCellColumn = 18;
 	int cellWidth = 32, cellHeight = 32;
 	//topLeftCorner = D3DXVECTOR2(
@@ -67,34 +192,14 @@ void Map::InitializeMap() {
 		(MyWindowHeight / 2) - (cellHeight * numberOfCellRow / 2));
 
 	floorSprite = Sprite("Assets/Level/floor.png", 160, 64, 32, 32, 2, 5, 0, 0, 9, D3DXVECTOR2(0, 0));
-	floorSprite.updateCropRect();
 
-	char charCellType;
-	RECT cellPositionRect;
+	lever = Texture("Assets/Level/lever.png", 32, 32, D3DXVECTOR2(0, 0));
 
-	for (int row = 0; row < numberOfCellRow; row++) {
-		cells.push_back(vector<Cell*>());
-		for (int column = 0; column < numberOfCellColumn; column++) {
-			charCellType = getCellType(row, column);
+	createMap();
 
-			cellPositionRect.top = topLeftCorner.y + (row * floorSprite.spriteHeight);
-			cellPositionRect.bottom = cellPositionRect.top + floorSprite.spriteHeight;
-			cellPositionRect.left = topLeftCorner.x + (column * floorSprite.spriteWidth);
-			cellPositionRect.right = cellPositionRect.left + floorSprite.spriteWidth;
+	createTrap();
 
 
-			cells.back().push_back(new Cell(
-				GameManager::randomNumber(0,5), GameManager::randomNumber(0, 2),
-				charCellType, cellPositionRect));
-			if (charCellType == 'S') {
-
-				startPosition.x = topLeftCorner.x + (column * floorSprite.spriteWidth);
-				startPosition.y = topLeftCorner.y + (row * floorSprite.spriteHeight);
-
-			}
-
-		}
-	}
 }
 
 void Map::UninitializeMap() {
@@ -111,6 +216,8 @@ void Map::UninitializeMap() {
 		cells.pop_back();
 	}
 
+	lever.Release();
+
 }
 
 void Map::RenderMap() {
@@ -123,17 +230,26 @@ void Map::RenderMap() {
 				);
 
 			floorSprite.transformation.UpdateMatrix();
-			if (cells.at(row).at(col)->type == 'V') continue;
-			if (cells.at(row).at(col)->type == 'W') floorSprite.color = D3DCOLOR_XRGB(255 / 2, 255 / 2, 255 / 2);
-			else floorSprite.color = D3DCOLOR_XRGB(255, 255, 255);
+
+
+			switch (cells.at(row).at(col)->type) {
+			case 'V': continue;
+			case 'W': floorSprite.color = D3DCOLOR_XRGB(255 / 2, 255 / 2, 255 / 2); break;
+			case 'S':floorSprite.color = D3DCOLOR_XRGB(255, 0, 0); break;
+			case 'E': floorSprite.color = D3DCOLOR_XRGB(0, 255, 0); break;
+			case 'T': floorSprite.color = D3DCOLOR_XRGB(255, 165, 0); break;
+			default: floorSprite.color = D3DCOLOR_XRGB(255, 255, 255); break;
+			}
 
 			floorSprite.currentColumn = cells.at(row).at(col)->nthColumn;
 			floorSprite.currentRow = cells.at(row).at(col)->nthRow;
-			floorSprite.updateCropRect();
-			Shell::directXManager.spriteBrush->SetTransform(&floorSprite.transformation.matrix);
-			Shell::directXManager.spriteBrush->Draw(floorSprite.texture, &floorSprite.cropRect, NULL, NULL, floorSprite.color);
+
+			floorSprite.Draw();
+
+
 		}
 	}
+
 }
 
 bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollidedStatus, int* collidedXAxis, int* collidedYAxis)
