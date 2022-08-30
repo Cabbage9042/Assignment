@@ -13,6 +13,9 @@
 #include "Text.h"
 #include "Sprite.h"
 
+struct KeyStatus {
+	bool isPressed = false, isHolding = false, isReleased = true;
+};
 
 using namespace std;
 
