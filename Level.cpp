@@ -104,15 +104,27 @@ void Level::Update(int framesToUpdate) {
 		//collision check
 		updateCharacterCollidedToWall();
 
-		//touch lever or not
-		//if (map.collidedToLever(&character.sprite, &leverForWhichTrap)) {
-		//	switch (leverForWhichTrap) {
-		//	case topLeft:
-		//	}
-		//}
-
 		// if not moving, character dont move; else move in speed of 10fps
 		updateCharacterAnimation();
+
+		//touch lever or not
+		if (map.collidedToLever(&character.sprite, &leverForWhichTrap)) {
+				map.traps[leverForWhichTrap].lever.hasTurnedOn = true;
+				map.setTrapTo('F', map.traps[leverForWhichTrap].trapTopRightPosition);
+			switch (leverForWhichTrap) {
+			case topRight:
+			case bottomRight:
+				map.setHoleTo('W', map.traps[leverForWhichTrap].trapTopRightPosition.row,
+					map.traps[leverForWhichTrap].trapTopRightPosition.col + 1);
+
+				break;
+			default:
+				map.setHoleTo('W', map.traps[leverForWhichTrap].trapTopRightPosition.row,
+					map.traps[leverForWhichTrap].trapTopRightPosition.col -5);
+				break;
+			}
+		}
+
 
 
 		character.characterCollidedStatus.bottomCollided = character.characterCollidedStatus.leftCollided =

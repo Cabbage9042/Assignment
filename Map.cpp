@@ -47,10 +47,8 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom -
 			floorSprite.spriteHeight / 2;
-
-		for (int i = traps[leverForWhichTrap].trapTopRightPosition.row;
-			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
-			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col + 1)->type = 'V';
+		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
+			traps[leverForWhichTrap].trapTopRightPosition.col + 1);
 
 		break;
 	case bottomRight:
@@ -59,12 +57,11 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 			floorSprite.spriteWidth / 2;;
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
-		break;
+		
 
-		for (int i = traps[leverForWhichTrap].trapTopRightPosition.row;
-			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
-			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col + 1)->type = 'V';
-
+		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
+			traps[leverForWhichTrap].trapTopRightPosition.col + 1);
+break;
 	case bottomLeft:
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top +
 			floorSprite.spriteHeight / 2;
@@ -72,10 +69,8 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
 
-
-		for (int i = traps[leverForWhichTrap].trapTopRightPosition.row;
-			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
-			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col - 5)->type = 'V';
+		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
+			traps[leverForWhichTrap].trapTopRightPosition.col -5);
 		break;
 
 	case topLeft:
@@ -86,9 +81,9 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
 
 
-		for (int i = traps[leverForWhichTrap].trapTopRightPosition.row;
-			i >= traps[leverForWhichTrap].trapTopRightPosition.row - 3; i--)
-			cells.at(i).at(traps[leverForWhichTrap].trapTopRightPosition.col - 5)->type = 'V';
+
+		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
+			traps[leverForWhichTrap].trapTopRightPosition.col - 5);
 		break;
 	}
 }
@@ -134,17 +129,7 @@ void Map::createTrap() {
 		traps[i].trapTopRightPosition = trapTopRightPosition[i];
 		setLeverAndHole(i);
 
-		for (int j = traps[i].trapTopRightPosition.row;
-			j >= traps[i].trapTopRightPosition.row - 3; j--) {
-
-			for (int k = traps[i].trapTopRightPosition.col;
-				k >= traps[i].trapTopRightPosition.col - 4; k--) {
-
-				cells.at(j).at(k)->type = 'T';
-
-
-			}
-		}
+		setTrapTo('T', traps[i].trapTopRightPosition);
 
 
 	}
@@ -175,6 +160,11 @@ void Map::assignDefaultPosition() {
 	trapTopRightPosition[topLeft].col = 5;
 	trapTopRightPosition[topLeft].row = 4;
 
+}
+
+void Map::setHoleTo(char type, int mostBelowRow, int col, int numberOfBlockToChange ){
+	for (int j = mostBelowRow;j >= mostBelowRow - numberOfBlockToChange +1; j--)
+		cells.at(j).at(col)->type = type;
 }
 
 
@@ -227,6 +217,19 @@ void Map::InitializeMap() {
 
 
 }
+
+
+//bool Map::collidedToAndFacingLever(Sprite* character, int* leverForWhichTrap)
+//{
+//	if (!collidedToLever(character, leverForWhichTrap)) return false;
+//	switch (*leverForWhichTrap) {
+//	case topRight: return character->currentRow == walkingUp;
+//	case bottomRight: return character->currentRow == walkingRight;
+//	case bottomLeft: return character->currentRow == walkingDown;
+//	case topLeft: return character->currentRow == walkingLeft;
+//	default: return false;
+//	}
+//}
 
 
 void Map::UninitializeMap() {
@@ -344,12 +347,23 @@ bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollided
 	return result;
 }
 
+void Map::setTrapTo(char type, RelativePosition topRightPosition){
+	for (int j = topRightPosition.row;
+		j >= topRightPosition.row - 3; j--) {
+		for (int k = topRightPosition.col;
+			k >= topRightPosition.col - 4; k--) {
+
+			cells.at(j).at(k)->type = type;
+		}
+	}
+}
+
 
 bool Map::collidedToLever(Sprite* character, int* leverForWhichTrap) {
 	for (int i = 0; i <= 3; i++) {
 		if (!traps[i].isSet) continue;
 		if (isCollided(character->positionRect, traps[i].lever.positionRect)) {
-			cout << "COLLIDED" << endl;
+			*leverForWhichTrap = i;
 			return true;
 		}
 	}

@@ -1,6 +1,8 @@
 #pragma once
 #include "Sprite.h"
 
+enum { walkingUp, walkingDown, walkingLeft, walkingRight };
+
 struct RectCollidedStatus {
 	RECT topCollided = RECT();
 	RECT leftCollided = RECT();

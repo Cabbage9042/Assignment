@@ -5,7 +5,6 @@
 
 #include "GameManager.h"
 enum { character };
-enum { walkingUp, walkingDown, walkingLeft, walkingRight };
 
 
 
@@ -35,6 +34,7 @@ private:
 	void updateCharacterCollidedToWall();
 	int collidedXAxis;
 	int collidedYAxis;
+	int leverForWhichTrap;
 };
 
 
