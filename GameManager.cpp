@@ -183,8 +183,7 @@ int GameManager::randomNumber(int from, int until)
 		texts->push_back(new Text(text, font, position, alignFrom, color));
 	}
 
-	void GameManager::ReleaseTexts(vector<Text*>*texts)
-	{
+	void GameManager::ReleaseTexts(vector<Text*>*texts)	{
 		for (int i = texts->size() - 1; i >= 0; i--) {
 			texts->at(i)->Release();
 			delete texts->at(i);
