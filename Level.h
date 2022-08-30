@@ -5,9 +5,7 @@
 
 #include "GameManager.h"
 enum { character };
-enum {
-	walkingUp, walkingDown, walkingLeft, walkingRight
-};
+enum { walkingUp, walkingDown, walkingLeft, walkingRight };
 
 
 
@@ -32,8 +30,11 @@ public:
 	virtual void Update(int framesToUpdate) override;
 	virtual void Render() override;
 	virtual void UninitializeLevel() override;
-private:
-	bool rectIsEqual(RECT a, RECT b);
+private: 
+	void updateCharacterAnimation();
+	void updateCharacterCollidedToWall();
+	int collidedXAxis;
+	int collidedYAxis;
 };
 
 

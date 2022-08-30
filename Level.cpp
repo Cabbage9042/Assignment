@@ -5,15 +5,6 @@
 
 
 
-bool Level::rectIsEqual(RECT a, RECT b)
-{
-	return (
-		a.left == b.left &&
-		a.right == b.right &&
-		a.top == b.top &&
-		a.bottom == b.bottom
-		);
-}
 
 void Level::InitializeLevel() {
 	textures = new vector<Texture*>;
@@ -38,15 +29,7 @@ void Level::InitializeLevel() {
 
 
 	//last
-	LPDIRECT3DTEXTURE9 texture = NULL;
-	HRESULT hr = D3DXCreateTextureFromFile(Shell::directXManager.d3dDevice, "Assets/Level/character.png", &texture);
-	if (FAILED(hr)) {
-		PostQuitMessage(-1);
-		cout << "Assets/Level/character.png failed"<<endl;
-		return;
-	}
-	character.sprite = Sprite(texture, textureWidth, textureHeight, spriteWidth, spriteHeight, spriteRow, spriteCol, currentColumn, currentRow, maxFrame, position);
-	texture = NULL;
+	character.sprite = Sprite("Assets/Level/character.png", textureWidth, textureHeight, spriteWidth, spriteHeight, spriteRow, spriteCol, currentColumn, currentRow, maxFrame, position);
 
 	map.InitializeMap();
 
@@ -123,43 +106,11 @@ void Level::Update(int framesToUpdate) {
 		//cout << "right " << sprites->at(character)->positionRect.right<<endl;
 
 		//collision check
-		int collidedXAxis;
-		int collidedYAxis;
-		if (map.collidedToWall(character.sprite, &character.characterCollidedStatus, &collidedXAxis, &collidedYAxis)) {
-			//cout << "side " << collidedWallSide << " axis " << collidedAxis << endl;
-			if (!rectIsEqual(character.characterCollidedStatus.bottomCollided, RECT())) {
-				//cout << 1;
-				character.sprite.transformation.position.y = collidedYAxis;
-			}
-			if (!rectIsEqual(character.characterCollidedStatus.topCollided, RECT())) {
-				//cout << 2;
-				character.sprite.transformation.position.y = collidedYAxis - character.sprite.spriteHeight;
-			}
-			if (!rectIsEqual(character.characterCollidedStatus.leftCollided, RECT())) {
-				//cout << 3;
-				character.sprite.transformation.position.x = collidedXAxis;
-			}
-			if (!rectIsEqual(character.characterCollidedStatus.rightCollided, RECT())) {
-				//cout << 4;
-				character.sprite.transformation.position.x = collidedXAxis - character.sprite.spriteWidth;
-			}
-			//cout << endl;
-		}
-
+		updateCharacterCollidedToWall();
 
 		// if not moving, character dont move; else move in speed of 10fps
-		if (!character.characterIsMoving) {
-			character.characterAnimationCounter = 0;
-			character.sprite.currentColumn = 0;
-		}
-		else {
-			if (character.characterAnimationCounter % (gameFPS / character.characterFPS) == 0) {
-				character.sprite.currentColumn++;
-				if (character.sprite.currentColumn == character.sprite.maxFrame) {
-					character.sprite.currentColumn = 0;
-				}
-			}
-		}
+		updateCharacterAnimation();
+
 
 		character.characterCollidedStatus.bottomCollided = character.characterCollidedStatus.leftCollided =
 			character.characterCollidedStatus.rightCollided = character.characterCollidedStatus.topCollided = RECT();
@@ -214,5 +165,44 @@ void Level::UninitializeLevel() {
 	GameManager::ReleaseTextures(textures);
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
+}
+
+void Level::updateCharacterCollidedToWall()
+{
+	if (map.collidedToWall(character.sprite, &character.characterCollidedStatus, &collidedXAxis, &collidedYAxis)) {
+		//cout << "side " << collidedWallSide << " axis " << collidedAxis << endl;
+		if (!GameManager::rectIsEqual(character.characterCollidedStatus.bottomCollided, RECT())) {
+			cout << 1;
+			character.sprite.transformation.position.y = collidedYAxis;
+		}
+		if (!GameManager::rectIsEqual(character.characterCollidedStatus.topCollided, RECT())) {
+			cout << 2;
+			character.sprite.transformation.position.y = collidedYAxis - character.sprite.spriteHeight;
+		}
+		if (!GameManager::rectIsEqual(character.characterCollidedStatus.leftCollided, RECT())) {
+			cout << 3;
+			character.sprite.transformation.position.x = collidedXAxis;
+		}
+		if (!GameManager::rectIsEqual(character.characterCollidedStatus.rightCollided, RECT())) {
+			cout << 4;
+			character.sprite.transformation.position.x = collidedXAxis - character.sprite.spriteWidth;
+		}
+		cout << endl;
+	}
+}
+
+void Level::updateCharacterAnimation() {
+	if (!character.characterIsMoving) {
+		character.characterAnimationCounter = 0;
+		character.sprite.currentColumn = 0;
+	}
+	else {
+		if (character.characterAnimationCounter % (gameFPS / character.characterFPS) == 0) {
+			character.sprite.currentColumn++;
+			if (character.sprite.currentColumn == character.sprite.maxFrame) {
+				character.sprite.currentColumn = 0;
+			}
+		}
+	}
 }
 

@@ -8,7 +8,6 @@
 #define KeyDown(name) Shell::directXManager.diKeys[name] & 0x80
 #define ButtonDown(name) Shell::directXManager.mouseState.rgbButtons[name] & 0x80
 
-#define gameFPS 60
 
 
 

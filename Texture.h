@@ -4,8 +4,9 @@
 #include <vector>
 #pragma comment(lib, "d3dx9.lib")
 #include "StuffToBeDrawn.h"
+#include "DirectXManager.h"
 using namespace std;
-
+#include <iostream>
 
 /*	Call updateRect if rect need to be calculate automatically
 		-the rect cover the whole texture (without the part need to be crop)
@@ -29,6 +30,23 @@ public:
 	StuffToBeDrawn(pPosition,pTextureWidth,pTextureHeight,pAlignFrom,pColor) {
 
 		texture = pTexture;
+
+	}
+
+	Texture(LPCSTR filePath,
+		int pTextureWidth,
+		int pTextureHeight,
+		D3DXVECTOR2 pPosition,
+		int pAlignFrom = leftAlign,
+		D3DCOLOR pColor = D3DCOLOR_XRGB(255, 255, 255)) :
+		StuffToBeDrawn(pPosition, pTextureWidth, pTextureHeight, pAlignFrom, pColor) {
+
+		
+		HRESULT hr = D3DXCreateTextureFromFile(DirectXManager::d3dDevice, filePath, &texture);
+		if (FAILED(hr)) {
+			cout << filePath << " failed!" << endl;
+		}
+		
 
 	}
 

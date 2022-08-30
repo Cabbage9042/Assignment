@@ -4,6 +4,7 @@
 #include "Shell.h"
 #include "MainMenu.h"
 
+#define gameFPS 60
 
 enum { arial25, franklin100 };
 
@@ -45,5 +46,6 @@ public:
 
 
 	static void updateKeyStatus(bool keyDown, KeyStatus* key);
+	static bool rectIsEqual(RECT a, RECT b);
 };
 

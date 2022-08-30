@@ -161,6 +161,16 @@ void GameManager::updateKeyStatus(bool keyDown, KeyStatus* key) {
 	}
 }
 
+bool GameManager::rectIsEqual(RECT a, RECT b)
+{
+	return (
+		a.left == b.left &&
+		a.right == b.right &&
+		a.top == b.top &&
+		a.bottom == b.bottom
+		);
+}
+
 	void GameManager::CreateText(vector<Text*>*texts, LPCSTR text, LPD3DXFONT font, D3DXVECTOR2 position, int alignFrom, D3DXCOLOR color) {
 		texts->push_back(new Text(text, font, position, alignFrom, color));
 	}
