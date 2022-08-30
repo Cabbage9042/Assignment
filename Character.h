@@ -1,6 +1,24 @@
 #pragma once
+#include "Sprite.h"
+
+struct RectCollidedStatus {
+	RECT topCollided = RECT();
+	RECT leftCollided = RECT();
+	RECT bottomCollided = RECT();
+	RECT rightCollided = RECT();
+};
+
 class Character{
+
+#define DEFAULT_VELOCITY 5
 public:
-	const static int velocity = 5;
+
+	int velocity = DEFAULT_VELOCITY;
+	Sprite sprite;
+	RectCollidedStatus characterCollidedStatus;
+	bool characterIsMoving = false;
+	int characterAnimationCounter = 0;
+	const int characterFPS = 10;
+
 };
 

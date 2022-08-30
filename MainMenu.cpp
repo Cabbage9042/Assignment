@@ -61,7 +61,7 @@ void MainMenu::Update(int framesToUpdate) {
 		PostQuitMessage(0);
 		return;
 	}
-	cout << leftButton.isPressed << leftButton.isHolding << leftButton.isReleased << endl;
+	
 	if (sprites->at(pointer)->isHoverOn(textures->at(buttonStart))) {
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {

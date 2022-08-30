@@ -6,7 +6,6 @@
 #pragma comment(lib, "d3dx9.lib")
 
 
-
 enum { leftAlign, centerAlign, rightAlign };
 
 class StuffToBeDrawn {

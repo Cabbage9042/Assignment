@@ -7,6 +7,11 @@ void Sprite::updateCropRect() {
 	cropRect.bottom = cropRect.top + spriteHeight;
 }
 
+void Sprite::Draw(){
+	updateCropRect();
+	Texture::Draw();
+}
+
 void Sprite::updatePositionRect() {
 	positionRect.top = transformation.position.y;
 	positionRect.bottom = transformation.position.y + spriteHeight;

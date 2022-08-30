@@ -1,5 +1,5 @@
 #pragma once
-#include "Game.h"
+
 #include "Map.h"
 #include "Character.h"
 
@@ -22,12 +22,9 @@ public:
 	KeyStatus sKey;
 	KeyStatus dKey;
 	Map map;
-	RectCollidedStatus characterCollidedStatus;
+	Character character;
 
 
-	bool characterIsMoving = false;
-	int characterAnimationCounter;
-	const int characterFPS = 10;
 
 	// Inherited via Game
 	virtual void InitializeLevel() override;

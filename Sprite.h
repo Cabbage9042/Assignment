@@ -14,6 +14,7 @@ class Sprite : public Texture {
 	int maxFrame;
 
 	void updateCropRect();
+	void Draw();
 
 	void updatePositionRect();
 	Sprite() :Texture() {

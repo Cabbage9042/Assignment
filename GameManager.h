@@ -5,6 +5,8 @@
 #include "MainMenu.h"
 
 
+enum { arial25, franklin100 };
+
 class GameManager{
 public:
 	static std::vector<Game*>* levelVector;

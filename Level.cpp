@@ -23,7 +23,6 @@ void Level::InitializeLevel() {
 	//for (int i = 576; i >= 0; i -= 32) {
 	//	Shell::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, 72 +i), centerAlign);
 	//}
-	characterAnimationCounter = 0;
 
 	int textureWidth = 76;
 	int textureHeight = 128;
@@ -39,13 +38,21 @@ void Level::InitializeLevel() {
 
 
 	//last
-	GameManager::CreateSprite(sprites, "Assets/Level/character.png", textureWidth, textureHeight, spriteWidth, spriteHeight, spriteRow, spriteCol, currentColumn, currentRow, maxFrame, position);
+	LPDIRECT3DTEXTURE9 texture = NULL;
+	HRESULT hr = D3DXCreateTextureFromFile(Shell::directXManager.d3dDevice, "Assets/Level/character.png", &texture);
+	if (FAILED(hr)) {
+		PostQuitMessage(-1);
+		cout << "Assets/Level/character.png failed"<<endl;
+		return;
+	}
+	character.sprite = Sprite(texture, textureWidth, textureHeight, spriteWidth, spriteHeight, spriteRow, spriteCol, currentColumn, currentRow, maxFrame, position);
+	texture = NULL;
 
 	map.InitializeMap();
 
-	sprites->at(character)->transformation.position.x = map.startPosition.x + (map.floorSprite.spriteWidth - sprites->at(character)->spriteWidth) / 2;
-	sprites->at(character)->transformation.position.y = map.startPosition.y;
-	sprites->at(character)->transformation.UpdateMatrix();
+	character.sprite.transformation.position.x = map.startPosition.x + (map.floorSprite.spriteWidth - character.sprite.spriteWidth) / 2;
+	character.sprite.transformation.position.y = map.startPosition.y;
+	character.sprite.transformation.UpdateMatrix();
 }
 
 void Level::GetInput() {
@@ -87,29 +94,29 @@ void Level::Update(int framesToUpdate) {
 
 	//cout << framesToUpdate << endl;
 	for (int i = 0; i < framesToUpdate; i++) {
-		characterAnimationCounter++;
+		character.characterAnimationCounter++;
 		if (wKey.isHolding) {
-			characterIsMoving = true;
-			sprites->at(character)->currentRow = walkingUp;
-			sprites->at(character)->transformation.position.y -= Character::velocity;
+			character.characterIsMoving = true;
+			character.sprite.currentRow = walkingUp;
+			character.sprite.transformation.position.y -= character.velocity;
 		}
 		if (aKey.isHolding) {
-			characterIsMoving = true;
-			sprites->at(character)->currentRow = walkingLeft;
-			sprites->at(character)->transformation.position.x -= Character::velocity;
+			character.characterIsMoving = true;
+			character.sprite.currentRow = walkingLeft;
+			character.sprite.transformation.position.x -= character.velocity;
 		}
 		if (sKey.isHolding) {
-			characterIsMoving = true;
-			sprites->at(character)->currentRow = walkingDown;
-			sprites->at(character)->transformation.position.y += Character::velocity;
+			character.characterIsMoving = true;
+			character.sprite.currentRow = walkingDown;
+			character.sprite.transformation.position.y += character.velocity;
 		}
 		if (dKey.isHolding) {
-			characterIsMoving = true;
-			sprites->at(character)->currentRow = walkingRight;
-			sprites->at(character)->transformation.position.x += Character::velocity;
+			character.characterIsMoving = true;
+			character.sprite.currentRow = walkingRight;
+			character.sprite.transformation.position.x += character.velocity;
 		}
 
-		sprites->at(character)->updatePositionRect();
+		character.sprite.updatePositionRect();
 		//cout << "top " << sprites->at(character)->positionRect.top;
 		//cout << "bottom " << sprites->at(character)->positionRect.bottom;
 		//cout << "left " << sprites->at(character)->positionRect.left;
@@ -118,47 +125,47 @@ void Level::Update(int framesToUpdate) {
 		//collision check
 		int collidedXAxis;
 		int collidedYAxis;
-		if (map.collidedToWall(*sprites->at(character), &characterCollidedStatus, &collidedXAxis, &collidedYAxis)) {
+		if (map.collidedToWall(character.sprite, &character.characterCollidedStatus, &collidedXAxis, &collidedYAxis)) {
 			//cout << "side " << collidedWallSide << " axis " << collidedAxis << endl;
-			if (!rectIsEqual(characterCollidedStatus.bottomCollided, RECT())) {
+			if (!rectIsEqual(character.characterCollidedStatus.bottomCollided, RECT())) {
 				//cout << 1;
-				sprites->at(character)->transformation.position.y = collidedYAxis;
+				character.sprite.transformation.position.y = collidedYAxis;
 			}
-			if (!rectIsEqual(characterCollidedStatus.topCollided, RECT())) {
+			if (!rectIsEqual(character.characterCollidedStatus.topCollided, RECT())) {
 				//cout << 2;
-				sprites->at(character)->transformation.position.y = collidedYAxis - sprites->at(character)->spriteHeight;
+				character.sprite.transformation.position.y = collidedYAxis - character.sprite.spriteHeight;
 			}
-			if (!rectIsEqual(characterCollidedStatus.leftCollided, RECT())) {
+			if (!rectIsEqual(character.characterCollidedStatus.leftCollided, RECT())) {
 				//cout << 3;
-				sprites->at(character)->transformation.position.x = collidedXAxis;
+				character.sprite.transformation.position.x = collidedXAxis;
 			}
-			if (!rectIsEqual(characterCollidedStatus.rightCollided, RECT())) {
+			if (!rectIsEqual(character.characterCollidedStatus.rightCollided, RECT())) {
 				//cout << 4;
-				sprites->at(character)->transformation.position.x = collidedXAxis - sprites->at(character)->spriteWidth;
+				character.sprite.transformation.position.x = collidedXAxis - character.sprite.spriteWidth;
 			}
 			//cout << endl;
 		}
 
 
 		// if not moving, character dont move; else move in speed of 10fps
-		if (!characterIsMoving) {
-			characterAnimationCounter = 0;
-			sprites->at(character)->currentColumn = 0;
+		if (!character.characterIsMoving) {
+			character.characterAnimationCounter = 0;
+			character.sprite.currentColumn = 0;
 		}
 		else {
-			if (characterAnimationCounter % (gameFPS / characterFPS) == 0) {
-				sprites->at(character)->currentColumn++;
-				if (sprites->at(character)->currentColumn == sprites->at(character)->maxFrame) {
-					sprites->at(character)->currentColumn = 0;
+			if (character.characterAnimationCounter % (gameFPS / character.characterFPS) == 0) {
+				character.sprite.currentColumn++;
+				if (character.sprite.currentColumn == character.sprite.maxFrame) {
+					character.sprite.currentColumn = 0;
 				}
 			}
 		}
 
-		characterCollidedStatus.bottomCollided = characterCollidedStatus.leftCollided =
-			characterCollidedStatus.rightCollided = characterCollidedStatus.topCollided = RECT();
-		characterIsMoving = false;
-		sprites->at(character)->updatePositionRect();
-		sprites->at(character)->transformation.UpdateMatrix();
+		character.characterCollidedStatus.bottomCollided = character.characterCollidedStatus.leftCollided =
+			character.characterCollidedStatus.rightCollided = character.characterCollidedStatus.topCollided = RECT();
+		character.characterIsMoving = false;
+		character.sprite.updatePositionRect();
+		character.sprite.transformation.UpdateMatrix();
 	}
 
 
@@ -185,6 +192,7 @@ void Level::Render() {
 		sprites->at(i)->updateCropRect();
 		sprites->at(i)->Draw();
 	}
+	character.sprite.Draw();
 
 	for (int i = texts->size() - 1; i >= 0; i--) {
 		texts->at(i)->Draw();

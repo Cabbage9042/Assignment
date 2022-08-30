@@ -2,13 +2,7 @@
 #include "Cell.h"
 #include <vector>
 #include "Sprite.h"
-
-struct RectCollidedStatus {
-	RECT topCollided = RECT();
-	RECT leftCollided = RECT();
-	RECT bottomCollided = RECT();
-	RECT rightCollided = RECT();
-};
+#include "Character.h"
 
 enum { bottomSide, topSide, leftSide, rightSide};
 

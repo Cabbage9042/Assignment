@@ -1,17 +1,37 @@
-﻿  Game.cpp
+﻿  Character.cpp
+  Game.cpp
   GameManager.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
   Level.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-E:\TARC\programming\Assignment\Assignment\Level.cpp(125,57): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(129,71): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(133,57): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(137,71): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(132,50): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(136,64): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(140,50): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(144,64): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
   Main.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 E:\TARC\programming\Assignment\Assignment\Main.cpp(16,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
   MainMenu.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Map.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Map.cpp(39,44): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(40,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(42,47): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(43,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(45,46): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(46,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(48,47): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(49,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(67,24): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(66,23): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(83,43): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(85,44): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+  Sprite.cpp
+E:\TARC\programming\Assignment\Assignment\Sprite.cpp(16,44): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Sprite.cpp(17,50): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Sprite.cpp(18,45): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Sprite.cpp(19,49): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
   Text.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
   Generating Code...

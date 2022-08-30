@@ -11,7 +11,6 @@
 #define gameFPS 60
 
 
-enum { arial25, franklin100 };
 
 class Shell {
 public:
