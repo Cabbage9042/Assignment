@@ -1,14 +1,15 @@
 #pragma once
-#include "Game.h"
+
+#include "GameManager.h"
 
 //textures
 enum { buttonStart,buttonQuit };
 
 class MainMenu : public Game {
 
-	bool altKeyPressed = false;
-	bool f4KeyPressed = false;
-	bool escKeyPressed = false;
+	KeyStatus altKey;
+	KeyStatus f4Key;
+	KeyStatus leftButton;
 
 	// Inherited via Game
 	void InitializeLevel() override;

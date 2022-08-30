@@ -144,17 +144,34 @@ void GameManager::RenderEnd() {
 	Shell::directXManager.d3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 
-void GameManager::CreateText(vector<Text*>* texts, LPCSTR text, LPD3DXFONT font, D3DXVECTOR2 position, int alignFrom, D3DXCOLOR color) {
-	texts->push_back(new Text(text, font, position, alignFrom, color));
+void GameManager::updateKeyStatus(bool keyDown, KeyStatus* key) {
+	if (keyDown) {
+		if (!key->isHolding)	key->isPressed = true;
+		key->isHolding = true;
+	}
+	else {
+		if (key->isHolding) {
+			key->isReleased = true;
+		}
+		else {
+			key->isReleased = false;
+		}
+		key->isPressed = false;
+		key->isHolding = false;
+	}
 }
 
-void GameManager::ReleaseTexts(vector<Text*>* texts)
-{
-	for (int i = texts->size() - 1; i >= 0; i--) {
-		texts->at(i)->Release();
-		delete texts->at(i);
-		texts->at(i) = NULL;
+	void GameManager::CreateText(vector<Text*>*texts, LPCSTR text, LPD3DXFONT font, D3DXVECTOR2 position, int alignFrom, D3DXCOLOR color) {
+		texts->push_back(new Text(text, font, position, alignFrom, color));
 	}
-	delete texts;
-	texts = NULL;
-}
+
+	void GameManager::ReleaseTexts(vector<Text*>*texts)
+	{
+		for (int i = texts->size() - 1; i >= 0; i--) {
+			texts->at(i)->Release();
+			delete texts->at(i);
+			texts->at(i) = NULL;
+		}
+		delete texts;
+		texts = NULL;
+	}

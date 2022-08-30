@@ -3,22 +3,7 @@
 #include "Shell.h"
 
 
-void Level::updateKeyStatus(bool keyDown, KeyStatus* key) {
-	if (keyDown) {
-		if (!key->isHolding)	key->isPressed = true;
-		key->isHolding = true;
-	}
-	else {
-		if (key->isHolding) {
-			key->isReleased = true;
-		}
-		else {
-			key->isReleased = false;
-		}
-		key->isPressed = false;
-		key->isHolding = false;
-	}
-}
+
 
 bool Level::rectIsEqual(RECT a, RECT b)
 {
@@ -70,28 +55,13 @@ void Level::GetInput() {
 	Shell::directXManager.dInputKeyboardDevice->GetDeviceState(256, Shell::directXManager.diKeys);
 	Shell::directXManager.dInputMouseDevice->GetDeviceState(sizeof(Shell::directXManager.mouseState), &Shell::directXManager.mouseState);
 
-
-
-	if (KeyDown(DIK_LALT) || KeyDown(DIK_RALT)) {
-		if (!altKey.isHolding)	altKey.isPressed = true;
-		altKey.isHolding = true;
-	}
-	else {
-		altKey.isHolding = false;
-	}
-	if (KeyDown(DIK_F4)) {
-		if (!f4Key.isHolding)	f4Key.isPressed = true;
-		f4Key.isHolding = true;
-	}
-
-	if (KeyDown(DIK_DOWN)) {
-		if (!downKey.isHolding)	downKey.isPressed = true;
-		downKey.isHolding = true;
-	}
-	updateKeyStatus(KeyDown(DIK_W), &wKey);
-	updateKeyStatus(KeyDown(DIK_A), &aKey);
-	updateKeyStatus(KeyDown(DIK_S), &sKey);
-	updateKeyStatus(KeyDown(DIK_D), &dKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT), &altKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_F4), &f4Key);
+	GameManager::updateKeyStatus(KeyDown(DIK_DOWN), &downKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_W), &wKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_A), &aKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_S), &sKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_D), &dKey);
 
 }
 
@@ -151,22 +121,22 @@ void Level::Update(int framesToUpdate) {
 		if (map.collidedToWall(*sprites->at(character), &characterCollidedStatus, &collidedXAxis, &collidedYAxis)) {
 			//cout << "side " << collidedWallSide << " axis " << collidedAxis << endl;
 			if (!rectIsEqual(characterCollidedStatus.bottomCollided, RECT())) {
-				cout << 1;
+				//cout << 1;
 				sprites->at(character)->transformation.position.y = collidedYAxis;
 			}
 			if (!rectIsEqual(characterCollidedStatus.topCollided, RECT())) {
-				cout << 2;
+				//cout << 2;
 				sprites->at(character)->transformation.position.y = collidedYAxis - sprites->at(character)->spriteHeight;
 			}
 			if (!rectIsEqual(characterCollidedStatus.leftCollided, RECT())) {
-				cout << 3;
+				//cout << 3;
 				sprites->at(character)->transformation.position.x = collidedXAxis;
 			}
 			if (!rectIsEqual(characterCollidedStatus.rightCollided, RECT())) {
-				cout << 4;
+				//cout << 4;
 				sprites->at(character)->transformation.position.x = collidedXAxis - sprites->at(character)->spriteWidth;
 			}
-			cout << endl;
+			//cout << endl;
 		}
 
 
