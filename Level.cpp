@@ -2,10 +2,6 @@
 #include "Level.h"
 #include "Shell.h"
 
-
-
-
-
 void Level::InitializeLevel() {
 	textures = new vector<Texture*>;
 	texts = new vector<Text*>;
@@ -172,22 +168,22 @@ void Level::updateCharacterCollidedToWall()
 	if (map.collidedToWall(character.sprite, &character.characterCollidedStatus, &collidedXAxis, &collidedYAxis)) {
 		//cout << "side " << collidedWallSide << " axis " << collidedAxis << endl;
 		if (!GameManager::rectIsEqual(character.characterCollidedStatus.bottomCollided, RECT())) {
-			cout << 1;
+			//cout << 1;
 			character.sprite.transformation.position.y = collidedYAxis;
 		}
 		if (!GameManager::rectIsEqual(character.characterCollidedStatus.topCollided, RECT())) {
-			cout << 2;
+			//cout << 2;
 			character.sprite.transformation.position.y = collidedYAxis - character.sprite.spriteHeight;
 		}
 		if (!GameManager::rectIsEqual(character.characterCollidedStatus.leftCollided, RECT())) {
-			cout << 3;
+			//cout << 3;
 			character.sprite.transformation.position.x = collidedXAxis;
 		}
 		if (!GameManager::rectIsEqual(character.characterCollidedStatus.rightCollided, RECT())) {
-			cout << 4;
+			//cout << 4;
 			character.sprite.transformation.position.x = collidedXAxis - character.sprite.spriteWidth;
 		}
-		cout << endl;
+		//cout << endl;
 	}
 }
 

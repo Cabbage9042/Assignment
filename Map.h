@@ -3,6 +3,7 @@
 #include <vector>
 #include "Sprite.h"
 #include "Character.h"
+#include "GameManager.h"
 
 enum { bottomSide, topSide, leftSide, rightSide};
 

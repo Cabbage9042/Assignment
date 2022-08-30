@@ -1,10 +1,4 @@
-﻿  Level.cpp
+﻿  GameManager.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-E:\TARC\programming\Assignment\Assignment\Level.cpp(176,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(180,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(184,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(188,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-  MainMenu.cpp
-  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  Generating Code...
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(178,12): warning C4244: 'argument': conversion from 'LONGLONG' to 'unsigned int', possible loss of data
   Assignment.vcxproj -> E:\TARC\programming\Assignment\Debug\Assignment.exe

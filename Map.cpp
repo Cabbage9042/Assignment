@@ -66,11 +66,8 @@ void Map::InitializeMap() {
 		(MyWindowWidth / 2) - (cellWidth * numberOfCellColumn / 2),
 		(MyWindowHeight / 2) - (cellHeight * numberOfCellRow / 2));
 
-	LPDIRECT3DTEXTURE9 texture = NULL;
-	HRESULT hr = D3DXCreateTextureFromFile(Shell::directXManager.d3dDevice, "Assets/Level/floor.png", &texture);
-	floorSprite = Sprite(texture, 160, 64, 32, 32, 2, 5, 0, 0, 9, D3DXVECTOR2(0, 0));
+	floorSprite = Sprite("Assets/Level/floor.png", 160, 64, 32, 32, 2, 5, 0, 0, 9, D3DXVECTOR2(0, 0));
 	floorSprite.updateCropRect();
-	texture = NULL;
 
 	char charCellType;
 	RECT cellPositionRect;
@@ -86,7 +83,9 @@ void Map::InitializeMap() {
 			cellPositionRect.right = cellPositionRect.left + floorSprite.spriteWidth;
 
 
-			cells.back().push_back(new Cell(charCellType, cellPositionRect));
+			cells.back().push_back(new Cell(
+				GameManager::randomNumber(0,5), GameManager::randomNumber(0, 2),
+				charCellType, cellPositionRect));
 			if (charCellType == 'S') {
 
 				startPosition.x = topLeftCorner.x + (column * floorSprite.spriteWidth);
@@ -100,9 +99,9 @@ void Map::InitializeMap() {
 
 void Map::UninitializeMap() {
 	floorSprite.Release();
-	
-	for (int row = cells.size()-1; row >= 0 ; row--) {
-		for (int col = cells.back().size() -1; col >= 0; col--) {
+
+	for (int row = cells.size() - 1; row >= 0; row--) {
+		for (int col = cells.back().size() - 1; col >= 0; col--) {
 			delete cells.back().back();
 			cells.back().at(col) = NULL;
 			cells.back().pop_back();
@@ -111,7 +110,7 @@ void Map::UninitializeMap() {
 		//vector<Cell*>().swap(cells.at(row));
 		cells.pop_back();
 	}
-	
+
 }
 
 void Map::RenderMap() {
@@ -127,6 +126,10 @@ void Map::RenderMap() {
 			if (cells.at(row).at(col)->type == 'V') continue;
 			if (cells.at(row).at(col)->type == 'W') floorSprite.color = D3DCOLOR_XRGB(255 / 2, 255 / 2, 255 / 2);
 			else floorSprite.color = D3DCOLOR_XRGB(255, 255, 255);
+
+			floorSprite.currentColumn = cells.at(row).at(col)->nthColumn;
+			floorSprite.currentRow = cells.at(row).at(col)->nthRow;
+			floorSprite.updateCropRect();
 			Shell::directXManager.spriteBrush->SetTransform(&floorSprite.transformation.matrix);
 			Shell::directXManager.spriteBrush->Draw(floorSprite.texture, &floorSprite.cropRect, NULL, NULL, floorSprite.color);
 		}
@@ -148,7 +151,7 @@ bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollided
 					getCenterPoint(topSide, character.positionRect))) {
 					characterCollidedStatus->bottomCollided = cells.at(row).at(col)->positionRect;
 					*collidedYAxis = cells.at(row).at(col)->positionRect.bottom;
-					
+
 				}
 				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
 					getCenterPoint(bottomSide, character.positionRect))) {

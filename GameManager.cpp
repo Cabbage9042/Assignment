@@ -171,6 +171,14 @@ bool GameManager::rectIsEqual(RECT a, RECT b)
 		);
 }
 
+int GameManager::randomNumber(int from, int until)
+{
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&time);
+	srand(time.QuadPart);
+	return (rand() % (until - from)) + from;
+}
+
 	void GameManager::CreateText(vector<Text*>*texts, LPCSTR text, LPD3DXFONT font, D3DXVECTOR2 position, int alignFrom, D3DXCOLOR color) {
 		texts->push_back(new Text(text, font, position, alignFrom, color));
 	}
