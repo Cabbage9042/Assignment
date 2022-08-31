@@ -1,20 +1,8 @@
-﻿  Map.cpp
+﻿  Level.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-E:\TARC\programming\Assignment\Assignment\Map.cpp(101,43): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(103,44): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(178,44): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(179,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(181,47): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(182,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(184,46): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(185,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(187,47): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(188,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(208,24): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(207,23): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(213,96): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(213,71): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(286,75): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(287,75): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Map.cpp(288,58): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+E:\TARC\programming\Assignment\Assignment\GameManager.h(21,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(199,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(203,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(207,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(211,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
   Assignment.vcxproj -> E:\TARC\programming\Assignment\Debug\Assignment.exe

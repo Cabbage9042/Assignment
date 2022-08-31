@@ -128,6 +128,13 @@ void Map::createTrap() {
 		traps[i].lever.nthColumn = leverPosition[i].col;
 		traps[i].lever.nthRow = leverPosition[i].row;
 		traps[i].trapTopRightPosition = trapTopRightPosition[i];
+		switch (i) {
+		case topRight:
+		case bottomRight:
+			traps[i].positionBetweenWalls.x = topLeftCorner.x + (traps[i].trapTopRightPosition.col * floorSprite.spriteWidth);
+			traps[i].positionBetweenWalls.y = topLeftCorner.y + (traps[i].trapTopRightPosition.row * floorSprite.spriteHeight);
+			break;
+		}
 		setLeverAndHole(i);
 
 		setTrapTo('T', traps[i].trapTopRightPosition);
@@ -288,8 +295,7 @@ void Map::RenderMap() {
 					lever.transformation.rotation = leverLoop * 90 * PI / 180;
 
 					if (traps[leverLoop].lever.hasTurnedOn) {
-							lever.transformation.scaling = D3DXVECTOR2(-1, 1);	
-						
+						lever.transformation.scaling = D3DXVECTOR2(-1, 1);
 					}
 					else {
 						lever.transformation.scaling = D3DXVECTOR2(1, 1);

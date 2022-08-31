@@ -12,6 +12,7 @@ class Trap {
 public:
 
 	RelativePosition trapTopRightPosition;
+	D3DXVECTOR2 positionBetweenWalls = D3DXVECTOR2();
 	bool isSet = false;
 	Lever lever = Lever();
 

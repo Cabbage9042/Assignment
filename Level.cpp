@@ -77,22 +77,28 @@ void Level::Update(int framesToUpdate) {
 		if (wKey.isHolding) {
 			character.characterIsMoving = true;
 			character.sprite.currentRow = walkingUp;
-			character.sprite.transformation.position.y -= character.velocity;
+			character.velocity.y = -DEFAULT_SPEED;
 		}
 		if (aKey.isHolding) {
 			character.characterIsMoving = true;
 			character.sprite.currentRow = walkingLeft;
-			character.sprite.transformation.position.x -= character.velocity;
+			character.velocity.x = -DEFAULT_SPEED;
 		}
 		if (sKey.isHolding) {
 			character.characterIsMoving = true;
 			character.sprite.currentRow = walkingDown;
-			character.sprite.transformation.position.y += character.velocity;
+			character.velocity.y = DEFAULT_SPEED;
 		}
 		if (dKey.isHolding) {
 			character.characterIsMoving = true;
 			character.sprite.currentRow = walkingRight;
-			character.sprite.transformation.position.x += character.velocity;
+			character.velocity.x = DEFAULT_SPEED;
+		}
+		if (character.characterIsMoving) {
+			character.sprite.transformation.position += character.velocity;
+		}
+		else {
+			character.velocity = D3DXVECTOR2(0, 0);
 		}
 
 		character.sprite.updatePositionRect();
@@ -109,18 +115,17 @@ void Level::Update(int framesToUpdate) {
 
 		//touch lever or not
 		if (map.collidedToLever(&character.sprite, &leverForWhichTrap)) {
-				map.traps[leverForWhichTrap].lever.hasTurnedOn = true;
-				map.setTrapTo('F', map.traps[leverForWhichTrap].trapTopRightPosition);
+			map.traps[leverForWhichTrap].lever.hasTurnedOn = true;
+			map.setTrapTo('F', map.traps[leverForWhichTrap].trapTopRightPosition);
 			switch (leverForWhichTrap) {
 			case topRight:
 			case bottomRight:
 				map.setHoleTo('W', map.traps[leverForWhichTrap].trapTopRightPosition.row,
 					map.traps[leverForWhichTrap].trapTopRightPosition.col + 1);
-
 				break;
 			default:
 				map.setHoleTo('W', map.traps[leverForWhichTrap].trapTopRightPosition.row,
-					map.traps[leverForWhichTrap].trapTopRightPosition.col -5);
+					map.traps[leverForWhichTrap].trapTopRightPosition.col - 5);
 				break;
 			}
 		}
@@ -158,6 +163,8 @@ void Level::Render() {
 		sprites->at(i)->updateCropRect();
 		sprites->at(i)->Draw();
 	}
+
+
 	character.sprite.Draw();
 
 	for (int i = texts->size() - 1; i >= 0; i--) {

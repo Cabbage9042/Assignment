@@ -1,4 +1,7 @@
 #pragma once
+
+#include <d3d9.h>
+#include <d3dx9.h>
 #include "Sprite.h"
 
 enum { walkingUp, walkingDown, walkingLeft, walkingRight };
@@ -12,10 +15,11 @@ struct RectCollidedStatus {
 
 class Character{
 
-#define DEFAULT_VELOCITY 5
+#define DEFAULT_VELOCITY D3DXVECTOR2(0,0)
+#define DEFAULT_SPEED 5
 public:
 
-	int velocity = DEFAULT_VELOCITY;
+	D3DXVECTOR2 velocity = DEFAULT_VELOCITY;
 	Sprite sprite;
 	RectCollidedStatus characterCollidedStatus;
 	bool characterIsMoving = false;

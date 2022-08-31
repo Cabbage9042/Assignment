@@ -17,6 +17,9 @@ public:
 	static std::vector<LPD3DXFONT>* fonts;
 
 
+	//physics
+	int airForce = 1.01;
+
 	void InitializeGame();
 	void UninitializeGame();
 	void InitializeFonts();
