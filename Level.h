@@ -32,9 +32,12 @@ public:
 private: 
 	void updateCharacterAnimation();
 	void updateCharacterCollidedToWall();
+	void updateTrapStatus();
 	int collidedXAxis;
 	int collidedYAxis;
 	int leverForWhichTrap;
+	int collidedTrap;
+	bool isEnteredTrap;
 };
 
 

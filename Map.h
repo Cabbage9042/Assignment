@@ -31,6 +31,7 @@ public:
 	bool collidedToWall(Sprite character, RectCollidedStatus* characterCollidedStatus,int *collidedXAxis,int *collidedYAxis);
 	//bool collidedToAndFacingLever(Sprite* character, int* leverForWhichTrap);
 	bool collidedToLever(Sprite* character, int* leverForWhichTrap);
+	bool collidedToTrap(Sprite* character, int* collidedTrap);
 
 	void setHoleTo(char type, int mostBelowRow, int col, int numberOfBlockToChange = 4);
 	void setTrapTo(char type, RelativePosition topRightPosition);
@@ -40,7 +41,7 @@ private:
 	bool isCollided(RECT a, RECT b);
 	D3DXVECTOR2 getCenterPoint(int side, RECT rect);
 	RelativePosition leverPosition[4];
-	RelativePosition trapTopRightPosition[4];
+	RelativePosition trapBottomRightPosition[4];
 	void createMap();
 	void createTrap();
 	void assignDefaultPosition();

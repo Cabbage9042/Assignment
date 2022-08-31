@@ -1,8 +1,10 @@
 ﻿  Level.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 E:\TARC\programming\Assignment\Assignment\GameManager.h(21,17): warning C4244: 'initializing': conversion from 'double' to 'int', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(199,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(203,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(207,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\Level.cpp(211,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(64,50): warning C4305: '+=': truncation from 'double' to 'float'
+E:\TARC\programming\Assignment\Assignment\Level.cpp(149,39): warning C4305: 'argument': truncation from 'double' to 'FLOAT'
+E:\TARC\programming\Assignment\Assignment\Level.cpp(222,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(226,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(230,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(234,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
   Assignment.vcxproj -> E:\TARC\programming\Assignment\Debug\Assignment.exe

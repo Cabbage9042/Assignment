@@ -52,11 +52,34 @@ void Level::GetInput() {
 }
 
 void Level::Update(int framesToUpdate) {
-
 	if ((altKey.isHolding && f4Key.isHolding)) {
 		PostQuitMessage(0);
 		return;
 	}
+	//if character enter the trap, do fly outside space ship
+	if (isEnteredTrap && !map.traps[collidedTrap].lever.hasTurnedOn) {
+			
+		character.velocity = character.vectorBetweenHole;
+		character.sprite.transformation.position += character.velocity;
+		character.sprite.transformation.rotation += 0.1;
+		
+		character.distanceBetweenHole = D3DXVec2LengthSq(&character.vectorBetweenHole);
+
+		cout << character.vectorBetweenHole.x << " " << character.vectorBetweenHole.y << " " << character.distanceBetweenHole << endl;
+	
+		if (character.sprite.transformation.position.y <0 || character.sprite.transformation.position.y > MyWindowHeight
+			|| character.sprite.transformation.position.x <0 || character.sprite.transformation.position.x > MyWindowWidth) {
+			GameManager::levelVector->back()->UninitializeLevel();
+			delete GameManager::levelVector->back();
+			GameManager::levelVector->back() = NULL;
+			GameManager::levelVector->pop_back();
+			return;
+		}
+		character.sprite.transformation.UpdateMatrix();
+		return;
+	}
+
+
 	if (downKey.isPressed) {
 		GameManager::levelVector->back()->UninitializeLevel();
 		delete GameManager::levelVector->back();
@@ -96,6 +119,9 @@ void Level::Update(int framesToUpdate) {
 		}
 		if (character.characterIsMoving) {
 			character.sprite.transformation.position += character.velocity;
+			if (!wKey.isHolding && !sKey.isHolding) character.velocity.y = 0;
+			if (!aKey.isHolding && !dKey.isHolding) character.velocity.x = 0;
+
 		}
 		else {
 			character.velocity = D3DXVECTOR2(0, 0);
@@ -110,25 +136,23 @@ void Level::Update(int framesToUpdate) {
 		//collision check
 		updateCharacterCollidedToWall();
 
+
+		//touch lever or not
+		updateTrapStatus();
+
+		if (map.collidedToTrap(&character.sprite, &collidedTrap)) {
+			isEnteredTrap = true;
+			character.vectorBetweenHole = map.traps[collidedTrap].positionBetweenWalls - character.sprite.transformation.position;
+			
+
+			while (D3DXVec2LengthSq(&character.vectorBetweenHole) >= 30) {
+				character.vectorBetweenHole *= 0.9;
+			}
+		}
+
 		// if not moving, character dont move; else move in speed of 10fps
 		updateCharacterAnimation();
 
-		//touch lever or not
-		if (map.collidedToLever(&character.sprite, &leverForWhichTrap)) {
-			map.traps[leverForWhichTrap].lever.hasTurnedOn = true;
-			map.setTrapTo('F', map.traps[leverForWhichTrap].trapTopRightPosition);
-			switch (leverForWhichTrap) {
-			case topRight:
-			case bottomRight:
-				map.setHoleTo('W', map.traps[leverForWhichTrap].trapTopRightPosition.row,
-					map.traps[leverForWhichTrap].trapTopRightPosition.col + 1);
-				break;
-			default:
-				map.setHoleTo('W', map.traps[leverForWhichTrap].trapTopRightPosition.row,
-					map.traps[leverForWhichTrap].trapTopRightPosition.col - 5);
-				break;
-			}
-		}
 
 
 
@@ -210,6 +234,27 @@ void Level::updateCharacterCollidedToWall()
 			character.sprite.transformation.position.x = collidedXAxis - character.sprite.spriteWidth;
 		}
 		//cout << endl;
+	}
+}
+
+void Level::updateTrapStatus() {
+	if (map.collidedToLever(&character.sprite, &leverForWhichTrap)) {
+
+		map.traps[leverForWhichTrap].lever.hasTurnedOn = true;
+		map.setTrapTo('F', map.traps[leverForWhichTrap].trapBottomRightPosition);
+		switch (leverForWhichTrap) {
+		case topRight:
+		case bottomRight:
+			map.setHoleTo('W', map.traps[leverForWhichTrap].trapBottomRightPosition.row,
+				map.traps[leverForWhichTrap].trapBottomRightPosition.col + 1);
+			break;
+		default:
+			map.setHoleTo('W', map.traps[leverForWhichTrap].trapBottomRightPosition.row,
+				map.traps[leverForWhichTrap].trapBottomRightPosition.col - 5);
+			break;
+		}
+
+
 	}
 }
 

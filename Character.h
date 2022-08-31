@@ -25,6 +25,8 @@ public:
 	bool characterIsMoving = false;
 	int characterAnimationCounter = 0;
 	const int characterFPS = 10;
+	D3DXVECTOR2 vectorBetweenHole;
+	float distanceBetweenHole = 0;
 
 };
 

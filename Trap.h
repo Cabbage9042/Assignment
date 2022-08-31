@@ -10,8 +10,8 @@ struct RelativePosition {
 
 class Trap {
 public:
-
-	RelativePosition trapTopRightPosition;
+	RECT positionRect;
+	RelativePosition trapBottomRightPosition;
 	D3DXVECTOR2 positionBetweenWalls = D3DXVECTOR2();
 	bool isSet = false;
 	Lever lever = Lever();

@@ -47,8 +47,8 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom -
 			floorSprite.spriteHeight / 2;
-		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
-			traps[leverForWhichTrap].trapTopRightPosition.col + 1);
+		setHoleTo('V', traps[leverForWhichTrap].trapBottomRightPosition.row,
+			traps[leverForWhichTrap].trapBottomRightPosition.col + 1);
 
 		break;
 	case bottomRight:
@@ -59,8 +59,8 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
 
 
-		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
-			traps[leverForWhichTrap].trapTopRightPosition.col + 1);
+		setHoleTo('V', traps[leverForWhichTrap].trapBottomRightPosition.row,
+			traps[leverForWhichTrap].trapBottomRightPosition.col + 1);
 		break;
 	case bottomLeft:
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top +
@@ -69,8 +69,8 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
 
-		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
-			traps[leverForWhichTrap].trapTopRightPosition.col - 5);
+		setHoleTo('V', traps[leverForWhichTrap].trapBottomRightPosition.row,
+			traps[leverForWhichTrap].trapBottomRightPosition.col - 5);
 		break;
 
 	case topLeft:
@@ -82,8 +82,8 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 
 
 
-		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
-			traps[leverForWhichTrap].trapTopRightPosition.col - 5);
+		setHoleTo('V', traps[leverForWhichTrap].trapBottomRightPosition.row,
+			traps[leverForWhichTrap].trapBottomRightPosition.col - 5);
 		break;
 	}
 }
@@ -127,17 +127,28 @@ void Map::createTrap() {
 
 		traps[i].lever.nthColumn = leverPosition[i].col;
 		traps[i].lever.nthRow = leverPosition[i].row;
-		traps[i].trapTopRightPosition = trapTopRightPosition[i];
+		traps[i].trapBottomRightPosition = trapBottomRightPosition[i];
+
+		//positionRect
+		traps[i].positionRect.right = topLeftCorner.x + (floorSprite.spriteWidth * (traps[i].trapBottomRightPosition.col + 1)) - 1;
+		traps[i].positionRect.bottom = topLeftCorner.y + (floorSprite.spriteHeight * (traps[i].trapBottomRightPosition.row + 1)) - 1;
+		traps[i].positionRect.left = topLeftCorner.x + (floorSprite.spriteWidth * (traps[i].trapBottomRightPosition.col - 4));
+		traps[i].positionRect.top = topLeftCorner.y + (floorSprite.spriteHeight * (traps[i].trapBottomRightPosition.row - 3));
+
 		switch (i) {
 		case topRight:
 		case bottomRight:
-			traps[i].positionBetweenWalls.x = topLeftCorner.x + (traps[i].trapTopRightPosition.col * floorSprite.spriteWidth);
-			traps[i].positionBetweenWalls.y = topLeftCorner.y + (traps[i].trapTopRightPosition.row * floorSprite.spriteHeight);
+			traps[i].positionBetweenWalls.x = topLeftCorner.x + ((traps[i].trapBottomRightPosition.col + 1) * floorSprite.spriteWidth);
+			traps[i].positionBetweenWalls.y = topLeftCorner.y + ((traps[i].trapBottomRightPosition.row - 1) * floorSprite.spriteHeight);
+			break;
+		default:
+			traps[i].positionBetweenWalls.x = topLeftCorner.x + ((traps[i].trapBottomRightPosition.col - 5) * floorSprite.spriteWidth);
+			traps[i].positionBetweenWalls.y = topLeftCorner.y + ((traps[i].trapBottomRightPosition.row - 2) * floorSprite.spriteHeight);
 			break;
 		}
 		setLeverAndHole(i);
 
-		setTrapTo('T', traps[i].trapTopRightPosition);
+		setTrapTo('T', traps[i].trapBottomRightPosition);
 
 
 	}
@@ -156,17 +167,19 @@ void Map::assignDefaultPosition() {
 	leverPosition[topLeft].col = 1;
 	leverPosition[topLeft].row = 6;
 
-	trapTopRightPosition[topRight].col = 16;
-	trapTopRightPosition[topRight].row = 4;
+	trapBottomRightPosition[topRight].col = 16;
+	trapBottomRightPosition[topRight].row = 4;
 
-	trapTopRightPosition[bottomRight].col = 16;
-	trapTopRightPosition[bottomRight].row = 16;
+	trapBottomRightPosition[bottomRight].col = 16;
+	trapBottomRightPosition[bottomRight].row = 16;
 
-	trapTopRightPosition[bottomLeft].col = 5;
-	trapTopRightPosition[bottomLeft].row = 16;
+	trapBottomRightPosition[bottomLeft].col = 5;
+	trapBottomRightPosition[bottomLeft].row = 16;
 
-	trapTopRightPosition[topLeft].col = 5;
-	trapTopRightPosition[topLeft].row = 4;
+	trapBottomRightPosition[topLeft].col = 5;
+	trapBottomRightPosition[topLeft].row = 4;
+
+
 
 }
 
@@ -265,11 +278,9 @@ void Map::RenderMap() {
 		for (int col = 0; col < numberOfCellColumn; col++) {
 			floorSprite.transformation.position =
 				D3DXVECTOR2(topLeftCorner.x + (col * floorSprite.spriteWidth),
-					topLeftCorner.y + (row * floorSprite.spriteHeight)
-				);
+					topLeftCorner.y + (row * floorSprite.spriteHeight));
 
 			floorSprite.transformation.UpdateMatrix();
-
 
 			switch (cells.at(row).at(col)->type) {
 			case 'V': continue;
@@ -284,7 +295,6 @@ void Map::RenderMap() {
 			floorSprite.currentRow = cells.at(row).at(col)->nthRow;
 
 			floorSprite.Draw();
-
 
 			/*Lever*/
 			for (int leverLoop = 0; leverLoop < 4; leverLoop++) {
@@ -383,6 +393,19 @@ bool Map::collidedToLever(Sprite* character, int* leverForWhichTrap) {
 			*leverForWhichTrap = i;
 			return true;
 		}
+	}
+	return false;
+}
+
+bool Map::collidedToTrap(Sprite* character, int* collidedTrap) {
+	for (int i = 0; i <= 3; i++) {
+		if (!traps[i].isSet) continue;
+		if (isCollided(character->positionRect, traps[i].positionRect)) {
+			*collidedTrap = i;
+			return true;
+		}
+
+
 	}
 	return false;
 }
