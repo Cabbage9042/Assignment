@@ -57,11 +57,11 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 			floorSprite.spriteWidth / 2;;
 		traps[leverForWhichTrap].lever.positionRect.right = cells.at(row).at(col)->positionRect.right;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
-		
+
 
 		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
 			traps[leverForWhichTrap].trapTopRightPosition.col + 1);
-break;
+		break;
 	case bottomLeft:
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top +
 			floorSprite.spriteHeight / 2;
@@ -70,7 +70,7 @@ break;
 		traps[leverForWhichTrap].lever.positionRect.bottom = cells.at(row).at(col)->positionRect.bottom;
 
 		setHoleTo('V', traps[leverForWhichTrap].trapTopRightPosition.row,
-			traps[leverForWhichTrap].trapTopRightPosition.col -5);
+			traps[leverForWhichTrap].trapTopRightPosition.col - 5);
 		break;
 
 	case topLeft:
@@ -120,7 +120,8 @@ void Map::createMap() {
 void Map::createTrap() {
 	int createdTrapCount = 0;
 	for (int i = 0; i < 4; i++) {
-		traps[i].isSet = GameManager::randomNumber(0, 2);
+		//traps[i].isSet = GameManager::randomNumber(0, 2);
+		traps[i].isSet = true;
 		if (i == 3 && createdTrapCount == 0) traps[i].isSet = true;
 		if (!traps[i].isSet) continue; else createdTrapCount++;
 
@@ -162,8 +163,8 @@ void Map::assignDefaultPosition() {
 
 }
 
-void Map::setHoleTo(char type, int mostBelowRow, int col, int numberOfBlockToChange ){
-	for (int j = mostBelowRow;j >= mostBelowRow - numberOfBlockToChange +1; j--)
+void Map::setHoleTo(char type, int mostBelowRow, int col, int numberOfBlockToChange) {
+	for (int j = mostBelowRow; j >= mostBelowRow - numberOfBlockToChange + 1; j--)
 		cells.at(j).at(col)->type = type;
 }
 
@@ -210,6 +211,7 @@ void Map::InitializeMap() {
 
 	lever = Texture("Assets/Level/lever.png", 32, 32, D3DXVECTOR2(0, 0));
 	lever.transformation.rotationCenter = D3DXVECTOR2(lever.textureWidth / 2, lever.textureHeight / 2);
+	lever.transformation.scalingCenter = lever.transformation.rotationCenter;
 
 	createMap();
 
@@ -284,6 +286,15 @@ void Map::RenderMap() {
 					lever.transformation.position.x = cells.at(row).at(col)->positionRect.left;
 					lever.transformation.position.y = cells.at(row).at(col)->positionRect.top;
 					lever.transformation.rotation = leverLoop * 90 * PI / 180;
+
+					if (traps[leverLoop].lever.hasTurnedOn) {
+							lever.transformation.scaling = D3DXVECTOR2(-1, 1);	
+						
+					}
+					else {
+						lever.transformation.scaling = D3DXVECTOR2(1, 1);
+					}
+
 					lever.transformation.UpdateMatrix();
 					lever.Draw();
 					break;
@@ -347,7 +358,7 @@ bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollided
 	return result;
 }
 
-void Map::setTrapTo(char type, RelativePosition topRightPosition){
+void Map::setTrapTo(char type, RelativePosition topRightPosition) {
 	for (int j = topRightPosition.row;
 		j >= topRightPosition.row - 3; j--) {
 		for (int k = topRightPosition.col;
