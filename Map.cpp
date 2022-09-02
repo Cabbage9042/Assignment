@@ -112,16 +112,20 @@ void Map::createMap() {
 				startPosition.y = topLeftCorner.y + (row * floorSprite.spriteHeight);
 
 			}
+			else if (charCellType == 'E') {
+				goalRect = cellPositionRect;
+			}
 
 		}
 	}
+
 }
 
 void Map::createTrap() {
 	int createdTrapCount = 0;
 	for (int i = 0; i < 4; i++) {
-		//traps[i].isSet = GameManager::randomNumber(0, 2);
-		traps[i].isSet = true;
+		traps[i].isSet = GameManager::randomNumber(0, 2);
+		//traps[i].isSet = true;
 		if (i == 3 && createdTrapCount == 0) traps[i].isSet = true;
 		if (!traps[i].isSet) continue; else createdTrapCount++;
 
@@ -264,8 +268,8 @@ void Map::UninitializeMap() {
 			cells.back().pop_back();
 			cells.back().shrink_to_fit();
 		}
-		//vector<Cell*>().swap(cells.at(row));
 		cells.pop_back();
+		cells.shrink_to_fit();
 	}
 
 	lever.Release();
@@ -335,13 +339,13 @@ bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollided
 				result = true;
 				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
 					getCenterPoint(topSide, character.positionRect))) {
-					characterCollidedStatus->bottomCollided = cells.at(row).at(col)->positionRect;
+					characterCollidedStatus->topCollided = cells.at(row).at(col)->positionRect;
 					*collidedYAxis = cells.at(row).at(col)->positionRect.bottom;
 
 				}
 				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
 					getCenterPoint(bottomSide, character.positionRect))) {
-					characterCollidedStatus->topCollided = cells.at(row).at(col)->positionRect;
+					characterCollidedStatus->bottomCollided = cells.at(row).at(col)->positionRect;
 					*collidedYAxis = cells.at(row).at(col)->positionRect.top;
 				}
 				//character is at left of the wall
@@ -383,6 +387,10 @@ void Map::setTrapTo(char type, RelativePosition topRightPosition) {
 			cells.at(j).at(k)->type = type;
 		}
 	}
+}
+
+bool Map::collidedToGoal(Sprite* character) {
+	return character->isHoverOn(goalRect, character->transformation.position + character->transformation.rotationCenter);
 }
 
 

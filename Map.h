@@ -20,8 +20,8 @@ public:
 	int numberOfCellColumn;		// included wall
 	vector<vector<Cell*> > cells; //is a wall, a floor or void. "W", "F", "V"
 	D3DXVECTOR2 startPosition;
-	D3DXVECTOR2 endPosition;
 	Trap traps[4];
+	RECT goalRect;
 
 
 
@@ -31,6 +31,7 @@ public:
 	bool collidedToWall(Sprite character, RectCollidedStatus* characterCollidedStatus,int *collidedXAxis,int *collidedYAxis);
 	//bool collidedToAndFacingLever(Sprite* character, int* leverForWhichTrap);
 	bool collidedToLever(Sprite* character, int* leverForWhichTrap);
+	bool collidedToGoal(Sprite* character);
 	bool collidedToTrap(Sprite* character, int* collidedTrap);
 
 	void setHoleTo(char type, int mostBelowRow, int col, int numberOfBlockToChange = 4);

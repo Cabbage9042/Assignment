@@ -7,9 +7,9 @@
 enum { walkingUp, walkingDown, walkingLeft, walkingRight };
 
 struct RectCollidedStatus {
-	RECT topCollided = RECT();
-	RECT leftCollided = RECT();
 	RECT bottomCollided = RECT();
+	RECT leftCollided = RECT();
+	RECT topCollided = RECT();
 	RECT rightCollided = RECT();
 };
 

@@ -20,6 +20,9 @@ public:
 	//physics
 	int airForce = 1.01;
 
+	//gameover is lose or win
+	static int playerHasWin;
+
 	void InitializeGame();
 	void UninitializeGame();
 	void InitializeFonts();

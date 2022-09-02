@@ -2,6 +2,7 @@
 std::vector<Game*>* GameManager::levelVector = new std::vector<Game*>;
 std::vector<LPD3DXFONT>* GameManager::fonts;
 
+int GameManager::playerHasWin = 0;
 
 
 void GameManager::InitializeFonts() {
@@ -31,6 +32,7 @@ void GameManager::InitializeGame() {
 
 	fonts = new vector<LPD3DXFONT>;
 	InitializeFonts();
+
 
 	levelVector->back()->InitializeLevel();
 

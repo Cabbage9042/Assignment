@@ -26,6 +26,7 @@ void Level::InitializeLevel() {
 
 	//last
 	character.sprite = Sprite("Assets/Level/character.png", textureWidth, textureHeight, spriteWidth, spriteHeight, spriteRow, spriteCol, currentColumn, currentRow, maxFrame, position);
+	character.sprite.transformation.scalingCenter = character.sprite.transformation.rotationCenter = D3DXVECTOR2(spriteWidth / 2, spriteHeight / 2);
 
 	map.InitializeMap();
 
@@ -56,7 +57,14 @@ void Level::Update(int framesToUpdate) {
 		PostQuitMessage(0);
 		return;
 	}
-	//if character enter the trap, do fly outside space ship
+
+
+	//if character win
+	if (GameManager::playerHasWin == 1) {
+		return;
+	}
+	else if (GameManager::playerHasWin == -1) {
+			//if character enter the trap, do fly outside space ship
 	if (isEnteredTrap && !map.traps[collidedTrap].lever.hasTurnedOn) {
 			
 		character.velocity = character.vectorBetweenHole;
@@ -73,10 +81,12 @@ void Level::Update(int framesToUpdate) {
 			delete GameManager::levelVector->back();
 			GameManager::levelVector->back() = NULL;
 			GameManager::levelVector->pop_back();
+			GameManager::levelVector->shrink_to_fit();
 			return;
 		}
 		character.sprite.transformation.UpdateMatrix();
 		return;
+	}
 	}
 
 
@@ -133,9 +143,18 @@ void Level::Update(int framesToUpdate) {
 		//cout << "left " << sprites->at(character)->positionRect.left;
 		//cout << "right " << sprites->at(character)->positionRect.right<<endl;
 
+
 		//collision check
 		updateCharacterCollidedToWall();
 
+		//goal or not
+		if (map.collidedToGoal(&character.sprite)) {
+			GameManager::levelVector->back()->UninitializeLevel();
+			delete GameManager::levelVector->back();
+			GameManager::levelVector->back() = NULL;
+			GameManager::levelVector->pop_back();
+			return;
+		}
 
 		//touch lever or not
 		updateTrapStatus();
@@ -148,6 +167,8 @@ void Level::Update(int framesToUpdate) {
 			while (D3DXVec2LengthSq(&character.vectorBetweenHole) >= 30) {
 				character.vectorBetweenHole *= 0.9;
 			}
+
+			GameManager::playerHasWin = -1;
 		}
 
 		// if not moving, character dont move; else move in speed of 10fps
@@ -156,8 +177,8 @@ void Level::Update(int framesToUpdate) {
 
 
 
-		character.characterCollidedStatus.bottomCollided = character.characterCollidedStatus.leftCollided =
-			character.characterCollidedStatus.rightCollided = character.characterCollidedStatus.topCollided = RECT();
+		character.characterCollidedStatus.topCollided = character.characterCollidedStatus.leftCollided =
+			character.characterCollidedStatus.rightCollided = character.characterCollidedStatus.bottomCollided = RECT();
 		character.characterIsMoving = false;
 		character.sprite.updatePositionRect();
 		character.sprite.transformation.UpdateMatrix();
@@ -217,11 +238,11 @@ void Level::updateCharacterCollidedToWall()
 {
 	if (map.collidedToWall(character.sprite, &character.characterCollidedStatus, &collidedXAxis, &collidedYAxis)) {
 		//cout << "side " << collidedWallSide << " axis " << collidedAxis << endl;
-		if (!GameManager::rectIsEqual(character.characterCollidedStatus.bottomCollided, RECT())) {
+		if (!GameManager::rectIsEqual(character.characterCollidedStatus.topCollided, RECT())) {
 			//cout << 1;
 			character.sprite.transformation.position.y = collidedYAxis;
 		}
-		if (!GameManager::rectIsEqual(character.characterCollidedStatus.topCollided, RECT())) {
+		if (!GameManager::rectIsEqual(character.characterCollidedStatus.bottomCollided, RECT())) {
 			//cout << 2;
 			character.sprite.transformation.position.y = collidedYAxis - character.sprite.spriteHeight;
 		}

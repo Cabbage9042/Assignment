@@ -7,6 +7,7 @@
 enum { pointer };
 
 void MainMenu::InitializeLevel() {
+	//must
 	textures = new vector<Texture*>;
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
@@ -19,11 +20,13 @@ void MainMenu::InitializeLevel() {
 	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96 * 2), centerAlign);
 
 
-
+	//text
 	GameManager::CreateText(texts, "Walking on a spaceship", GameManager::fonts->at(franklin100), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 5), centerAlign);
 	GameManager::CreateText(texts, "Start", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2 + 35), centerAlign);
 	GameManager::CreateText(texts, "Quit", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, ((MyWindowHeight / 2) + 96 * 2) + 35), centerAlign);
 
+
+	//must
 	int textureWidth = 54;
 	int textureHeight = 35;
 	int spriteRow = 1;
@@ -38,6 +41,8 @@ void MainMenu::InitializeLevel() {
 }
 
 void MainMenu::GetInput() {
+
+	//all must
 	Shell::directXManager.dInputKeyboardDevice->Acquire();
 	Shell::directXManager.dInputMouseDevice->Acquire();
 
@@ -57,13 +62,17 @@ void MainMenu::GetInput() {
 
 void MainMenu::Update(int framesToUpdate) {
 
+	//must
 	if ((altKey.isHolding && f4Key.isHolding)) {
 		PostQuitMessage(0);
 		return;
 	}
 	
+	//change parameter of isHoverOn to button u want
 	if (sprites->at(pointer)->isHoverOn(textures->at(buttonStart))) {
+		//must
 		sprites->at(pointer)->currentColumn = 1;
+
 		if (leftButton.isPressed) {
 			Level* level = new Level();
 			level->InitializeLevel();
@@ -79,19 +88,19 @@ void MainMenu::Update(int framesToUpdate) {
 			return;
 		}
 	}
+	//must
 	else {
 		sprites->at(pointer)->currentColumn = 0;
 	}
 
 	for (int i = 0; i < framesToUpdate; i++) {
-		//cout << "pointer x " << sprites->at(pointer)->transformation.position.x <<
-		//	"y " << sprites->at(pointer)->transformation.position.y;
+		//do animation if got
 
 
 
 	}
 
-	//mouse
+	//to avoid mouse out of window, must
 	sprites->at(pointer)->updatePositionRect();
 	if (sprites->at(pointer)->transformation.position.x < 0) {
 		sprites->at(pointer)->transformation.position.x = 0;
@@ -108,11 +117,14 @@ void MainMenu::Update(int framesToUpdate) {
 	sprites->at(pointer)->transformation.UpdateMatrix();
 	sprites->at(pointer)->updateCropRect();
 
+
+	//must
 	altKey.isPressed = false;
 	f4Key.isPressed = false;
 	leftButton.isPressed = false;
 }
 
+//just copy and paste all
 void MainMenu::Render() {
 	GameManager::RenderBegin();
 	for (int i = textures->size() - 1; i >= 0; i--) {
@@ -140,6 +152,7 @@ void MainMenu::Render() {
 	GameManager::RenderEnd();
 }
 
+//just copy and paste all
 void MainMenu::UninitializeLevel() {
 	GameManager::ReleaseTextures(textures);
 	GameManager::ReleaseTexts(texts);
