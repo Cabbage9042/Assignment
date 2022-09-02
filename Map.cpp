@@ -88,6 +88,55 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 	}
 }
 
+void Map::updateWallRect()
+{
+	wallRect[outerTop].top = topLeftCorner.y;
+	wallRect[outerTop].bottom = topLeftCorner.y + floorSprite.spriteHeight - 1;
+	wallRect[outerTop].left = topLeftCorner.x;
+	wallRect[outerTop].right = topLeftCorner.x + (numberOfCellColumn * floorSprite.spriteWidth) - 1;
+
+	wallRect[outerRight].top = wallRect[outerTop].bottom + 1;
+	wallRect[outerRight].bottom = (wallRect[outerRight].top + ((numberOfCellRow - 2) * floorSprite.spriteHeight)) - 1;
+	wallRect[outerRight].left = wallRect[outerTop].right - floorSprite.spriteWidth + 1;
+	wallRect[outerRight].right = wallRect[outerTop].right;
+
+	wallRect[outerBottom].top = wallRect[outerRight].bottom + 1;
+	wallRect[outerBottom].bottom = wallRect[outerBottom].top + floorSprite.spriteHeight - 1;
+	wallRect[outerBottom].left = topLeftCorner.x;
+	wallRect[outerBottom].right = wallRect[outerTop].right;
+
+	wallRect[outerLeft].top = wallRect[outerRight].top;
+	wallRect[outerLeft].bottom = wallRect[outerRight].bottom;
+	wallRect[outerLeft].left = wallRect[outerTop].left;
+	wallRect[outerLeft].right = wallRect[outerLeft].left + floorSprite.spriteWidth - 1;
+
+	wallRect[innerTop].top = topLeftCorner.y + (floorSprite.spriteHeight * 5);
+	wallRect[innerTop].bottom = wallRect[innerTop].top + floorSprite.spriteHeight - 1;
+	wallRect[innerTop].left = topLeftCorner.x + (floorSprite.spriteWidth * 6);
+	wallRect[innerTop].right = wallRect[innerTop].left + (6 * floorSprite.spriteWidth) - 1;
+
+	wallRect[innerRight].top = wallRect[innerTop].bottom + 1;
+	wallRect[innerRight].bottom = wallRect[innerRight].top + (floorSprite.spriteHeight * 7) - 1;
+	wallRect[innerRight].left = topLeftCorner.x + (11 * floorSprite.spriteWidth);
+	wallRect[innerRight].right = wallRect[innerRight].left + floorSprite.spriteWidth - 1;
+
+	wallRect[innerBottom].top = topLeftCorner.y + (12 * floorSprite.spriteHeight);
+	wallRect[innerBottom].bottom = wallRect[innerBottom].top + floorSprite.spriteHeight - 1;
+	wallRect[innerBottom].left = wallRect[innerTop].left;
+	wallRect[innerBottom].right = wallRect[innerTop].right;
+
+	wallRect[innerLeft].top = wallRect[innerRight].top;
+	wallRect[innerLeft].bottom = wallRect[innerRight].bottom;
+	wallRect[innerLeft].left = wallRect[innerTop].left;
+	wallRect[innerLeft].right = wallRect[innerLeft].left + floorSprite.spriteWidth - 1;
+
+	wallRect[between].top = wallRect[outerRight].top;
+	wallRect[between].bottom = wallRect[innerTop].top - 1;
+	wallRect[between].left = topLeftCorner.x + (floorSprite.spriteWidth * 8);
+	wallRect[between].right = wallRect[between].left + floorSprite.spriteWidth - 1;
+
+}
+
 void Map::createMap() {
 	char charCellType;
 	RECT cellPositionRect;
@@ -118,6 +167,8 @@ void Map::createMap() {
 
 		}
 	}
+
+	updateWallRect();
 
 }
 
@@ -186,6 +237,8 @@ void Map::assignDefaultPosition() {
 
 
 }
+
+
 
 void Map::setHoleTo(char type, int mostBelowRow, int col, int numberOfBlockToChange) {
 	for (int j = mostBelowRow; j >= mostBelowRow - numberOfBlockToChange + 1; j--)
@@ -326,55 +379,91 @@ void Map::RenderMap() {
 
 }
 
-bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollidedStatus, int* collidedXAxis, int* collidedYAxis)
-{
-	bool result = false;
-	for (int row = 0; row < numberOfCellRow; row++) {
-		for (int col = 0; col < numberOfCellColumn; col++) {
-			if (cells.at(row).at(col)->type != 'W') {
-				continue;
-			}
-			if (isCollided(character.positionRect, cells.at(row).at(col)->positionRect)) {
-				// character is below wall
-				result = true;
-				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
-					getCenterPoint(topSide, character.positionRect))) {
-					characterCollidedStatus->topCollided = cells.at(row).at(col)->positionRect;
-					*collidedYAxis = cells.at(row).at(col)->positionRect.bottom;
+//bool Map::collidedTcoWall(Sprite character, RectCollidedStatus* characterCollidedStatus, int* collidedXAxis, int* collidedYAxis)
+//{
+//	bool result = false;
+//	for (int row = 0; row < numberOfCellRow; row++) {
+//		for (int col = 0; col < numberOfCellColumn; col++) {
+//			if (cells.at(row).at(col)->type != 'W') {
+//				continue;
+//			}
+//			if (isCollided(character.positionRect, cells.at(row).at(col)->positionRect)) {
+//				// character is below wall
+//				result = true;
+//				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
+//					getCenterPoint(topSide, character.positionRect))) {
+//					characterCollidedStatus->topCollided = cells.at(row).at(col)->positionRect;
+//					*collidedYAxis = cells.at(row).at(col)->positionRect.bottom;
+//
+//				}
+//				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
+//					getCenterPoint(bottomSide, character.positionRect))) {
+//					characterCollidedStatus->bottomCollided = cells.at(row).at(col)->positionRect;
+//					*collidedYAxis = cells.at(row).at(col)->positionRect.top;
+//				}
+//				//character is at left of the wall
+//				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
+//					getCenterPoint(rightSide, character.positionRect))) {
+//					characterCollidedStatus->rightCollided = cells.at(row).at(col)->positionRect;
+//					*collidedXAxis = cells.at(row).at(col)->positionRect.left;
+//				}
+//				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
+//					getCenterPoint(leftSide, character.positionRect))) {
+//					characterCollidedStatus->leftCollided = cells.at(row).at(col)->positionRect;
+//					*collidedXAxis = cells.at(row).at(col)->positionRect.right;
+//				}
+//				/*if (character.positionRect.bottom > cells.at(row).at(col).positionRect.top) {
+//					*collidedWallSide = topSide;
+//					*collidedAxis = cells.at(row).at(col).positionRect.top;
+//					return true;
+//				}if (character.positionRect.right > cells.at(row).at(col).positionRect.left) {
+//					*collidedWallSide = leftSide;
+//					*collidedAxis = cells.at(row).at(col).positionRect.left;
+//					return true;
+//				}if (character.positionRect.left < cells.at(row).at(col).positionRect.right) {
+//					*collidedWallSide = rightSide;
+//					*collidedAxis = cells.at(row).at(col).positionRect.right;
+//					return true;
+//				}*/
+//			}
+//		}
+//	}
+//	return result;
+//}
 
-				}
-				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
-					getCenterPoint(bottomSide, character.positionRect))) {
-					characterCollidedStatus->bottomCollided = cells.at(row).at(col)->positionRect;
-					*collidedYAxis = cells.at(row).at(col)->positionRect.top;
-				}
-				//character is at left of the wall
-				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
-					getCenterPoint(rightSide, character.positionRect))) {
-					characterCollidedStatus->rightCollided = cells.at(row).at(col)->positionRect;
-					*collidedXAxis = cells.at(row).at(col)->positionRect.left;
-				}
-				if (character.isHoverOn(cells.at(row).at(col)->positionRect,
-					getCenterPoint(leftSide, character.positionRect))) {
-					characterCollidedStatus->leftCollided = cells.at(row).at(col)->positionRect;
-					*collidedXAxis = cells.at(row).at(col)->positionRect.right;
-				}
-				/*if (character.positionRect.bottom > cells.at(row).at(col).positionRect.top) {
-					*collidedWallSide = topSide;
-					*collidedAxis = cells.at(row).at(col).positionRect.top;
-					return true;
-				}if (character.positionRect.right > cells.at(row).at(col).positionRect.left) {
-					*collidedWallSide = leftSide;
-					*collidedAxis = cells.at(row).at(col).positionRect.left;
-					return true;
-				}if (character.positionRect.left < cells.at(row).at(col).positionRect.right) {
-					*collidedWallSide = rightSide;
-					*collidedAxis = cells.at(row).at(col).positionRect.right;
-					return true;
-				}*/
+bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollidedStatus, int* collidedXAxis, int* collidedYAxis) {
+	bool result = false;
+	for (auto wallrect : wallRect) {
+		if (isCollided(character.positionRect,wallrect)) {
+			result = true;
+			// character is below wall
+			if (character.isHoverOn(wallrect,
+				getCenterPoint(topSide, character.positionRect))) {
+				characterCollidedStatus->topCollided = wallrect;
+				*collidedYAxis = wallrect.bottom;
+
+			}
+			if (character.isHoverOn(wallrect,
+				getCenterPoint(bottomSide, character.positionRect))) {
+				characterCollidedStatus->bottomCollided = wallrect;
+				*collidedYAxis = wallrect.top;
+			}
+			//character is at left of the wall
+			if (character.isHoverOn(wallrect,
+				getCenterPoint(rightSide, character.positionRect))) {
+				characterCollidedStatus->rightCollided = wallrect;
+				*collidedXAxis = wallrect.left;
+			}
+			if (character.isHoverOn(wallrect,
+				getCenterPoint(leftSide, character.positionRect))) {
+				characterCollidedStatus->leftCollided = wallrect;
+				*collidedXAxis = wallrect.right;
 			}
 		}
+
+
 	}
+
 	return result;
 }
 

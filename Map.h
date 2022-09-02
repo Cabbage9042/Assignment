@@ -9,7 +9,9 @@
 
 enum { bottomSide, topSide, leftSide, rightSide};
 enum { topRight, bottomRight, bottomLeft, topLeft };
-
+//corner wall is included in horizontal rect
+enum {outerTop,outerRight,outerBottom,outerLeft, 
+	innerTop, innerRight, innerBottom, innerLeft, between};
 
 class Map {
 public:
@@ -22,6 +24,7 @@ public:
 	D3DXVECTOR2 startPosition;
 	Trap traps[4];
 	RECT goalRect;
+	RECT wallRect[9];
 
 
 
@@ -38,6 +41,8 @@ public:
 	void setTrapTo(char type, RelativePosition topRightPosition);
 
 private:
+	void updateWallRect();
+	//bool collidedTcoWall(Sprite character, RectCollidedStatus* characterCollidedStatus, int* collidedXAxis, int* collidedYAxis);
 	char getCellType(int row, int col);
 	bool isCollided(RECT a, RECT b);
 	D3DXVECTOR2 getCenterPoint(int side, RECT rect);
