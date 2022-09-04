@@ -18,6 +18,7 @@ class MainMenu : public Game {
 	KeyStatus leftButton;
 	Character character;
 	KeyStatus spaceKey;
+	
 
 	// Inherited via Game, must
 	void InitializeLevel() override;
@@ -28,5 +29,6 @@ class MainMenu : public Game {
 	
 	void pointerStayInsideWindow();
 	void pointerOnButton();
+	void updateCollidedToButton();
 };
 
