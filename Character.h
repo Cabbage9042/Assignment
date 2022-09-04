@@ -20,6 +20,7 @@ class Character{
 public:
 
 	D3DXVECTOR2 velocity = DEFAULT_VELOCITY;
+	D3DXVECTOR2 acceleration = D3DXVECTOR2(0, 0);
 	Sprite sprite;
 	RectCollidedStatus characterCollidedStatus;
 	bool characterIsMoving = false;

@@ -103,8 +103,7 @@ void Level::Update(int framesToUpdate) {
 	//cout << "s p " << sKey.isPressed << "s h " << sKey.isHolding << " " << "s r " << sKey.isReleased;
 	//cout << "d p " << dKey.isPressed << "d h " << dKey.isHolding << " " << "d r" << dKey.isReleased << endl;
 
-
-	cout << framesToUpdate << endl;
+	//cout << framesToUpdate << endl;
 	for (int i = 0; i < framesToUpdate; i++) {
 		character.characterAnimationCounter++;
 		if (wKey.isHolding) {

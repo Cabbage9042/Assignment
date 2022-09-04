@@ -6,6 +6,10 @@
 
 #define gameFPS 60
 
+//physics
+#define Gravity 1.5
+#define JumpForce -25
+
 enum { arial25, franklin100 };
 
 class GameManager{
@@ -16,9 +20,6 @@ public:
 	//font
 	static std::vector<LPD3DXFONT>* fonts;
 
-
-	//physics
-	int airForce = 1.01;
 
 	//gameover is lose or win
 	static int playerHasWin;

@@ -4,7 +4,6 @@
 #include "Character.h"
 
 #include "GameManager.h"
-enum { character };
 
 
 
@@ -20,7 +19,6 @@ public:
 	KeyStatus dKey;
 	Map map;
 	Character character;
-
 
 
 	// Inherited via Game
