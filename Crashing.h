@@ -7,11 +7,11 @@ class Crashing : public Game{
 
 public:
 
-	KeyStatus *altKey;
-	KeyStatus *f4Key;
-	KeyStatus *downKey;
-	FlyingObject* planet;
-	FlyingObject *spaceship;
+	KeyStatus altKey;
+	KeyStatus f4Key;
+	KeyStatus downKey;
+	FlyingObject *planet=NULL;
+	FlyingObject *spaceship=NULL;
 
 	// Inherited via Game
 	virtual void InitializeLevel() override;

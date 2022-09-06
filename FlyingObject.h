@@ -7,10 +7,12 @@
 #include "Texture.h"
 
 class FlyingObject{
-
-	D3DXVECTOR2 *velocity = NULL;
-	D3DXVECTOR2 *acceleration = NULL;
+public:
+	D3DXVECTOR2 velocity;
+	D3DXVECTOR2 acceleration;
 	Texture* texture = NULL;
 
+	FlyingObject(Texture* texture);
+	void Release();
 };
 
