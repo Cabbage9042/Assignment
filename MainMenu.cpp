@@ -1,6 +1,7 @@
 #include "MainMenu.h"
 #include "Shell.h"
 #include "Level.h"
+#include "Crashing.h"
 
 #define characterIsFalling (character.velocity.y > 0)
 
@@ -14,15 +15,26 @@ void MainMenu::InitializeLevel() {
 	//button start
 	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
 
+	//button crash
+	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight) / 2 + 100), centerAlign);
 
 	//button quit
-	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96 * 2), centerAlign);
-
+	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 100 * 2), centerAlign);
 
 	//text
 	GameManager::CreateText(texts, "Walking on a spaceship", GameManager::fonts->at(franklin100), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 5), centerAlign);
-	GameManager::CreateText(texts, "Start", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2 + 35), centerAlign);
-	GameManager::CreateText(texts, "Quit", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, ((MyWindowHeight / 2) + 96 * 2) + 35), centerAlign);
+
+	D3DXVECTOR2 textPosition;
+	textPosition.x = MyWindowWidth / 2;
+	textPosition.y = textures->at(buttonStart)->transformation.position.y + 35;
+	GameManager::CreateText(texts, "Start", GameManager::fonts->at(arial25), textPosition, centerAlign);
+
+
+	textPosition.y = textures->at(buttonCrash)->transformation.position.y + 35;
+	GameManager::CreateText(texts, "Crash into planet", GameManager::fonts->at(arial25), textPosition, centerAlign);
+
+	textPosition.y = textures->at(buttonQuit)->transformation.position.y + 35;
+	GameManager::CreateText(texts, "Quit", GameManager::fonts->at(arial25), textPosition, centerAlign);
 
 
 	//must
@@ -38,7 +50,7 @@ void MainMenu::InitializeLevel() {
 	GameManager::CreateSprite(sprites, "Assets/pointer.png", textureWidth, textureHeight, spriteWidth, spriteHeight,
 		spriteRow, spriteCol, currentColumn, currentRow, maxFrame, D3DXVECTOR2(0, 0));
 
-	textureWidth = 76;
+	textureWidth = 76;	
 	textureHeight = 128;
 	spriteRow = 4;
 	spriteCol = 4;
@@ -50,8 +62,6 @@ void MainMenu::InitializeLevel() {
 	D3DXVECTOR2 position(0, MyWindowHeight - spriteHeight);
 	character.sprite = Sprite("Assets/Level/character.png", textureWidth, textureHeight, spriteWidth, spriteHeight, spriteRow, spriteCol, currentColumn, currentRow, maxFrame, position);
 	character.sprite.transformation.scalingCenter = character.sprite.transformation.rotationCenter = D3DXVECTOR2(spriteWidth / 2, spriteHeight / 2);
-
-
 }
 
 
@@ -109,7 +119,7 @@ void MainMenu::Update(int framesToUpdate) {
 
 		character.sprite.updatePositionRect();
 
-	updateCollidedToButton();
+		updateCollidedToButton();
 
 		if (character.characterAnimationCounter % (gameFPS / character.characterFPS) == 0) {
 			character.sprite.currentColumn++;
@@ -204,6 +214,22 @@ void MainMenu::pointerOnButton() {
 			level->InitializeLevel();
 			GameManager::levelVector->push_back(level);
 			level = NULL;
+
+			character.sprite.transformation.position = D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight);
+			character.sprite.updatePositionRect();
+
+			sprites->at(pointer)->transformation.position = D3DXVECTOR2(0, 0);
+			sprites->at(pointer)->updatePositionRect();
+		}
+	}
+	else if (sprites->at(pointer)->isHoverOn(textures->at(buttonCrash))) {
+
+		sprites->at(pointer)->currentColumn = 1;
+		if (leftButton.isPressed) {
+			Crashing* crashing = new Crashing();
+			crashing->InitializeLevel();
+			GameManager::levelVector->push_back(crashing);
+			crashing = NULL;
 
 			character.sprite.transformation.position = D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight);
 			character.sprite.updatePositionRect();

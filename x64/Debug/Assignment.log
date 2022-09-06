@@ -1,4 +1,157 @@
-﻿  WindowManager.h
-x64\Debug\WindowManager.obj : warning LNK4042: object specified more than once; extras ignored
-Main.obj : error LNK2019: unresolved external symbol "public: void __cdecl WindowManager::CreateMyWindow(void)" (?CreateMyWindow@WindowManager@@QEAAXXZ) referenced in function main
-E:\TARC\programming\Assignment\x64\Debug\Assignment.exe : fatal error LNK1120: 1 unresolved externals
+﻿  Cell.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+  Character.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+  DirectXManager.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Game.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+  GameManager.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(11,15): error C2664: 'HRESULT D3DXCreateFontW(LPDIRECT3DDEVICE9,INT,UINT,UINT,UINT,BOOL,DWORD,DWORD,DWORD,DWORD,LPCWSTR,LPD3DXFONT *)': cannot convert argument 11 from 'const char [6]' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(13,32): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9core.h(396,5): message : see declaration of 'D3DXCreateFontW'
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(17,7): error C2664: 'HRESULT D3DXCreateFontW(LPDIRECT3DDEVICE9,INT,UINT,UINT,UINT,BOOL,DWORD,DWORD,DWORD,DWORD,LPCWSTR,LPD3DXFONT *)': cannot convert argument 11 from 'const char [23]' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(19,32): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9core.h(396,5): message : see declaration of 'D3DXCreateFontW'
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(44,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(64,92): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(64,74): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(74,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(94,92): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(94,74): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(105,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(180,12): warning C4244: 'argument': conversion from 'LONGLONG' to 'unsigned int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\GameManager.cpp(189,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Level.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+E:\TARC\programming\Assignment\Assignment\Level.cpp(29,141): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(29,123): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(72,50): warning C4305: '+=': truncation from 'double' to 'float'
+E:\TARC\programming\Assignment\Assignment\Level.cpp(167,39): warning C4305: 'argument': truncation from 'double' to 'FLOAT'
+E:\TARC\programming\Assignment\Assignment\Level.cpp(202,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(206,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(214,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(242,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(246,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(250,49): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Level.cpp(254,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+  Lever.cpp
+  Main.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+E:\TARC\programming\Assignment\Assignment\Main.cpp(16,13): warning C4326: return type of 'main' should be 'int' instead of 'void'
+  MainMenu.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(50,41): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(52,141): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(52,123): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(143,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(147,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(151,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(208,77): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(232,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(241,92): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(251,86): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(261,91): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(270,86): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(280,87): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+  Map.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+E:\TARC\programming\Assignment\Assignment\Map.cpp(93,40): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(94,73): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(95,41): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(96,94): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(105,44): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(113,43): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(115,44): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(120,46): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(123,46): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(135,43): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(150,43): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(152,44): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(188,122): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(189,124): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(190,48): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(191,47): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(255,44): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(256,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(258,47): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(259,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(261,46): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(262,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(264,47): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(265,24): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(285,24): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(284,23): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(290,96): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(290,71): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(317,2): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(318,3): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(360,75): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(361,75): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Map.cpp(362,58): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Shell.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+  Sprite.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+E:\TARC\programming\Assignment\Assignment\Sprite.cpp(16,44): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Sprite.cpp(17,50): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Sprite.cpp(18,45): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Sprite.cpp(19,49): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+  StuffToBeDrawn.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\StuffToBeDrawn.cpp(22,34): warning C4244: '=': conversion from 'double' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\StuffToBeDrawn.cpp(29,44): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\StuffToBeDrawn.cpp(30,50): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\StuffToBeDrawn.cpp(31,45): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+E:\TARC\programming\Assignment\Assignment\StuffToBeDrawn.cpp(32,49): warning C4244: '=': conversion from 'FLOAT' to 'LONG', possible loss of data
+  Text.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+E:\TARC\programming\Assignment\Assignment\Text.cpp(6,90): warning C4267: 'argument': conversion from 'size_t' to 'INT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\Text.cpp(21,92): warning C4267: 'argument': conversion from 'size_t' to 'INT', possible loss of data
+  Texture.cpp
+  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,1): error C2664: 'HRESULT D3DXCreateTextureFromFileW(LPDIRECT3DDEVICE9,LPCWSTR,LPDIRECT3DTEXTURE9 *)': cannot convert argument 2 from 'LPCSTR' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\Texture.h(45,69): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\d3dx9tex.h(1076,5): message : see declaration of 'D3DXCreateTextureFromFileW'
+  TransformationMatrix.cpp
+  Trap.cpp
+  WindowManager.cpp
+E:\TARC\programming\Assignment\Assignment\WindowManager.cpp(34,38): error C2440: '=': cannot convert from 'const char [10]' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\WindowManager.cpp(34,27): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+E:\TARC\programming\Assignment\Assignment\WindowManager.cpp(41,178): error C2664: 'HWND CreateWindowExW(DWORD,LPCWSTR,LPCWSTR,DWORD,int,int,int,int,HWND,HMENU,HINSTANCE,LPVOID)': cannot convert argument 3 from 'const char [23]' to 'LPCWSTR'
+E:\TARC\programming\Assignment\Assignment\WindowManager.cpp(41,53): message : Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or parenthesized function-style cast
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\winuser.h(4432,1): message : see declaration of 'CreateWindowExW'
+  Generating Code...

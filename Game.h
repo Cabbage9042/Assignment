@@ -21,8 +21,6 @@ using namespace std;
 
 class Game {
 public:
-
-
 	//Texture, Sprite
 	vector<Texture*> *textures;
 	vector<Text*> *texts;
