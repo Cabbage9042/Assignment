@@ -10,9 +10,11 @@ class FlyingObject{
 public:
 	D3DXVECTOR2 velocity;
 	D3DXVECTOR2 acceleration;
+	float force;
+	float mass;
 	Texture* texture = NULL;
 
-	FlyingObject(Texture* texture);
+	FlyingObject(D3DXVECTOR2 velocity, float force, float mass, Texture* texture);
 	void Release();
 };
 

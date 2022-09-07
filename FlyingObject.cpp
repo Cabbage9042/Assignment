@@ -1,9 +1,12 @@
 #include "FlyingObject.h"
 
-FlyingObject::FlyingObject(Texture* texture)
+FlyingObject::FlyingObject(D3DXVECTOR2 velocity, float force, float mass, Texture* texture)
 {
-	velocity = DEFAULT_VELOCITY;
+	this->velocity = velocity;
 	acceleration = DEFAULT_VELOCITY;
+
+	this->force = force;
+	this->mass = mass;
 
 	this->texture = texture;
 

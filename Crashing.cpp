@@ -6,26 +6,25 @@ void Crashing::InitializeLevel()
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
 
-	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, D3DXVECTOR2(0, 0));
-	planet = new FlyingObject(planetTexture);
+	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, D3DXVECTOR2(500, 500));
+	planet = new FlyingObject(D3DXVECTOR2(0, 0), 0.1f, 5, planetTexture);
 	planetTexture = NULL;
-	
-	int textureWidth = 64;
-	int textureHeight = 64;
-	int spriteRow = 2;
-	int spriteCol = 2;
-	int spriteWidth = textureWidth / spriteCol;
-	int spriteHeight = textureHeight / spriteRow;
-	int currentColumn = 1;
-	int currentRow = 0;
-	int maxFrame = 1;
 
-	Sprite* spaceshipSprite = new Sprite("Assets/Crashing/spaceship.png", textureWidth, textureHeight, spriteWidth, spriteHeight,
-		spriteRow, spriteCol, currentColumn, currentRow, maxFrame, D3DXVECTOR2(0, 0));
 
-	spaceship = new FlyingObject(spaceshipSprite);
+	planet->texture->transformation.rotationCenter = planet->texture->transformation.scalingCenter = D3DXVECTOR2(100, 100);
 
-	spaceshipSprite = NULL;
+
+
+
+	//space ship
+
+	Texture* spaceshipTexture = new Texture("Assets/Crashing/spaceship.png", 32, 32, D3DXVECTOR2(0, 0));
+
+	spaceship = new FlyingObject(D3DXVECTOR2(0, 0), 5.0f, 10, spaceshipTexture);
+
+	spaceshipTexture = NULL;
+
+	spaceship->texture->transformation.rotationCenter = spaceship->texture->transformation.scalingCenter = D3DXVECTOR2(32 / 2, 32 / 2);
 
 
 }
@@ -41,6 +40,10 @@ void Crashing::GetInput()
 	GameManager::updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT), &altKey);
 	GameManager::updateKeyStatus(KeyDown(DIK_F4), &f4Key);
 	GameManager::updateKeyStatus(KeyDown(DIK_DOWN), &downKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_W), &wKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_A), &aKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_S), &sKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_D), &dKey);
 
 }
 
@@ -58,8 +61,50 @@ void Crashing::Update(int framesToUpdate)
 		GameManager::levelVector->pop_back();
 		return;
 	}
+	for (int i = 0; i < framesToUpdate; i++) {
+		//planet move
+		planetMoving();
+		stayInsideWindow(planet);
 
-	
+
+		//spaceship move
+		if (wKey.isHolding) {
+			spaceship->acceleration.x =
+				sin(spaceship->texture->transformation.rotation) * spaceship->force / spaceship->mass;
+			spaceship->acceleration.y =
+				-cos(spaceship->texture->transformation.rotation) * spaceship->force / spaceship->mass;
+		}
+		if (aKey.isHolding) {
+			spaceship->texture->transformation.rotation -= rotationSpeed;
+		}
+		if (dKey.isHolding) {
+			spaceship->texture->transformation.rotation += rotationSpeed;
+		}
+
+		spaceship->velocity += spaceship->acceleration;
+		spaceship->velocity *= 1 - 0.1;
+		spaceship->texture->transformation.position += spaceship->velocity;
+
+		//cout << 'a' << " " << spaceship->acceleration.x << " " << spaceship->acceleration.y <<
+		//	'v' << " " << spaceship->velocity.x << " " << spaceship->velocity.y << endl;
+
+
+		spaceship->texture->transformation.UpdateMatrix();
+		spaceship->texture->updatePositionRect();
+		stayInsideWindow(spaceship);
+
+
+		//circle collide
+		if (circlesCollided(spaceship->texture, planet->texture)) {
+			cout << "lala" << endl;
+		}
+
+
+
+
+		spaceship->acceleration = D3DXVECTOR2(0, 0);
+	}
+
 
 	downKey.isPressed = false;
 	altKey.isPressed = false;
@@ -96,8 +141,48 @@ void Crashing::UninitializeLevel()
 	spaceship->Release();
 	delete spaceship;
 	spaceship = NULL;
-		
+
 	GameManager::ReleaseTextures(textures);
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
+}
+
+void Crashing::planetMoving()
+{
+	planet->velocity += planet->acceleration;
+	planet->texture->transformation.position += planet->velocity;
+	planet->texture->transformation.UpdateMatrix();
+}
+
+void Crashing::stayInsideWindow(FlyingObject* obj)
+{
+	if (obj->texture->transformation.position.x < 0) {
+		obj->texture->transformation.position.x = 0;
+		obj->velocity.x *= -1;
+	}
+	if (obj->texture->transformation.position.x + obj->texture->textureWidth > MyWindowWidth) {
+		obj->texture->transformation.position.x = MyWindowWidth - obj->texture->textureWidth;
+		obj->velocity.x *= -1;
+	}
+	if (obj->texture->transformation.position.y < 0) {
+		obj->texture->transformation.position.y = 0;
+		obj->velocity.y *= -1;
+	}
+	if (obj->texture->transformation.position.y + obj->texture->textureHeight > MyWindowHeight) {
+		obj->texture->transformation.position.y = MyWindowHeight - obj->texture->textureHeight;
+		obj->velocity.y *= -1;
+	}
+
+	spaceship->texture->transformation.UpdateMatrix();
+	spaceship->texture->updatePositionRect();
+}
+
+bool Crashing::circlesCollided(Texture* circleA, Texture* circleB) {
+
+	D3DXVECTOR2 distanceSq = (circleA->transformation.rotationCenter + circleA->transformation.position)- (circleB->transformation.rotationCenter + circleB->transformation.position);
+	cout << D3DXVec2LengthSq(&distanceSq) << endl;
+	return ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) * ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) >
+		D3DXVec2LengthSq(&distanceSq);
+
+
 }
