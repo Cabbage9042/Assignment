@@ -4,8 +4,6 @@
 #include "MainMenu.h"
 
 
-//sprite
-enum { pointer };
 
 void Victory::InitializeLevel() {
 	//must
@@ -79,20 +77,33 @@ void Victory::Update(int framesToUpdate) {
 		sprites->at(pointer)->currentColumn = 1;
 
 		if (leftButton.isPressed) {
-			Level* level = new Level();
-			level->InitializeLevel();
-			GameManager::levelVector->push_back(level);
-			level = NULL;
+			//remove all level in vector except for mainmanu, and push back level
+			for (int i = GameManager::levelVector->size() - 1; i >= 1; i--) {
+				GameManager::levelVector->at(i)->UninitializeLevel();
+				delete GameManager::levelVector->at(i);
+				GameManager::levelVector->at(i) = NULL;
+				GameManager::levelVector->pop_back();
+				GameManager::levelVector->shrink_to_fit();
+			}
+
+			GameManager::levelVector->push_back(new Level());
+			GameManager::levelVector->back()->InitializeLevel();
+			return;
 		}
 	}
 	else if (sprites->at(pointer)->isHoverOn(textures->at(VReturnmm))) {
 
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {
-			MainMenu* main = new MainMenu();
-			//main->InitializeLevel();
-			GameManager::levelVector->push_back(new MainMenu());
-			main = NULL;
+			//remove all level in vector except for mainmanu
+			for (int i = GameManager::levelVector->size() - 1; i >= 1; i--) {
+				GameManager::levelVector->at(i)->UninitializeLevel();
+				delete GameManager::levelVector->at(i);
+				GameManager::levelVector->at(i) = NULL;
+				GameManager::levelVector->pop_back();
+				GameManager::levelVector->shrink_to_fit();
+			}
+			return;
 		}
 	}
 	else if (sprites->at(pointer)->isHoverOn(textures->at(VQuit))) {
@@ -106,13 +117,6 @@ void Victory::Update(int framesToUpdate) {
 	//must
 	else {
 		sprites->at(pointer)->currentColumn = 0;
-	}
-
-	for (int i = 0; i < framesToUpdate; i++) {
-		//do animation if got
-
-
-
 	}
 
 	//to avoid mouse out of window, must

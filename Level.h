@@ -4,7 +4,9 @@
 #include "Character.h"
 
 #include "GameManager.h"
-
+#include "GameOver.h"
+#include "Victory.h"
+#include "Pause.h"
 
 
 class Level : public Game {

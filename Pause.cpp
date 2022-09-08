@@ -4,8 +4,6 @@
 
 
 
-//sprite
-enum { pointer };
 
 void Pause::InitializeLevel() {
 	//must
@@ -75,17 +73,27 @@ void Pause::Update(int framesToUpdate) {
 		sprites->at(pointer)->currentColumn = 1;
 
 		if (leftButton.isPressed) {
-			Level* level = new Level();
-			level->InitializeLevel();
-			GameManager::levelVector->push_back(level);
-			level = NULL;
+			GameManager::levelVector->back()->UninitializeLevel();
+			delete GameManager::levelVector->back();
+			GameManager::levelVector->back() = NULL;
+			GameManager::levelVector->pop_back();
+			GameManager::levelVector->shrink_to_fit();
+
+			return;
 		}
 	}
 	else if (sprites->at(pointer)->isHoverOn(textures->at(PReturnmm))) {
 
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {
-			PostQuitMessage(0);
+			//remove all level in vector except for mainmanu
+			for (int i = GameManager::levelVector->size() - 1; i >= 1; i--) {
+				GameManager::levelVector->at(i)->UninitializeLevel();
+				delete GameManager::levelVector->at(i);
+				GameManager::levelVector->at(i) = NULL;
+				GameManager::levelVector->pop_back();
+				GameManager::levelVector->shrink_to_fit();
+			}
 			return;
 		}
 	}
@@ -94,12 +102,6 @@ void Pause::Update(int framesToUpdate) {
 		sprites->at(pointer)->currentColumn = 0;
 	}
 
-	for (int i = 0; i < framesToUpdate; i++) {
-		//do animation if got
-
-
-
-	}
 
 	//to avoid mouse out of window, must
 	sprites->at(pointer)->updatePositionRect();

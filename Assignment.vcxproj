@@ -143,11 +143,13 @@
     <ClCompile Include="FlyingObject.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Lever.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="Pause.cpp" />
     <ClCompile Include="Shell.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StuffToBeDrawn.cpp" />
@@ -156,6 +158,7 @@
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="TransformationMatrix.cpp" />
     <ClCompile Include="Trap.cpp" />
+    <ClCompile Include="Victory.cpp" />
     <ClCompile Include="WindowManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,10 +169,12 @@
     <ClInclude Include="FlyingObject.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Lever.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="Pause.h" />
     <ClInclude Include="Shell.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StuffToBeDrawn.h" />
@@ -178,6 +183,7 @@
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="TransformationMatrix.h" />
     <ClInclude Include="Trap.h" />
+    <ClInclude Include="Victory.h" />
     <ClInclude Include="WindowManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -44,6 +44,7 @@ void Level::GetInput() {
 
 	GameManager::updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT), &altKey);
 	GameManager::updateKeyStatus(KeyDown(DIK_F4), &f4Key);
+	GameManager::updateKeyStatus(KeyDown(DIK_ESCAPE), &escKey);
 	GameManager::updateKeyStatus(KeyDown(DIK_DOWN), &downKey);
 	GameManager::updateKeyStatus(KeyDown(DIK_W), &wKey);
 	GameManager::updateKeyStatus(KeyDown(DIK_A), &aKey);
@@ -57,36 +58,45 @@ void Level::Update(int framesToUpdate) {
 		PostQuitMessage(0);
 		return;
 	}
-
-
-	//if character win
-	if (GameManager::playerHasWin == 1) {
+	if (escKey.isPressed) {
+		GameManager::levelVector->push_back(new Pause());
+		GameManager::levelVector->back()->InitializeLevel();
 		return;
 	}
-	else if (GameManager::playerHasWin == -1) {
-			//if character enter the trap, do fly outside space ship
-	if (isEnteredTrap && !map.traps[collidedTrap].lever.hasTurnedOn) {
-			
-		character.velocity = character.vectorBetweenHole;
-		character.sprite.transformation.position += character.velocity;
-		character.sprite.transformation.rotation += 0.1;
-		
-		character.distanceBetweenHole = D3DXVec2LengthSq(&character.vectorBetweenHole);
 
-		cout << character.vectorBetweenHole.x << " " << character.vectorBetweenHole.y << " " << character.distanceBetweenHole << endl;
-	
-		if (character.sprite.transformation.position.y <0 || character.sprite.transformation.position.y > MyWindowHeight
-			|| character.sprite.transformation.position.x <0 || character.sprite.transformation.position.x > MyWindowWidth) {
-			GameManager::levelVector->back()->UninitializeLevel();
-			delete GameManager::levelVector->back();
-			GameManager::levelVector->back() = NULL;
-			GameManager::levelVector->pop_back();
-			GameManager::levelVector->shrink_to_fit();
+
+
+	if (GameManager::playerHasWin == -1) {
+		//if character enter the trap, do fly outside space ship
+		if (isEnteredTrap && !map.traps[collidedTrap].lever.hasTurnedOn) {
+
+			character.velocity = character.vectorBetweenHole;
+			character.sprite.transformation.position += character.velocity;
+			character.sprite.transformation.rotation += 0.1;
+
+			character.distanceBetweenHole = D3DXVec2LengthSq(&character.vectorBetweenHole);
+
+			//cout << character.vectorBetweenHole.x << " " << character.vectorBetweenHole.y << " " << character.distanceBetweenHole << endl;
+
+			//go to game over if character out of window
+			if (character.sprite.transformation.position.y <0 || character.sprite.transformation.position.y > MyWindowHeight
+				|| character.sprite.transformation.position.x <0 || character.sprite.transformation.position.x > MyWindowWidth) {
+
+				//uninitialize level
+				GameManager::levelVector->back()->UninitializeLevel();
+				delete GameManager::levelVector->back();
+				GameManager::levelVector->back() = NULL;
+				GameManager::levelVector->pop_back();
+				GameManager::levelVector->shrink_to_fit();
+
+				//init gameover
+				GameManager::levelVector->push_back(new GameOver());
+				GameManager::levelVector->back()->InitializeLevel();
+				return;
+			}
+			character.sprite.transformation.UpdateMatrix();
 			return;
 		}
-		character.sprite.transformation.UpdateMatrix();
-		return;
-	}
 	}
 
 
@@ -146,12 +156,18 @@ void Level::Update(int framesToUpdate) {
 		//collision check
 		updateCharacterCollidedToWall();
 
-		//goal or not
+		//goal or not (if win)
 		if (map.collidedToGoal(&character.sprite)) {
+			//uninitialize level
 			GameManager::levelVector->back()->UninitializeLevel();
 			delete GameManager::levelVector->back();
 			GameManager::levelVector->back() = NULL;
 			GameManager::levelVector->pop_back();
+			GameManager::levelVector->shrink_to_fit();
+
+			//init victory
+			GameManager::levelVector->push_back(new Victory());
+			GameManager::levelVector->back()->InitializeLevel();
 			return;
 		}
 
@@ -161,7 +177,7 @@ void Level::Update(int framesToUpdate) {
 		if (map.collidedToTrap(&character.sprite, &collidedTrap)) {
 			isEnteredTrap = true;
 			character.vectorBetweenHole = map.traps[collidedTrap].positionBetweenWalls - character.sprite.transformation.position;
-			
+
 
 			while (D3DXVec2LengthSq(&character.vectorBetweenHole) >= 30) {
 				character.vectorBetweenHole *= 0.9;
