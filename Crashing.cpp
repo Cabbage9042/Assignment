@@ -95,8 +95,8 @@ void Crashing::Update(int framesToUpdate)
 
 
 		//circle collide
-		if (circlesCollided(spaceship->texture, planet->texture)) {
-			cout << "lala" << endl;
+		if (circlesCollided(spaceship->texture, planet->texture,&vectorBetweenPoints)) {
+			
 		}
 
 
@@ -177,12 +177,12 @@ void Crashing::stayInsideWindow(FlyingObject* obj)
 	spaceship->texture->updatePositionRect();
 }
 
-bool Crashing::circlesCollided(Texture* circleA, Texture* circleB) {
+bool Crashing::circlesCollided(Texture* circleA, Texture* circleB, D3DXVECTOR2 *vectorBetweenPoints) {
 
-	D3DXVECTOR2 distanceSq = (circleA->transformation.rotationCenter + circleA->transformation.position)- (circleB->transformation.rotationCenter + circleB->transformation.position);
-	cout << D3DXVec2LengthSq(&distanceSq) << endl;
+	*vectorBetweenPoints = (circleA->transformation.rotationCenter + circleA->transformation.position)- (circleB->transformation.rotationCenter + circleB->transformation.position);
+	//cout << D3DXVec2LengthSq(vectorBetweenPoints) << endl;
 	return ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) * ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) >
-		D3DXVec2LengthSq(&distanceSq);
+		D3DXVec2LengthSq(vectorBetweenPoints);
 
 
 }

@@ -30,9 +30,12 @@ private:
 	FlyingObject *planet=NULL;
 	FlyingObject *spaceship=NULL;
 
+	//vector for collision
+	D3DXVECTOR2 vectorBetweenPoints;
+
 	void planetMoving();
 	void stayInsideWindow(FlyingObject *obj);
-	bool circlesCollided(Texture *circleA, Texture* circleB);
+	bool circlesCollided(Texture *circleA, Texture* circleB, D3DXVECTOR2* vectorBetweenPoints);
 
 };
 
