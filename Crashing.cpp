@@ -7,7 +7,7 @@ void Crashing::InitializeLevel()
 	sprites = new vector<Sprite*>;
 
 	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, D3DXVECTOR2(500, 500));
-	planet = new FlyingObject(D3DXVECTOR2(0, 0), 0.1f, 5, planetTexture);
+	planet = new FlyingObject(D3DXVECTOR2(3, 3), 0.1f, 10000, 0, planetTexture);
 	planetTexture = NULL;
 
 
@@ -20,7 +20,7 @@ void Crashing::InitializeLevel()
 
 	Texture* spaceshipTexture = new Texture("Assets/Crashing/spaceship.png", 32, 32, D3DXVECTOR2(0, 0));
 
-	spaceship = new FlyingObject(D3DXVECTOR2(0, 0), 5.0f, 10, spaceshipTexture);
+	spaceship = new FlyingObject(D3DXVECTOR2(0, 0), 10.0f, 3, 0.05f, spaceshipTexture);
 
 	spaceshipTexture = NULL;
 
@@ -39,7 +39,7 @@ void Crashing::GetInput()
 
 	GameManager::updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT), &altKey);
 	GameManager::updateKeyStatus(KeyDown(DIK_F4), &f4Key);
-	GameManager::updateKeyStatus(KeyDown(DIK_DOWN), &downKey);
+	GameManager::updateKeyStatus(KeyDown(DIK_ESCAPE), &escKey);
 	GameManager::updateKeyStatus(KeyDown(DIK_W), &wKey);
 	GameManager::updateKeyStatus(KeyDown(DIK_A), &aKey);
 	GameManager::updateKeyStatus(KeyDown(DIK_S), &sKey);
@@ -54,7 +54,7 @@ void Crashing::Update(int framesToUpdate)
 		return;
 	}
 
-	if (downKey.isPressed) {
+	if (escKey.isPressed) {
 		GameManager::levelVector->back()->UninitializeLevel();
 		delete GameManager::levelVector->back();
 		GameManager::levelVector->back() = NULL;
@@ -64,7 +64,6 @@ void Crashing::Update(int framesToUpdate)
 	for (int i = 0; i < framesToUpdate; i++) {
 		//planet move
 		planetMoving();
-		stayInsideWindow(planet);
 
 
 		//spaceship move
@@ -82,7 +81,7 @@ void Crashing::Update(int framesToUpdate)
 		}
 
 		spaceship->velocity += spaceship->acceleration;
-		spaceship->velocity *= 1 - 0.1;
+		spaceship->velocity *= 1 - spaceship->energyLostRate;
 		spaceship->texture->transformation.position += spaceship->velocity;
 
 		//cout << 'a' << " " << spaceship->acceleration.x << " " << spaceship->acceleration.y <<
@@ -94,9 +93,55 @@ void Crashing::Update(int framesToUpdate)
 		stayInsideWindow(spaceship);
 
 
-		//circle collide
-		if (circlesCollided(spaceship->texture, planet->texture,&vectorBetweenPoints)) {
+		//circle collide, planet not move
+		//if (circlesCollided(spaceship->texture, planet->texture, &vectorBetweenPoints)) {
+		//	
+		//	spaceship->texture->transformation.position -= spaceship->velocity;
+
+		//	D3DXVECTOR2 wall = D3DXVECTOR2(-vectorBetweenPoints.y, vectorBetweenPoints.x);
+
+		//	D3DXVECTOR2 vectorI = projectionOn(&wall, &spaceship->velocity);
+		//	D3DXVECTOR2 vectorJ = projectionOn(&vectorBetweenPoints, &spaceship->velocity);
+
+		//	D3DXVECTOR2 reflexedVector = vectorI - vectorJ;
+		//	spaceship->velocity = reflexedVector;
+
+		//	cout << vectorI.x << ' ' << vectorI.y << endl;
+		//	//cout << reflexedVector.x << ' ' << reflexedVector.y<<endl;
+
+		//	spaceship->texture->transformation.UpdateMatrix();
+		//	spaceship->texture->updatePositionRect();
+		//	stayInsideWindow(spaceship);
+		//}
+
+		//circle collide, planet move
+		if (circlesCollided(spaceship->texture, planet->texture, &vectorBetweenPoints)) {
+
+			spaceship->texture->transformation.position -= spaceship->velocity;
+
+
+			float totalForce = planet->force * D3DXVec2Length(&planet->acceleration) + spaceship->force * D3DXVec2Length(&spaceship->acceleration);
 			
+			spaceship->acceleration.x += (totalForce / 2) / spaceship->mass;
+			spaceship->acceleration.y += (totalForce / 2) / spaceship->mass;
+
+
+			spaceship->velocity += spaceship->acceleration;
+
+			planet->acceleration.x += (totalForce / 2) / planet->mass;
+			planet->acceleration.y += (totalForce / 2) / planet->mass;
+
+			planet->velocity += planet->acceleration;
+
+
+
+			spaceship->texture->transformation.UpdateMatrix();
+			spaceship->texture->updatePositionRect();
+			stayInsideWindow(spaceship);
+
+			planet->texture->transformation.UpdateMatrix();
+			planet->texture->updatePositionRect();
+			stayInsideWindow(planet);
 		}
 
 
@@ -106,9 +151,20 @@ void Crashing::Update(int framesToUpdate)
 	}
 
 
-	downKey.isPressed = false;
 	altKey.isPressed = false;
 	f4Key.isPressed = false;
+	escKey.isPressed = false;
+	wKey.isPressed = false;
+	aKey.isPressed = false;
+	sKey.isPressed = false;
+	dKey.isPressed = false;
+}
+
+
+
+D3DXVECTOR2 Crashing::projectionOn(D3DXVECTOR2* projectedAxis, D3DXVECTOR2* projectionOfVector)
+{
+	return(D3DXVec2Dot(projectionOfVector, projectedAxis) / (pow(D3DXVec2Length(projectedAxis), 2)) * *projectedAxis);
 }
 
 void Crashing::Render()
@@ -147,11 +203,15 @@ void Crashing::UninitializeLevel()
 	GameManager::ReleaseSprite(sprites);
 }
 
+
+
 void Crashing::planetMoving()
 {
 	planet->velocity += planet->acceleration;
 	planet->texture->transformation.position += planet->velocity;
 	planet->texture->transformation.UpdateMatrix();
+
+	stayInsideWindow(planet);
 }
 
 void Crashing::stayInsideWindow(FlyingObject* obj)
@@ -177,12 +237,13 @@ void Crashing::stayInsideWindow(FlyingObject* obj)
 	spaceship->texture->updatePositionRect();
 }
 
-bool Crashing::circlesCollided(Texture* circleA, Texture* circleB, D3DXVECTOR2 *vectorBetweenPoints) {
+bool Crashing::circlesCollided(Texture* circleA, Texture* circleB, D3DXVECTOR2* vectorBetweenPoints) {
 
-	*vectorBetweenPoints = (circleA->transformation.rotationCenter + circleA->transformation.position)- (circleB->transformation.rotationCenter + circleB->transformation.position);
+	*vectorBetweenPoints = (circleA->transformation.rotationCenter + circleA->transformation.position) - (circleB->transformation.rotationCenter + circleB->transformation.position);
 	//cout << D3DXVec2LengthSq(vectorBetweenPoints) << endl;
-	return ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) * ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) >
+	return ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) * ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) >=
 		D3DXVec2LengthSq(vectorBetweenPoints);
 
 
 }
+

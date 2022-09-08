@@ -12,9 +12,10 @@ public:
 	D3DXVECTOR2 acceleration;
 	float force;
 	float mass;
+	float energyLostRate;
 	Texture* texture = NULL;
 
-	FlyingObject(D3DXVECTOR2 velocity, float force, float mass, Texture* texture);
+	FlyingObject(D3DXVECTOR2 velocity, float force, float mass, float energyLostRate, Texture* texture);
 	void Release();
 };
 
