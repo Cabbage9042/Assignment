@@ -10,7 +10,7 @@ void MainMenu::InitializeLevel() {
 	textures = new vector<Texture*>;
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
-
+	lines = new vector<Line*>;
 
 	//button start
 	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
@@ -50,7 +50,7 @@ void MainMenu::InitializeLevel() {
 	GameManager::CreateSprite(sprites, "Assets/pointer.png", textureWidth, textureHeight, spriteWidth, spriteHeight,
 		spriteRow, spriteCol, currentColumn, currentRow, maxFrame, D3DXVECTOR2(0, 0));
 
-	textureWidth = 76;	
+	textureWidth = 76;
 	textureHeight = 128;
 	spriteRow = 4;
 	spriteCol = 4;
@@ -62,6 +62,17 @@ void MainMenu::InitializeLevel() {
 	D3DXVECTOR2 position(0, MyWindowHeight - spriteHeight);
 	character.sprite = Sprite("Assets/Level/character.png", textureWidth, textureHeight, spriteWidth, spriteHeight, spriteRow, spriteCol, currentColumn, currentRow, maxFrame, position);
 	character.sprite.transformation.scalingCenter = character.sprite.transformation.rotationCenter = D3DXVECTOR2(spriteWidth / 2, spriteHeight / 2);
+
+
+
+	//title border
+	vector<D3DXVECTOR2>* vectorVertices = new vector<D3DXVECTOR2>{
+		D3DXVECTOR2(texts->at(0)->transformation.position.x,texts->at(0)->transformation.position.y),
+		D3DXVECTOR2(texts->at(0)->transformation.position.x + texts->at(0)->textureWidth,texts->at(0)->transformation.position.y),
+		D3DXVECTOR2(texts->at(0)->transformation.position.x + texts->at(0)->textureWidth,texts->at(0)->transformation.position.y + texts->at(0)->textureHeight),
+		D3DXVECTOR2(texts->at(0)->transformation.position.x,texts->at(0)->transformation.position.y + texts->at(0)->textureHeight)
+	};
+	lines->push_back(new Line(vectorVertices));
 }
 
 
@@ -129,7 +140,7 @@ void MainMenu::Update(int framesToUpdate) {
 			}
 		}
 
-		
+
 		character.sprite.updatePositionRect();
 		character.sprite.transformation.UpdateMatrix();
 	}
@@ -165,6 +176,8 @@ void MainMenu::Render() {
 
 	character.sprite.Draw();
 
+	Line::DrawLines(lines);
+
 	//pointer
 	sprites->at(pointer)->Draw();
 	//Shell::directXManager.spriteBrush->SetTransform(
@@ -185,6 +198,7 @@ void MainMenu::UninitializeLevel() {
 	GameManager::ReleaseTextures(textures);
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
+	GameManager::ReleaseLines(lines);
 }
 void MainMenu::pointerStayInsideWindow()
 {

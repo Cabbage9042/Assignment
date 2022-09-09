@@ -5,6 +5,7 @@ void Crashing::InitializeLevel()
 	textures = new vector<Texture*>;
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
+	lines = new vector<Line*>;
 
 	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, D3DXVECTOR2(500, 500));
 	planet = new FlyingObject(D3DXVECTOR2(0, 0), 1.0f, 10000, 0, planetTexture);
@@ -186,6 +187,10 @@ void Crashing::Render()
 
 	planet->texture->Draw();
 	spaceship->texture->Draw();
+
+
+	Line::DrawLines(lines);
+
 	GameManager::RenderEnd();
 }
 
@@ -202,6 +207,7 @@ void Crashing::UninitializeLevel()
 	GameManager::ReleaseTextures(textures);
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
+	GameManager::ReleaseLines(lines);
 }
 
 

@@ -47,6 +47,9 @@ public:
 		D3DXVECTOR2 position,
 		int alignForm = leftAlign, D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255));
 	static void ReleaseSprite(vector<Sprite*>* sprites);
+	static void CreateLine(vector<Line*>* vertices, Line* line);
+	static void ReleaseLines(vector<Line*>* vertices);
+	
 	//render
 	static void RenderBegin();
 	static void RenderEnd();

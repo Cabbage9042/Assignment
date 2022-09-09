@@ -10,6 +10,7 @@ void Victory::InitializeLevel() {
 	textures = new vector<Texture*>;
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
+	lines = new vector<Line*>;
 
 	//button start  ***
 	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) - 48), centerAlign);
@@ -158,6 +159,8 @@ void Victory::Render() {
 		texts->at(i)->Draw();
 	}
 
+	Line::DrawLines(lines);
+
 	//pointer
 	sprites->at(pointer)->Draw();
 	//Shell::directXManager.spriteBrush->SetTransform(
@@ -176,5 +179,6 @@ void Victory::UninitializeLevel() {
 	GameManager::ReleaseTextures(textures);
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
+	GameManager::ReleaseLines(lines);
 }
 ;

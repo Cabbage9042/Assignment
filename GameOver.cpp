@@ -10,7 +10,7 @@ void GameOver::InitializeLevel() {
 	textures = new vector<Texture*>;
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
-
+	lines = new vector<Line*>;
 	
 
 
@@ -169,6 +169,7 @@ void GameOver::Render() {
 		texts->at(i)->Draw();
 	}
 
+	Line::DrawLines(lines);
 	//pointer
 	sprites->at(pointer)->Draw();
 	//Shell::directXManager.spriteBrush->SetTransform(
@@ -187,5 +188,6 @@ void GameOver::UninitializeLevel() {
 	GameManager::ReleaseTextures(textures);
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
+	GameManager::ReleaseLines(lines);
 }
 ;

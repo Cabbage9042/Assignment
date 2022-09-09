@@ -112,6 +112,23 @@ void GameManager::ReleaseSprite(vector<Sprite*>* sprites) {
 	sprites = NULL;
 }
 
+void GameManager::CreateLine(vector<Line*>* vertices, Line* line) {
+	vertices->push_back(line);
+}
+
+void GameManager::ReleaseLines(vector<Line*>* vertices) {
+	for (int i = vertices->size() - 1; i >= 0; i--) {
+		vertices->back()->Release();
+		delete vertices->back();
+		vertices->back() = NULL;
+		vertices->pop_back();
+		vertices->shrink_to_fit();
+	}
+
+	delete vertices;
+	vertices = NULL;
+}
+
 void GameManager::UninitializeGame() {
 
 	uninitializeLevelVector();
@@ -181,16 +198,16 @@ int GameManager::randomNumber(int from, int until)
 	return (rand() % (until - from)) + from;
 }
 
-	void GameManager::CreateText(vector<Text*>*texts, LPCSTR text, LPD3DXFONT font, D3DXVECTOR2 position, int alignFrom, D3DXCOLOR color) {
-		texts->push_back(new Text(text, font, position, alignFrom, color));
-	}
+void GameManager::CreateText(vector<Text*>* texts, LPCSTR text, LPD3DXFONT font, D3DXVECTOR2 position, int alignFrom, D3DXCOLOR color) {
+	texts->push_back(new Text(text, font, position, alignFrom, color));
+}
 
-	void GameManager::ReleaseTexts(vector<Text*>*texts)	{
-		for (int i = texts->size() - 1; i >= 0; i--) {
-			texts->at(i)->Release();
-			delete texts->at(i);
-			texts->at(i) = NULL;
-		}
-		delete texts;
-		texts = NULL;
+void GameManager::ReleaseTexts(vector<Text*>* texts) {
+	for (int i = texts->size() - 1; i >= 0; i--) {
+		texts->at(i)->Release();
+		delete texts->at(i);
+		texts->at(i) = NULL;
 	}
+	delete texts;
+	texts = NULL;
+}

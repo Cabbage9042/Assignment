@@ -6,7 +6,7 @@ void Level::InitializeLevel() {
 	textures = new vector<Texture*>;
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
-
+	lines = new vector<Line*>;
 	//for (int i = 576; i >= 0; i -= 32) {
 	//	Shell::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, 72 +i), centerAlign);
 	//}
@@ -217,6 +217,7 @@ void Level::Render() {
 
 
 	character.sprite.Draw();
+	Line::DrawLines(lines);
 
 	for (int i = texts->size() - 1; i >= 0; i--) {
 		texts->at(i)->Draw();
@@ -238,6 +239,7 @@ void Level::UninitializeLevel() {
 	GameManager::ReleaseTextures(textures);
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
+	GameManager::ReleaseLines(lines);
 }
 
 void Level::updateCharacterCollidedToWall()

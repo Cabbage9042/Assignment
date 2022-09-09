@@ -146,6 +146,7 @@
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Lever.cpp" />
+    <ClCompile Include="Line.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Lever.h" />
+    <ClInclude Include="Line.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pause.h" />

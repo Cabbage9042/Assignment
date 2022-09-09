@@ -12,6 +12,7 @@
 #include "Texture.h"
 #include "Text.h"
 #include "Sprite.h"
+#include "Line.h"
 
 struct KeyStatus {
 	bool isPressed = false, isHolding = false, isReleased = true;
@@ -25,7 +26,7 @@ public:
 	vector<Texture*> *textures;
 	vector<Text*> *texts;
 	vector<Sprite*>* sprites;
-	//vector<vector<D3DXVECTOR2>*> *vertices;
+	vector<Line*> *lines;
 
 	virtual void InitializeLevel() = 0;
 
