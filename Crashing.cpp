@@ -7,7 +7,7 @@ void Crashing::InitializeLevel()
 	sprites = new vector<Sprite*>;
 
 	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, D3DXVECTOR2(500, 500));
-	planet = new FlyingObject(D3DXVECTOR2(3, 3), 0.1f, 10000, 0, planetTexture);
+	planet = new FlyingObject(D3DXVECTOR2(0, 0), 1.0f, 10000, 0, planetTexture);
 	planetTexture = NULL;
 
 
@@ -20,7 +20,7 @@ void Crashing::InitializeLevel()
 
 	Texture* spaceshipTexture = new Texture("Assets/Crashing/spaceship.png", 32, 32, D3DXVECTOR2(0, 0));
 
-	spaceship = new FlyingObject(D3DXVECTOR2(0, 0), 10.0f, 3, 0.05f, spaceshipTexture);
+	spaceship = new FlyingObject(D3DXVECTOR2(0, 0), 2.0f, 3, 0.05f, spaceshipTexture);
 
 	spaceshipTexture = NULL;
 
@@ -119,9 +119,11 @@ void Crashing::Update(int framesToUpdate)
 
 			spaceship->texture->transformation.position -= spaceship->velocity;
 
-
-			float totalForce = planet->force * D3DXVec2Length(&planet->acceleration) + spaceship->force * D3DXVec2Length(&spaceship->acceleration);
 			
+			float totalForce;
+
+			totalForce = planet->force + spaceship->force ;
+
 			spaceship->acceleration.x += (totalForce / 2) / spaceship->mass;
 			spaceship->acceleration.y += (totalForce / 2) / spaceship->mass;
 
@@ -143,11 +145,10 @@ void Crashing::Update(int framesToUpdate)
 			planet->texture->updatePositionRect();
 			stayInsideWindow(planet);
 		}
-
-
-
-
-		spaceship->acceleration = D3DXVECTOR2(0, 0);
+		else {
+			planet->acceleration = D3DXVECTOR2(0, 0);
+			spaceship->acceleration = D3DXVECTOR2(0, 0);
+		}
 	}
 
 

@@ -99,15 +99,6 @@ void Level::Update(int framesToUpdate) {
 		}
 	}
 
-
-	if (downKey.isPressed) {
-		GameManager::levelVector->back()->UninitializeLevel();
-		delete GameManager::levelVector->back();
-		GameManager::levelVector->back() = NULL;
-		GameManager::levelVector->pop_back();
-		return;
-	}
-
 	//cout << "w p " << wKey.isPressed << "w h " << wKey.isHolding << " " << "w r " << wKey.isReleased;
 	//cout << "a p " << aKey.isPressed << "a h " << aKey.isHolding << " " << "a r " << aKey.isReleased;
 	//cout << "s p " << sKey.isPressed << "s h " << sKey.isHolding << " " << "s r " << sKey.isReleased;

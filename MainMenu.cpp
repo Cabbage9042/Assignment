@@ -121,6 +121,7 @@ void MainMenu::Update(int framesToUpdate) {
 
 		updateCollidedToButton();
 
+		character.characterAnimationCounter++;
 		if (character.characterAnimationCounter % (gameFPS / character.characterFPS) == 0) {
 			character.sprite.currentColumn++;
 			if (character.sprite.currentColumn == character.sprite.maxFrame) {
@@ -128,7 +129,7 @@ void MainMenu::Update(int framesToUpdate) {
 			}
 		}
 
-		cout << character.velocity.y << endl;
+		
 		character.sprite.updatePositionRect();
 		character.sprite.transformation.UpdateMatrix();
 	}

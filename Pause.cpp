@@ -12,17 +12,20 @@ void Pause::InitializeLevel() {
 	sprites = new vector<Sprite*>;
 
 	//button start  ***
-	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
+	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) - 48), centerAlign);
 
 
 	//button quit  ***
-	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96 * 2), centerAlign);
-	GameManager::CreateTexture("Assets/pause.png", textures, 320,285 , D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) -350), centerAlign);
+	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96), centerAlign);
+
+
+	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96 * 2.5), centerAlign);
 
 	//text    ***
 
-	GameManager::CreateText(texts, "Continue", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2 + 35), centerAlign);
-	GameManager::CreateText(texts, "Return Main Menu", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, ((MyWindowHeight / 2) + 96 * 2) + 35), centerAlign);
+	GameManager::CreateText(texts, "Continue", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2 + 35 - 48), centerAlign);
+	GameManager::CreateText(texts, "Restart", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, ((MyWindowHeight / 2) + 96) + 35), centerAlign);
+	GameManager::CreateText(texts, "Return Main Menu", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, ((MyWindowHeight / 2) + 96 * 2.5) + 35), centerAlign);
 
 
 	//must
@@ -79,6 +82,24 @@ void Pause::Update(int framesToUpdate) {
 			GameManager::levelVector->pop_back();
 			GameManager::levelVector->shrink_to_fit();
 
+			return;
+		}
+	}
+	else if (sprites->at(pointer)->isHoverOn(textures->at(PRestart))) {
+
+		sprites->at(pointer)->currentColumn = 1;
+		if (leftButton.isPressed) {
+			//remove all level in vector except for mainmanu, and push back level
+			for (int i = GameManager::levelVector->size() - 1; i >= 1; i--) {
+				GameManager::levelVector->at(i)->UninitializeLevel();
+				delete GameManager::levelVector->at(i);
+				GameManager::levelVector->at(i) = NULL;
+				GameManager::levelVector->pop_back();
+				GameManager::levelVector->shrink_to_fit();
+			}
+
+			GameManager::levelVector->push_back(new Level());
+			GameManager::levelVector->back()->InitializeLevel();
 			return;
 		}
 	}

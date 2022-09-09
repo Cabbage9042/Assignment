@@ -3,7 +3,7 @@
 #include "GameManager.h" //must include
 
 //textures
-enum { PContinue, PReturnmm };
+enum { PContinue,PRestart, PReturnmm };
 
 class Pause : public Game {
 

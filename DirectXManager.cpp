@@ -10,6 +10,7 @@ BYTE DirectXManager::diKeys[256];
 DIMOUSESTATE DirectXManager::mouseState;
 
 LPD3DXSPRITE DirectXManager::spriteBrush;
+LPD3DXLINE DirectXManager::lineBrush;
 
 void DirectXManager::CreateMyDX(HWND g_hWnd) {
 	//	Define Direct3D 9. [Object]
@@ -41,6 +42,13 @@ void DirectXManager::CreateMyDX(HWND g_hWnd) {
 	hr = D3DXCreateSprite(d3dDevice, &spriteBrush);
 	if (FAILED(hr)) {
 		std::cout << "sprite fail" << std::endl;
+	}
+
+	//lineBrush
+
+	hr = D3DXCreateLine(d3dDevice, &lineBrush);
+	if (FAILED(hr)) {
+		std::cout << "line fail" << std::endl;
 	}
 }
 
@@ -90,4 +98,7 @@ void DirectXManager::CleanUpMyDX() {
 
 	spriteBrush->Release();
 	spriteBrush = NULL;
+
+	lineBrush->Release();
+	lineBrush = NULL;
 }

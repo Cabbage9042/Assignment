@@ -25,6 +25,7 @@ public:
 	vector<Texture*> *textures;
 	vector<Text*> *texts;
 	vector<Sprite*>* sprites;
+	//vector<vector<D3DXVECTOR2>*> *vertices;
 
 	virtual void InitializeLevel() = 0;
 

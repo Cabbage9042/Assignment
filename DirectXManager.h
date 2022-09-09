@@ -19,10 +19,11 @@ public:
 	static LPDIRECTINPUTDEVICE8 dInputMouseDevice;
 	static BYTE  diKeys[256];
 	static DIMOUSESTATE mouseState;
+	
 
 	//spriteBrush
 	static LPD3DXSPRITE spriteBrush;
-
+	static LPD3DXLINE lineBrush;
 
 	void CreateMyDX(HWND g_hWnd);
 	void CreateMyDInput(HWND g_hWnd);
