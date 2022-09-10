@@ -15,9 +15,6 @@ void MainMenu::InitializeLevel() {
 	//button start
 	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
 
-	//button crash
-	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight) / 2 + 100), centerAlign);
-
 	//button quit
 	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 100 * 2), centerAlign);
 
@@ -29,9 +26,6 @@ void MainMenu::InitializeLevel() {
 	textPosition.y = textures->at(buttonStart)->transformation.position.y + 35;
 	GameManager::CreateText(texts, "Start", GameManager::fonts->at(arial25), textPosition, centerAlign);
 
-
-	textPosition.y = textures->at(buttonCrash)->transformation.position.y + 35;
-	GameManager::CreateText(texts, "Crash into planet", GameManager::fonts->at(arial25), textPosition, centerAlign);
 
 	textPosition.y = textures->at(buttonQuit)->transformation.position.y + 35;
 	GameManager::CreateText(texts, "Quit", GameManager::fonts->at(arial25), textPosition, centerAlign);
@@ -237,7 +231,7 @@ void MainMenu::pointerOnButton() {
 			sprites->at(pointer)->updatePositionRect();
 		}
 	}
-	else if (sprites->at(pointer)->isHoverOn(textures->at(buttonCrash))) {
+	else if (sprites->at(pointer)->isHoverOn(texts->at(0))) {
 
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {

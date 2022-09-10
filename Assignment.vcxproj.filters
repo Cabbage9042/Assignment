@@ -112,7 +112,7 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Line.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\StuffToBeDrawn</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -186,10 +186,7 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="Line.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\StuffToBeDrawn</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

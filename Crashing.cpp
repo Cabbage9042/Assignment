@@ -7,19 +7,17 @@ void Crashing::InitializeLevel()
 	sprites = new vector<Sprite*>;
 	lines = new vector<Line*>;
 
-	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, D3DXVECTOR2(500, 500));
+	D3DXVECTOR2 planetPosition = D3DXVECTOR2(GameManager::randomNumber(0, MyWindowWidth - 200), GameManager::randomNumber(0, MyWindowHeight - 200));
+	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, planetPosition);
 	planet = new FlyingObject(D3DXVECTOR2(0, 0), 1.0f, 10000, 0, planetTexture);
 	planetTexture = NULL;
 
 
 	planet->texture->transformation.rotationCenter = planet->texture->transformation.scalingCenter = D3DXVECTOR2(100, 100);
 
-
-
-
 	//space ship
-
-	Texture* spaceshipTexture = new Texture("Assets/Crashing/spaceship.png", 32, 32, D3DXVECTOR2(0, 0));
+	D3DXVECTOR2 spaceshipPosition = D3DXVECTOR2(GameManager::randomNumber(0, MyWindowWidth - 32), GameManager::randomNumber(0, MyWindowHeight - 32));
+	Texture* spaceshipTexture = new Texture("Assets/Crashing/spaceship.png", 32, 32, spaceshipPosition);
 
 	spaceship = new FlyingObject(D3DXVECTOR2(0, 0), 2.0f, 3, 0.05f, spaceshipTexture);
 
@@ -95,57 +93,57 @@ void Crashing::Update(int framesToUpdate)
 
 
 		//circle collide, planet not move
-		//if (circlesCollided(spaceship->texture, planet->texture, &vectorBetweenPoints)) {
-		//	
-		//	spaceship->texture->transformation.position -= spaceship->velocity;
-
-		//	D3DXVECTOR2 wall = D3DXVECTOR2(-vectorBetweenPoints.y, vectorBetweenPoints.x);
-
-		//	D3DXVECTOR2 vectorI = projectionOn(&wall, &spaceship->velocity);
-		//	D3DXVECTOR2 vectorJ = projectionOn(&vectorBetweenPoints, &spaceship->velocity);
-
-		//	D3DXVECTOR2 reflexedVector = vectorI - vectorJ;
-		//	spaceship->velocity = reflexedVector;
-
-		//	cout << vectorI.x << ' ' << vectorI.y << endl;
-		//	//cout << reflexedVector.x << ' ' << reflexedVector.y<<endl;
-
-		//	spaceship->texture->transformation.UpdateMatrix();
-		//	spaceship->texture->updatePositionRect();
-		//	stayInsideWindow(spaceship);
-		//}
-
-		//circle collide, planet move
 		if (circlesCollided(spaceship->texture, planet->texture, &vectorBetweenPoints)) {
-
+			
 			spaceship->texture->transformation.position -= spaceship->velocity;
 
-			
-			float totalForce;
+			D3DXVECTOR2 wall = D3DXVECTOR2(-vectorBetweenPoints.y, vectorBetweenPoints.x);
 
-			totalForce = planet->force + spaceship->force ;
+			D3DXVECTOR2 vectorI = projectionOn(&wall, &spaceship->velocity);
+			D3DXVECTOR2 vectorJ = projectionOn(&vectorBetweenPoints, &spaceship->velocity);
 
-			spaceship->acceleration.x += (totalForce / 2) / spaceship->mass;
-			spaceship->acceleration.y += (totalForce / 2) / spaceship->mass;
+			D3DXVECTOR2 reflexedVector = vectorI - vectorJ;
+			spaceship->velocity = reflexedVector;
 
-
-			spaceship->velocity += spaceship->acceleration;
-
-			planet->acceleration.x += (totalForce / 2) / planet->mass;
-			planet->acceleration.y += (totalForce / 2) / planet->mass;
-
-			planet->velocity += planet->acceleration;
-
-
+			cout << vectorI.x << ' ' << vectorI.y << endl;
+			//cout << reflexedVector.x << ' ' << reflexedVector.y<<endl;
 
 			spaceship->texture->transformation.UpdateMatrix();
 			spaceship->texture->updatePositionRect();
 			stayInsideWindow(spaceship);
-
-			planet->texture->transformation.UpdateMatrix();
-			planet->texture->updatePositionRect();
-			stayInsideWindow(planet);
 		}
+
+		//circle collide, planet move
+		//if (circlesCollided(spaceship->texture, planet->texture, &vectorBetweenPoints)) {
+
+		//	spaceship->texture->transformation.position -= spaceship->velocity;
+
+		//	
+		//	float totalForce;
+
+		//	totalForce = planet->force + spaceship->force ;
+
+		//	spaceship->acceleration.x += (totalForce / 2) / spaceship->mass;
+		//	spaceship->acceleration.y += (totalForce / 2) / spaceship->mass;
+
+
+		//	spaceship->velocity += spaceship->acceleration;
+
+		//	planet->acceleration.x += (totalForce / 2) / planet->mass;
+		//	planet->acceleration.y += (totalForce / 2) / planet->mass;
+
+		//	planet->velocity += planet->acceleration;
+
+
+
+		//	spaceship->texture->transformation.UpdateMatrix();
+		//	spaceship->texture->updatePositionRect();
+		//	stayInsideWindow(spaceship);
+
+		//	planet->texture->transformation.UpdateMatrix();
+		//	planet->texture->updatePositionRect();
+		//	stayInsideWindow(planet);
+		//}
 		else {
 			planet->acceleration = D3DXVECTOR2(0, 0);
 			spaceship->acceleration = D3DXVECTOR2(0, 0);

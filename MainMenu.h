@@ -3,7 +3,7 @@
 #include "GameManager.h" //must include
 #include "Character.h"
 //textures
-enum { buttonStart, buttonCrash, buttonQuit };
+enum { buttonStart, buttonQuit };
 
 //sprite
 enum { pointer, character };
