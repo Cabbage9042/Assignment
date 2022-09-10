@@ -21,6 +21,7 @@ void Pause::InitializeLevel() {
 
 	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96 * 2.5), centerAlign);
 
+	GameManager::CreateTexture("Assets/Pause/pause.png", textures, 300, 300, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) - 350), centerAlign);
 	//text    ***
 
 	GameManager::CreateText(texts, "Continue", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2 + 35 - 48), centerAlign);

@@ -13,10 +13,10 @@ void MainMenu::InitializeLevel() {
 	lines = new vector<Line*>;
 
 	//button start
-	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
+	GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
 
 	//button quit
-	GameManager::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 100 * 2), centerAlign);
+	GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 100 * 2), centerAlign);
 
 	//text
 	GameManager::CreateText(texts, "Walking on a spaceship", GameManager::fonts->at(franklin100), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 5), centerAlign);

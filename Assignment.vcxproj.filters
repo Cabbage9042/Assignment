@@ -37,6 +37,9 @@
     <Filter Include="Source Files\Map">
       <UniqueIdentifier>{4f032bc1-5c67-4b57-a6a9-ecb511c2f013}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Sound">
+      <UniqueIdentifier>{1eb6fa38-9ed4-4e40-b3a3-c03d4721c7bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -114,6 +117,9 @@
     <ClCompile Include="Line.cpp">
       <Filter>Source Files\StuffToBeDrawn</Filter>
     </ClCompile>
+    <ClCompile Include="AudioManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowManager.h">
@@ -188,5 +194,16 @@
     <ClInclude Include="Line.h">
       <Filter>Header Files\StuffToBeDrawn</Filter>
     </ClInclude>
+    <ClInclude Include="AudioManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86\fmod.dll">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86\fmodL.dll">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

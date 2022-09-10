@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(DXSDK_DIR)include\</IncludePath>
-    <LibraryPath>$(DXSDK_DIR)lib\x86;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\inc;$(DXSDK_DIR)include\</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86;$(DXSDK_DIR)lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(DXSDK_DIR)include\;$(IncludePath)</IncludePath>
@@ -88,7 +88,7 @@
     <Link>
       <SubSystem>NotSet</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>fmod_vc.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -152,6 +152,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="Shell.cpp" />
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StuffToBeDrawn.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Pause.h" />
     <ClInclude Include="Shell.h" />
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StuffToBeDrawn.h" />
     <ClInclude Include="Text.h" />
@@ -187,6 +189,10 @@
     <ClInclude Include="Trap.h" />
     <ClInclude Include="Victory.h" />
     <ClInclude Include="WindowManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86\fmod.dll" />
+    <None Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86\fmodL.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

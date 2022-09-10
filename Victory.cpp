@@ -22,7 +22,7 @@ void Victory::InitializeLevel() {
 
 	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96 * 2.5), centerAlign);
 
-	GameManager::CreateTexture("Assets/victory.png", textures, 420, 350, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) - 400), centerAlign);
+	GameManager::CreateTexture("Assets/Victory/victory.png", textures, 420, 350, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) - 400), centerAlign);
 
 	//text    ***
 

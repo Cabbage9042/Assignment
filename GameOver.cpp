@@ -24,7 +24,7 @@ void GameOver::InitializeLevel() {
 
 	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 96 * 2.5), centerAlign);
 
-	GameManager::CreateTexture("Assets/gameOver.png", textures, 235, 300, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2 ) - 350), centerAlign);
+	GameManager::CreateTexture("Assets/GameOver/gameOver.png", textures, 235, 300, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2 ) - 350), centerAlign);
 	//text    ***
 
 	GameManager::CreateText(texts, "Restart", GameManager::fonts->at(arial25), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2 + 35 - 48), centerAlign);
