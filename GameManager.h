@@ -20,7 +20,6 @@ public:
 	//font
 	static std::vector<LPD3DXFONT>* fonts;
 
-
 	//gameover is lose or win
 	static int playerHasWin;
 
@@ -49,6 +48,8 @@ public:
 	static void ReleaseSprite(vector<Sprite*>* sprites);
 	static void CreateLine(vector<Line*>* vertices, Line* line);
 	static void ReleaseLines(vector<Line*>* vertices);
+	static void CreateAudios(vector<Audio*>* audios, LPCSTR filepath);
+	static void ReleaseAudios(vector<Audio*>* audios);
 	
 	//render
 	static void RenderBegin();

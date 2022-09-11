@@ -206,6 +206,7 @@ void Crashing::UninitializeLevel()
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
 	GameManager::ReleaseLines(lines);
+	GameManager::ReleaseAudios(audios);
 }
 
 

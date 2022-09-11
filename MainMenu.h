@@ -10,6 +10,10 @@ enum { pointer, character };
 
 //platform
 enum { ground, buttonStartTop, buttonQuitTop};
+
+//audio
+enum { bgm };
+
 class MainMenu : public Game {
 
 	//must

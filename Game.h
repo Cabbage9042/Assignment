@@ -13,6 +13,7 @@
 #include "Text.h"
 #include "Sprite.h"
 #include "Line.h"
+#include "Audio.h"
 
 struct KeyStatus {
 	bool isPressed = false, isHolding = false, isReleased = true;
@@ -23,10 +24,11 @@ using namespace std;
 class Game {
 public:
 	//Texture, Sprite
-	vector<Texture*> *textures;
-	vector<Text*> *texts;
+	vector<Texture*>* textures;
+	vector<Text*>* texts;
 	vector<Sprite*>* sprites;
-	vector<Line*> *lines;
+	vector<Line*>* lines;
+	vector<Audio*>* audios;
 
 	virtual void InitializeLevel() = 0;
 

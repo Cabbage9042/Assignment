@@ -28,6 +28,9 @@ void GameManager::InitializeGame() {
 	Shell::windowManager.CreateMyWindow();
 	Shell::directXManager.CreateMyDX(Shell::windowManager.g_hWnd);
 	Shell::directXManager.CreateMyDInput(Shell::windowManager.g_hWnd);
+	Shell::audioManager.InitializeAudio();
+
+
 	levelVector->push_back(new MainMenu());
 
 	fonts = new vector<LPD3DXFONT>;
@@ -129,10 +132,30 @@ void GameManager::ReleaseLines(vector<Line*>* vertices) {
 	vertices = NULL;
 }
 
+void GameManager::CreateAudios(vector<Audio*>* audios, LPCSTR filepath)
+{
+	audios->push_back(new Audio(filepath));
+}
+
+void GameManager::ReleaseAudios(vector<Audio*>* audios)
+{
+	for (int i = audios->size() - 1; i >= 0; i--) {
+		audios->back()->Release();
+		delete audios->back();
+		audios->back() = NULL;
+		audios->pop_back();
+		audios->shrink_to_fit();
+	}
+
+	delete audios;
+	audios = NULL;
+}
+
 void GameManager::UninitializeGame() {
 
 	uninitializeLevelVector();
 	uninitializeFonts();
+	Shell::audioManager.UninitializeAudio();
 	Shell::directXManager.CleanUpMyDInput();
 	Shell::directXManager.CleanUpMyDX();
 	Shell::windowManager.CleanUpMyWindow();

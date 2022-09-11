@@ -11,6 +11,7 @@ void MainMenu::InitializeLevel() {
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
 	lines = new vector<Line*>;
+	audios = new vector<Audio*>;
 
 	//button start
 	GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
@@ -67,6 +68,12 @@ void MainMenu::InitializeLevel() {
 		D3DXVECTOR2(texts->at(0)->transformation.position.x,texts->at(0)->transformation.position.y + texts->at(0)->textureHeight)
 	};
 	lines->push_back(new Line(vectorVertices));
+
+
+	//audio
+	audios->push_back(new Audio("Assets/MainMenu/background1.mp3"));
+	audios->at(bgm)->play();
+	
 }
 
 
@@ -142,6 +149,8 @@ void MainMenu::Update(int framesToUpdate) {
 	//to avoid mouse out of window, must
 	pointerStayInsideWindow();
 
+	//audio
+	Shell::audioManager.updateSound();
 
 	//must
 	altKey.isPressed = false;
@@ -193,6 +202,7 @@ void MainMenu::UninitializeLevel() {
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
 	GameManager::ReleaseLines(lines);
+	GameManager::ReleaseAudios(audios);
 }
 void MainMenu::pointerStayInsideWindow()
 {
