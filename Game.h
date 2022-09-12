@@ -15,9 +15,8 @@
 #include "Line.h"
 #include "Audio.h"
 
-struct KeyStatus {
-	bool isPressed = false, isHolding = false, isReleased = true;
-};
+#include "KeyStatus.h"
+
 
 using namespace std;
 

@@ -44,14 +44,14 @@ void Level::GetInput() {
 	Shell::directXManager.dInputKeyboardDevice->GetDeviceState(256, Shell::directXManager.diKeys);
 	Shell::directXManager.dInputMouseDevice->GetDeviceState(sizeof(Shell::directXManager.mouseState), &Shell::directXManager.mouseState);
 
-	GameManager::updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT), &altKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_F4), &f4Key);
-	GameManager::updateKeyStatus(KeyDown(DIK_ESCAPE), &escKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_DOWN), &downKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_W), &wKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_A), &aKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_S), &sKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_D), &dKey);
+	altKey.updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT));
+	f4Key.updateKeyStatus(KeyDown(DIK_F4));
+	escKey.updateKeyStatus(KeyDown(DIK_ESCAPE));
+	downKey.updateKeyStatus(KeyDown(DIK_DOWN));
+	wKey.updateKeyStatus(KeyDown(DIK_W));
+	aKey.updateKeyStatus(KeyDown(DIK_A));
+	sKey.updateKeyStatus(KeyDown(DIK_S));
+	dKey.updateKeyStatus(KeyDown(DIK_D));
 
 }
 
@@ -92,7 +92,7 @@ void Level::Update(int framesToUpdate) {
 				GameManager::levelVector->back() = NULL;
 				GameManager::levelVector->pop_back();
 				GameManager::levelVector->shrink_to_fit();
-				
+
 
 
 				//init gameover
@@ -188,9 +188,6 @@ void Level::Update(int framesToUpdate) {
 		}
 		Shell::audioManager.updateSound();
 	}
-
-
-
 	altKey.isPressed = false;
 	f4Key.isPressed = false;
 	escKey.isPressed = false;

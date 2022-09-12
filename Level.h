@@ -21,7 +21,7 @@ public:
 	virtual void Update(int framesToUpdate) override;
 	virtual void Render() override;
 	virtual void UninitializeLevel() override;
-private: 
+private:
 
 	KeyStatus altKey;
 	KeyStatus f4Key;

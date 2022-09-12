@@ -37,13 +37,14 @@ void Crashing::GetInput()
 	Shell::directXManager.dInputKeyboardDevice->GetDeviceState(256, Shell::directXManager.diKeys);
 	Shell::directXManager.dInputMouseDevice->GetDeviceState(sizeof(Shell::directXManager.mouseState), &Shell::directXManager.mouseState);
 
-	GameManager::updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT), &altKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_F4), &f4Key);
-	GameManager::updateKeyStatus(KeyDown(DIK_ESCAPE), &escKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_W), &wKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_A), &aKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_S), &sKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_D), &dKey);
+
+	altKey.updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT));
+	f4Key.updateKeyStatus(KeyDown(DIK_F4));
+	escKey.updateKeyStatus(KeyDown(DIK_ESCAPE));
+	wKey.updateKeyStatus(KeyDown(DIK_W));
+	aKey.updateKeyStatus(KeyDown(DIK_A));
+	sKey.updateKeyStatus(KeyDown(DIK_S));
+	dKey.updateKeyStatus(KeyDown(DIK_D));
 
 }
 

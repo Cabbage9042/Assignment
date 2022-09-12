@@ -56,7 +56,6 @@ public:
 	static void RenderEnd();
 
 
-	static void updateKeyStatus(bool keyDown, KeyStatus* key);
 	static bool rectIsEqual(RECT a, RECT b);
 	static int randomNumber(int from, int until); //included from , excluded until
 };

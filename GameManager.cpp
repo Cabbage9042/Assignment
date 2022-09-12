@@ -186,22 +186,7 @@ void GameManager::RenderEnd() {
 	Shell::directXManager.d3dDevice->Present(NULL, NULL, NULL, NULL);
 }
 
-void GameManager::updateKeyStatus(bool keyDown, KeyStatus* key) {
-	if (keyDown) {
-		if (!key->isHolding)	key->isPressed = true;
-		key->isHolding = true;
-	}
-	else {
-		if (key->isHolding) {
-			key->isReleased = true;
-		}
-		else {
-			key->isReleased = false;
-		}
-		key->isPressed = false;
-		key->isHolding = false;
-	}
-}
+
 
 bool GameManager::rectIsEqual(RECT a, RECT b)
 {

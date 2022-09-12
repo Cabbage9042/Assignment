@@ -86,10 +86,10 @@ void MainMenu::GetInput() {
 	Shell::directXManager.dInputMouseDevice->GetDeviceState(sizeof(Shell::directXManager.mouseState), &Shell::directXManager.mouseState);
 
 
-	GameManager::updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT), &altKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_F4), &f4Key);
-	GameManager::updateKeyStatus(ButtonDown(0), &leftButton);
-	GameManager::updateKeyStatus(KeyDown(DIK_SPACE), &spaceKey);
+	altKey.updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT));
+	f4Key.updateKeyStatus(KeyDown(DIK_F4));
+	leftButton.updateKeyStatus(ButtonDown(0));
+	spaceKey.updateKeyStatus(KeyDown(DIK_SPACE));
 
 
 	sprites->at(pointer)->transformation.position.x += Shell::directXManager.mouseState.lX;

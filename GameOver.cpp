@@ -56,9 +56,9 @@ void GameOver::GetInput() {
 	Shell::directXManager.dInputMouseDevice->GetDeviceState(sizeof(Shell::directXManager.mouseState), &Shell::directXManager.mouseState);
 
 
-	GameManager::updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT), &altKey);
-	GameManager::updateKeyStatus(KeyDown(DIK_F4), &f4Key);
-	GameManager::updateKeyStatus(ButtonDown(0), &leftButton);
+	altKey.updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT));
+	f4Key.updateKeyStatus(KeyDown(DIK_F4));
+	leftButton.updateKeyStatus(ButtonDown(0));
 
 
 	sprites->at(pointer)->transformation.position.x += Shell::directXManager.mouseState.lX;
