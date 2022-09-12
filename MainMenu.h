@@ -12,7 +12,6 @@ enum { pointer, character };
 enum { ground, buttonStartTop, buttonQuitTop};
 
 //audio
-enum { bgm };
 
 class MainMenu : public Game {
 
@@ -22,7 +21,7 @@ class MainMenu : public Game {
 	KeyStatus leftButton;
 	Character character;
 	KeyStatus spaceKey;
-	
+	bool startBGM = true;
 
 	// Inherited via Game, must
 	void InitializeLevel() override;
@@ -34,5 +33,8 @@ class MainMenu : public Game {
 	void pointerStayInsideWindow();
 	void pointerOnButton();
 	void updateCollidedToButton();
+	void resetToDefault();
+
+	enum { bgm };
 };
 

@@ -11,6 +11,7 @@ void Pause::InitializeLevel() {
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
 	lines = new vector<Line*>;
+	audios = new vector<Audio*>;
 	//button start  ***
 	GameManager::CreateTexture("Assets/nbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) - 48), centerAlign);
 
@@ -184,5 +185,6 @@ void Pause::UninitializeLevel() {
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
 	GameManager::ReleaseLines(lines);
+	GameManager::ReleaseAudios(audios);
 }
 ;

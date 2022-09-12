@@ -72,8 +72,7 @@ void MainMenu::InitializeLevel() {
 
 	//audio
 	audios->push_back(new Audio("Assets/MainMenu/background1.mp3"));
-	audios->at(bgm)->play();
-	
+	audios->at(bgm)->setLoop(true);
 }
 
 
@@ -104,6 +103,12 @@ void MainMenu::Update(int framesToUpdate) {
 	if ((altKey.isHolding && f4Key.isHolding)) {
 		PostQuitMessage(0);
 		return;
+	}
+	
+	//audio
+	if (startBGM) {
+		audios->at(bgm)->play();
+		startBGM = false;
 	}
 
 	//change parameter of isHoverOn to button u want
@@ -146,10 +151,13 @@ void MainMenu::Update(int framesToUpdate) {
 		character.sprite.transformation.UpdateMatrix();
 	}
 
+
+
 	//to avoid mouse out of window, must
 	pointerStayInsideWindow();
 
-	//audio
+	
+
 	Shell::audioManager.updateSound();
 
 	//must
@@ -234,11 +242,11 @@ void MainMenu::pointerOnButton() {
 			GameManager::levelVector->push_back(level);
 			level = NULL;
 
-			character.sprite.transformation.position = D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight);
-			character.sprite.updatePositionRect();
+			audios->at(bgm)->stop();
 
-			sprites->at(pointer)->transformation.position = D3DXVECTOR2(0, 0);
-			sprites->at(pointer)->updatePositionRect();
+
+			resetToDefault();
+			
 		}
 	}
 	else if (sprites->at(pointer)->isHoverOn(texts->at(0))) {
@@ -250,11 +258,7 @@ void MainMenu::pointerOnButton() {
 			GameManager::levelVector->push_back(crashing);
 			crashing = NULL;
 
-			character.sprite.transformation.position = D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight);
-			character.sprite.updatePositionRect();
-
-			sprites->at(pointer)->transformation.position = D3DXVECTOR2(0, 0);
-			sprites->at(pointer)->updatePositionRect();
+			resetToDefault();
 		}
 	}
 	else if (sprites->at(pointer)->isHoverOn(textures->at(buttonQuit))) {
@@ -326,4 +330,14 @@ void MainMenu::updateCollidedToButton()
 		character.velocity.y *= -1;
 	}
 
+}
+
+void MainMenu::resetToDefault()
+{
+	startBGM = true;
+	character.sprite.transformation.position = D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight);
+	character.sprite.updatePositionRect();
+
+	sprites->at(pointer)->transformation.position = D3DXVECTOR2(0, 0);
+	sprites->at(pointer)->updatePositionRect();
 }

@@ -6,6 +6,7 @@ void Crashing::InitializeLevel()
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
 	lines = new vector<Line*>;
+	audios = new vector<Audio*>;
 
 	D3DXVECTOR2 planetPosition = D3DXVECTOR2(GameManager::randomNumber(0, MyWindowWidth - 200), GameManager::randomNumber(0, MyWindowHeight - 200));
 	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, planetPosition);

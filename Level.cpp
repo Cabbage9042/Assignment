@@ -7,9 +7,7 @@ void Level::InitializeLevel() {
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
 	lines = new vector<Line*>;
-	//for (int i = 576; i >= 0; i -= 32) {
-	//	Shell::CreateTexture("Assets/button.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, 72 +i), centerAlign);
-	//}
+	audios = new vector<Audio*>;
 
 	int textureWidth = 76;
 	int textureHeight = 128;
@@ -33,6 +31,10 @@ void Level::InitializeLevel() {
 	character.sprite.transformation.position.x = map.startPosition.x + (map.floorSprite.spriteWidth - character.sprite.spriteWidth) / 2;
 	character.sprite.transformation.position.y = map.startPosition.y;
 	character.sprite.transformation.UpdateMatrix();
+
+	//audio
+	audios->push_back(new Audio("Assets/Level/background1.mp3"));
+	audios->at(bgm)->setLoop(true);
 }
 
 void Level::GetInput() {
@@ -76,11 +78,13 @@ void Level::Update(int framesToUpdate) {
 
 			character.distanceBetweenHole = D3DXVec2LengthSq(&character.vectorBetweenHole);
 
-			//cout << character.vectorBetweenHole.x << " " << character.vectorBetweenHole.y << " " << character.distanceBetweenHole << endl;
-
 			//go to game over if character out of window
 			if (character.sprite.transformation.position.y <0 || character.sprite.transformation.position.y > MyWindowHeight
 				|| character.sprite.transformation.position.x <0 || character.sprite.transformation.position.x > MyWindowWidth) {
+
+				//audio
+				startBGM = true;
+				audios->at(bgm)->stop();
 
 				//uninitialize level
 				GameManager::levelVector->back()->UninitializeLevel();
@@ -88,6 +92,8 @@ void Level::Update(int framesToUpdate) {
 				GameManager::levelVector->back() = NULL;
 				GameManager::levelVector->pop_back();
 				GameManager::levelVector->shrink_to_fit();
+				
+
 
 				//init gameover
 				GameManager::levelVector->push_back(new GameOver());
@@ -99,12 +105,6 @@ void Level::Update(int framesToUpdate) {
 		}
 	}
 
-	//cout << "w p " << wKey.isPressed << "w h " << wKey.isHolding << " " << "w r " << wKey.isReleased;
-	//cout << "a p " << aKey.isPressed << "a h " << aKey.isHolding << " " << "a r " << aKey.isReleased;
-	//cout << "s p " << sKey.isPressed << "s h " << sKey.isHolding << " " << "s r " << sKey.isReleased;
-	//cout << "d p " << dKey.isPressed << "d h " << dKey.isHolding << " " << "d r" << dKey.isReleased << endl;
-
-	//cout << framesToUpdate << endl;
 	for (int i = 0; i < framesToUpdate; i++) {
 		character.characterAnimationCounter++;
 		if (wKey.isHolding) {
@@ -138,11 +138,6 @@ void Level::Update(int framesToUpdate) {
 		}
 
 		character.sprite.updatePositionRect();
-		//cout << "top " << sprites->at(character)->positionRect.top;
-		//cout << "bottom " << sprites->at(character)->positionRect.bottom;
-		//cout << "left " << sprites->at(character)->positionRect.left;
-		//cout << "right " << sprites->at(character)->positionRect.right<<endl;
-
 
 		//collision check
 		updateCharacterCollidedToWall();
@@ -180,14 +175,18 @@ void Level::Update(int framesToUpdate) {
 		// if not moving, character dont move; else move in speed of 10fps
 		updateCharacterAnimation();
 
-
-
-
 		character.characterCollidedStatus.topCollided = character.characterCollidedStatus.leftCollided =
 			character.characterCollidedStatus.rightCollided = character.characterCollidedStatus.bottomCollided = RECT();
 		character.characterIsMoving = false;
 		character.sprite.updatePositionRect();
 		character.sprite.transformation.UpdateMatrix();
+
+		//audio
+		if (startBGM) {
+			audios->at(bgm)->play();
+			startBGM = false;
+		}
+		Shell::audioManager.updateSound();
 	}
 
 
@@ -240,6 +239,7 @@ void Level::UninitializeLevel() {
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
 	GameManager::ReleaseLines(lines);
+	GameManager::ReleaseAudios(audios);
 }
 
 void Level::updateCharacterCollidedToWall()

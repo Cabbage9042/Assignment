@@ -11,6 +11,7 @@ void GameOver::InitializeLevel() {
 	texts = new vector<Text*>;
 	sprites = new vector<Sprite*>;
 	lines = new vector<Line*>;
+	audios = new vector<Audio*>;
 	
 
 
@@ -189,5 +190,6 @@ void GameOver::UninitializeLevel() {
 	GameManager::ReleaseTexts(texts);
 	GameManager::ReleaseSprite(sprites);
 	GameManager::ReleaseLines(lines);
+	GameManager::ReleaseAudios(audios);
 }
 ;

@@ -7,9 +7,9 @@ public:
 	FMOD::Channel* channel = NULL;
 
 	void play();
-	void pause();
 	void stop();
 	void Release();
+	void setLoop(bool loopMode);
 
 	Audio(LPCSTR filepath);
 };

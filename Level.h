@@ -11,14 +11,6 @@
 
 class Level : public Game {
 public:
-	KeyStatus altKey;
-	KeyStatus f4Key;
-	KeyStatus escKey;
-	KeyStatus downKey;
-	KeyStatus wKey;
-	KeyStatus aKey;
-	KeyStatus sKey;
-	KeyStatus dKey;
 	Map map;
 	Character character;
 
@@ -30,6 +22,18 @@ public:
 	virtual void Render() override;
 	virtual void UninitializeLevel() override;
 private: 
+
+	KeyStatus altKey;
+	KeyStatus f4Key;
+	KeyStatus escKey;
+	KeyStatus downKey;
+	KeyStatus wKey;
+	KeyStatus aKey;
+	KeyStatus sKey;
+	KeyStatus dKey;
+
+	bool startBGM = true;
+
 	void updateCharacterAnimation();
 	void updateCharacterCollidedToWall();
 	void updateTrapStatus();
@@ -38,6 +42,9 @@ private:
 	int leverForWhichTrap;
 	int collidedTrap;
 	bool isEnteredTrap;
+
+	//audio
+	enum LevelAudio { bgm };
 };
 
 
