@@ -71,7 +71,7 @@ void MainMenu::InitializeLevel() {
 
 
 	//audio
-	audios->push_back(new Audio("Assets/MainMenu/background1.mp3"));
+	audios->push_back(new Audio("Assets/MainMenu/background1.mp3",AUDIO_CREATE_STREAM));
 	audios->at(bgm)->setLoop(true);
 }
 
@@ -105,22 +105,23 @@ void MainMenu::Update(int framesToUpdate) {
 		return;
 	}
 	
-	//audio
+	//start bgm will be true after initialazing main menu and before go to level
 	if (startBGM) {
 		audios->at(bgm)->play();
 		startBGM = false;
 	}
 
-	//change parameter of isHoverOn to button u want
-	pointerOnButton();
+	if (buttonIsClicked()) {
+		return;
+	}
 
+	//jump if space is pressed and character is on a platform (on a button or on the floor)
 	if (spaceKey.isPressed && (character.sprite.positionRect.bottom == MyWindowHeight ||
 		character.sprite.positionRect.bottom == textures->at(buttonStart)->positionRect.top ||
 		character.sprite.positionRect.bottom == textures->at(buttonQuit)->positionRect.top)) {
 		character.velocity.y = JumpForce;
 	}
 	for (int i = 0; i < framesToUpdate; i++) {
-		//do animation if got
 
 		if (character.sprite.positionRect.left <= 0) {
 			character.sprite.currentRow = walkingRight;
@@ -231,7 +232,7 @@ void MainMenu::pointerStayInsideWindow()
 	sprites->at(pointer)->updateCropRect();
 }
 
-void MainMenu::pointerOnButton() {
+bool MainMenu::buttonIsClicked() {
 	if (sprites->at(pointer)->isHoverOn(textures->at(buttonStart))) {
 		//must
 		sprites->at(pointer)->currentColumn = 1;
@@ -246,6 +247,8 @@ void MainMenu::pointerOnButton() {
 
 
 			resetToDefault();
+
+			return true;
 			
 		}
 	}
@@ -258,7 +261,9 @@ void MainMenu::pointerOnButton() {
 			GameManager::levelVector->push_back(crashing);
 			crashing = NULL;
 
-			resetToDefault();
+			resetToDefault(false);
+
+			return true;
 		}
 	}
 	else if (sprites->at(pointer)->isHoverOn(textures->at(buttonQuit))) {
@@ -266,13 +271,14 @@ void MainMenu::pointerOnButton() {
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {
 			PostQuitMessage(0);
-			return;
+			return true;;
 		}
 	}
 	//must
 	else {
 		sprites->at(pointer)->currentColumn = 0;
 	}
+	return false;
 }
 
 void MainMenu::updateCollidedToButton()
@@ -332,9 +338,9 @@ void MainMenu::updateCollidedToButton()
 
 }
 
-void MainMenu::resetToDefault()
+void MainMenu::resetToDefault(bool resetBGM)
 {
-	startBGM = true;
+	startBGM = resetBGM;
 	character.sprite.transformation.position = D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight);
 	character.sprite.updatePositionRect();
 

@@ -33,8 +33,19 @@ void Level::InitializeLevel() {
 	character.sprite.transformation.UpdateMatrix();
 
 	//audio
-	audios->push_back(new Audio("Assets/Level/background1.mp3"));
+	audios->push_back(new Audio("Assets/Level/background1.mp3", AUDIO_CREATE_STREAM));
 	audios->at(bgm)->setLoop(true);
+
+	audios->push_back(new Audio("Assets/Level/lever.mp3"));
+	audios->at(bgm)->setLoop(false);
+
+	audios->push_back(new Audio("Assets/Level/walking.mp3"));
+	audios->at(bgm)->setLoop(false);
+
+	audios->push_back(new Audio("Assets/Level/scream.mp3"));
+	audios->at(bgm)->setLoop(false);
+
+	GameManager::playerHasWin = 0;
 }
 
 void Level::GetInput() {
@@ -67,7 +78,7 @@ void Level::Update(int framesToUpdate) {
 	}
 
 
-
+	//if character is losing
 	if (GameManager::playerHasWin == -1) {
 		//if character enter the trap, do fly outside space ship
 		if (isEnteredTrap && !map.traps[collidedTrap].lever.hasTurnedOn) {
@@ -76,15 +87,13 @@ void Level::Update(int framesToUpdate) {
 			character.sprite.transformation.position += character.velocity;
 			character.sprite.transformation.rotation += 0.1;
 
-			character.distanceBetweenHole = D3DXVec2LengthSq(&character.vectorBetweenHole);
+
 
 			//go to game over if character out of window
-			if (character.sprite.transformation.position.y <0 || character.sprite.transformation.position.y > MyWindowHeight
-				|| character.sprite.transformation.position.x <0 || character.sprite.transformation.position.x > MyWindowWidth) {
-
-				//audio
-				startBGM = true;
-				audios->at(bgm)->stop();
+			if (character.sprite.transformation.position.y <0
+				|| character.sprite.transformation.position.y > MyWindowHeight
+				|| character.sprite.transformation.position.x <0
+				|| character.sprite.transformation.position.x > MyWindowWidth) {
 
 				//uninitialize level
 				GameManager::levelVector->back()->UninitializeLevel();
@@ -92,8 +101,6 @@ void Level::Update(int framesToUpdate) {
 				GameManager::levelVector->back() = NULL;
 				GameManager::levelVector->pop_back();
 				GameManager::levelVector->shrink_to_fit();
-
-
 
 				//init gameover
 				GameManager::levelVector->push_back(new GameOver());
@@ -106,36 +113,8 @@ void Level::Update(int framesToUpdate) {
 	}
 
 	for (int i = 0; i < framesToUpdate; i++) {
-		character.characterAnimationCounter++;
-		if (wKey.isHolding) {
-			character.characterIsMoving = true;
-			character.sprite.currentRow = walkingUp;
-			character.velocity.y = -DEFAULT_SPEED;
-		}
-		if (aKey.isHolding) {
-			character.characterIsMoving = true;
-			character.sprite.currentRow = walkingLeft;
-			character.velocity.x = -DEFAULT_SPEED;
-		}
-		if (sKey.isHolding) {
-			character.characterIsMoving = true;
-			character.sprite.currentRow = walkingDown;
-			character.velocity.y = DEFAULT_SPEED;
-		}
-		if (dKey.isHolding) {
-			character.characterIsMoving = true;
-			character.sprite.currentRow = walkingRight;
-			character.velocity.x = DEFAULT_SPEED;
-		}
-		if (character.characterIsMoving) {
-			character.sprite.transformation.position += character.velocity;
-			if (!wKey.isHolding && !sKey.isHolding) character.velocity.y = 0;
-			if (!aKey.isHolding && !dKey.isHolding) character.velocity.x = 0;
 
-		}
-		else {
-			character.velocity = D3DXVECTOR2(0, 0);
-		}
+		characterMovingStatus();
 
 		character.sprite.updatePositionRect();
 
@@ -160,17 +139,7 @@ void Level::Update(int framesToUpdate) {
 		//touch lever or not
 		updateTrapStatus();
 
-		if (map.collidedToTrap(&character.sprite, &collidedTrap)) {
-			isEnteredTrap = true;
-			character.vectorBetweenHole = map.traps[collidedTrap].positionBetweenWalls - character.sprite.transformation.position;
-
-
-			while (D3DXVec2LengthSq(&character.vectorBetweenHole) >= 30) {
-				character.vectorBetweenHole *= 0.9;
-			}
-
-			GameManager::playerHasWin = -1;
-		}
+		enterTrapChecking();
 
 		// if not moving, character dont move; else move in speed of 10fps
 		updateCharacterAnimation();
@@ -197,9 +166,10 @@ void Level::Update(int framesToUpdate) {
 	dKey.isPressed = false;
 }
 
+
+
 void Level::Render() {
 	GameManager::RenderBegin();
-
 
 	map.RenderMap();
 	for (int i = textures->size() - 1; i >= 0; i--) {
@@ -266,6 +236,11 @@ void Level::updateCharacterCollidedToWall()
 void Level::updateTrapStatus() {
 	if (map.collidedToLever(&character.sprite, &leverForWhichTrap)) {
 
+		//play lever sound effect
+		if (map.traps[leverForWhichTrap].lever.hasTurnedOn == false) {
+			audios->at(lever)->play();
+		}
+
 		map.traps[leverForWhichTrap].lever.hasTurnedOn = true;
 		map.setTrapTo('F', map.traps[leverForWhichTrap].trapBottomRightPosition);
 		switch (leverForWhichTrap) {
@@ -281,10 +256,64 @@ void Level::updateTrapStatus() {
 		}
 
 
+
+
+
 	}
 }
 
+void Level::characterMovingStatus()
+{
+	if (wKey.isHolding) {
+		character.characterIsMoving = true;
+		character.sprite.currentRow = walkingUp;
+		character.velocity.y = -DEFAULT_SPEED;
+	}
+	if (aKey.isHolding) {
+		character.characterIsMoving = true;
+		character.sprite.currentRow = walkingLeft;
+		character.velocity.x = -DEFAULT_SPEED;
+	}
+	if (sKey.isHolding) {
+		character.characterIsMoving = true;
+		character.sprite.currentRow = walkingDown;
+		character.velocity.y = DEFAULT_SPEED;
+	}
+	if (dKey.isHolding) {
+		character.characterIsMoving = true;
+		character.sprite.currentRow = walkingRight;
+		character.velocity.x = DEFAULT_SPEED;
+	}
+	if (character.characterIsMoving) {
+		character.sprite.transformation.position += character.velocity;
+		if (!wKey.isHolding && !sKey.isHolding) character.velocity.y = 0;
+		if (!aKey.isHolding && !dKey.isHolding) character.velocity.x = 0;
+
+	}
+	else {
+		character.velocity = D3DXVECTOR2(0, 0);
+	}
+}
+
+void Level::enterTrapChecking()
+{
+	if (map.collidedToTrap(&character.sprite, &collidedTrap)) {
+		isEnteredTrap = true;
+		character.vectorBetweenHole = map.traps[collidedTrap].positionBetweenWalls - character.sprite.transformation.position;
+
+
+		while (D3DXVec2LengthSq(&character.vectorBetweenHole) >= 30) {
+			character.vectorBetweenHole *= 0.9;
+		}
+
+		GameManager::playerHasWin = -1;
+	}
+}
+
+
+
 void Level::updateCharacterAnimation() {
+	character.characterAnimationCounter++;
 	if (!character.characterIsMoving) {
 		character.characterAnimationCounter = 0;
 		character.sprite.currentColumn = 0;

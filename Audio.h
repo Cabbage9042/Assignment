@@ -1,6 +1,11 @@
 #pragma once
 #include "Shell.h"
 
+enum {
+	AUDIO_CREATE_SOUND,
+	AUDIO_CREATE_STREAM
+};
+
 class Audio{
 public:
 	FMOD::Sound* sound = NULL;
@@ -11,6 +16,6 @@ public:
 	void Release();
 	void setLoop(bool loopMode);
 
-	Audio(LPCSTR filepath);
+	Audio(LPCSTR filepath, int createType = AUDIO_CREATE_SOUND);
 };
 

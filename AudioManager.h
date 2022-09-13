@@ -12,6 +12,7 @@ public:
 	void InitializeAudio();
 	void UninitializeAudio();
 	void createSound(LPCSTR filepath, FMOD::Sound** sound);
+	void createStream(LPCSTR filepath, FMOD::Sound** sound);
 	void playSound(FMOD::Sound* sound, FMOD::Channel** channel);
 	void updateSound();
 

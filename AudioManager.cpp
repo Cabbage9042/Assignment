@@ -21,6 +21,11 @@ void AudioManager::createSound(LPCSTR filepath, FMOD::Sound** sound) {
 	result = system->createSound(filepath, FMOD_DEFAULT, 0, sound);
 }
 
+void AudioManager::createStream(LPCSTR filepath, FMOD::Sound** sound)
+{
+	result = system->createStream(filepath, FMOD_DEFAULT, 0, sound);
+}
+
 
 void AudioManager::playSound(FMOD::Sound* sound, FMOD::Channel** channel)
 {

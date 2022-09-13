@@ -37,6 +37,9 @@ private:
 	void updateCharacterAnimation();
 	void updateCharacterCollidedToWall();
 	void updateTrapStatus();
+	void characterMovingStatus();
+	void enterTrapChecking();
+	
 	int collidedXAxis;
 	int collidedYAxis;
 	int leverForWhichTrap;
@@ -44,7 +47,7 @@ private:
 	bool isEnteredTrap;
 
 	//audio
-	enum LevelAudio { bgm };
+	enum LevelAudio { bgm, lever, walking,scream };
 };
 
 

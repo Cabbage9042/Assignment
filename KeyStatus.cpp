@@ -2,7 +2,7 @@
 
 void KeyStatus::updateKeyStatus(bool keyDown){
 	if (keyDown) {
-		if (isHolding)	isPressed = true;
+		if (!isHolding)	isPressed = true;
 		isHolding = true;
 	}
 	else {

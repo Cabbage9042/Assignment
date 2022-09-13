@@ -29,8 +29,13 @@ void Audio::setLoop(bool loopMode){
 	}
 }
 
-Audio::Audio(LPCSTR filepath){
-	Shell::audioManager.createSound(filepath, &sound);
+Audio::Audio(LPCSTR filepath, int createType) {
+	if (createType == AUDIO_CREATE_SOUND){
+		Shell::audioManager.createSound(filepath, &sound);
+	}
+	else {
+		Shell::audioManager.createStream(filepath, &sound);
+	}
 }
 
 

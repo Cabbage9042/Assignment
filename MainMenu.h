@@ -31,9 +31,9 @@ class MainMenu : public Game {
 	void UninitializeLevel() override;
 	
 	void pointerStayInsideWindow();
-	void pointerOnButton();
+	bool buttonIsClicked();
 	void updateCollidedToButton();
-	void resetToDefault();
+	void resetToDefault(bool resetBGM = true);
 
 	enum { bgm };
 };
