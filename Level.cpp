@@ -40,7 +40,7 @@ void Level::InitializeLevel() {
 	audios->at(bgm)->setLoop(false);
 
 	audios->push_back(new Audio("Assets/Level/walking.mp3"));
-	audios->at(bgm)->setLoop(false);
+	audios->at(bgm)->setLoop(true);
 
 	audios->push_back(new Audio("Assets/Level/scream.mp3"));
 	audios->at(bgm)->setLoop(false);
@@ -289,25 +289,51 @@ void Level::characterMovingStatus()
 		if (!wKey.isHolding && !sKey.isHolding) character.velocity.y = 0;
 		if (!aKey.isHolding && !dKey.isHolding) character.velocity.x = 0;
 
+		//audio
+		if (isPlayingWalkingSound == false) {
+			audios->at(walking)->play();
+			isPlayingWalkingSound = true;
+		}
+
+		//calculate and set pan (left right track)
+		audios->at(walking)->channel->setPan(calculatePan());
+
+
 	}
 	else {
 		character.velocity = D3DXVECTOR2(0, 0);
+
+		//audio
+		if (isPlayingWalkingSound) {
+			audios->at(walking)->stop();
+			isPlayingWalkingSound = false;
+		}
 	}
 }
 
-void Level::enterTrapChecking()
-{
+void Level::enterTrapChecking(){
+
+	//if character enter into a trap
 	if (map.collidedToTrap(&character.sprite, &collidedTrap)) {
 		isEnteredTrap = true;
-		character.vectorBetweenHole = map.traps[collidedTrap].positionBetweenWalls - character.sprite.transformation.position;
+		character.vectorBetweenHole = map.traps[collidedTrap].positionBetweenWalls - character.sprite.transformation.position; // distance between character and hole
 
-
+		//shorten the distance so that the velocity of flying out is not too fast
 		while (D3DXVec2LengthSq(&character.vectorBetweenHole) >= 30) {
 			character.vectorBetweenHole *= 0.9;
 		}
 
 		GameManager::playerHasWin = -1;
+
+
+		//audio
+		audios->at(walking)->stop();
+		isPlayingWalkingSound = false;
 	}
+}
+
+float Level::calculatePan(){
+	return -(MyWindowWidth / 2 - character.sprite.transformation.position.x) / (MyWindowWidth / 8);
 }
 
 

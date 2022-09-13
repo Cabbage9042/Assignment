@@ -2,12 +2,9 @@
 #include <iostream>
 
 
-void Audio::play(){
-		Shell::audioManager.playSound(sound, &channel);
-
+void Audio::play() {
+	Shell::audioManager.playSound(sound, &channel);
 }
-
-
 
 void Audio::stop() {
 	channel->stop();
@@ -20,7 +17,7 @@ void Audio::Release()
 	channel = NULL;
 }
 
-void Audio::setLoop(bool loopMode){
+void Audio::setLoop(bool loopMode) {
 	if (loopMode == true) {
 		sound->setMode(FMOD_LOOP_NORMAL);
 	}
@@ -30,7 +27,7 @@ void Audio::setLoop(bool loopMode){
 }
 
 Audio::Audio(LPCSTR filepath, int createType) {
-	if (createType == AUDIO_CREATE_SOUND){
+	if (createType == AUDIO_CREATE_SOUND) {
 		Shell::audioManager.createSound(filepath, &sound);
 	}
 	else {

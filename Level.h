@@ -33,12 +33,15 @@ private:
 	KeyStatus dKey;
 
 	bool startBGM = true;
+	bool isPlayingWalkingSound = false;
 
 	void updateCharacterAnimation();
 	void updateCharacterCollidedToWall();
 	void updateTrapStatus();
 	void characterMovingStatus();
 	void enterTrapChecking();
+
+	float calculatePan();
 	
 	int collidedXAxis;
 	int collidedYAxis;
