@@ -38,7 +38,7 @@ void WindowManager::CreateMyWindow() {
 	RegisterClass(&wndClass);
 
 	//	You are to refer to MSDN for each of the parameters details.
-	g_hWnd = CreateWindowEx(0, wndClass.lpszClassName, "Walking on a Spaceship", WS_OVERLAPPEDWINDOW, 0, 100, MyWindowWidth, MyWindowHeight, NULL, NULL, GetModuleHandle(NULL), NULL);
+	g_hWnd = CreateWindowEx(0, wndClass.lpszClassName, "Escape From Spaceship", WS_OVERLAPPEDWINDOW, 0, 100, MyWindowWidth, MyWindowHeight, NULL, NULL, GetModuleHandle(NULL), NULL);
 	ShowWindow(g_hWnd, 1);
 
 	/*

@@ -233,9 +233,6 @@ void Map::assignDefaultPosition() {
 
 	trapBottomRightPosition[topLeft].col = 5;
 	trapBottomRightPosition[topLeft].row = 4;
-
-
-
 }
 
 
@@ -479,7 +476,7 @@ void Map::setTrapTo(char type, RelativePosition topRightPosition) {
 }
 
 bool Map::collidedToGoal(Sprite* character) {
-	return character->isHoverOn(goalRect, character->transformation.position + character->transformation.rotationCenter);
+	return character->isHoverOn(goalRect, character->transformation.position + D3DXVECTOR2(0, character->spriteHeight));
 }
 
 

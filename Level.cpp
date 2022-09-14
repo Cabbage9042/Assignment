@@ -87,13 +87,14 @@ void Level::Update(int framesToUpdate) {
 			character.sprite.transformation.position += character.velocity;
 			character.sprite.transformation.rotation += 0.1;
 
-
-
 			//go to game over if character out of window
 			if (character.sprite.transformation.position.y <0
 				|| character.sprite.transformation.position.y > MyWindowHeight
 				|| character.sprite.transformation.position.x <0
 				|| character.sprite.transformation.position.x > MyWindowWidth) {
+
+				//stop scream
+				audios->at(scream)->stop();
 
 				//uninitialize level
 				GameManager::levelVector->back()->UninitializeLevel();
@@ -105,9 +106,33 @@ void Level::Update(int framesToUpdate) {
 				//init gameover
 				GameManager::levelVector->push_back(new GameOver());
 				GameManager::levelVector->back()->InitializeLevel();
+
+
 				return;
 			}
 			character.sprite.transformation.UpdateMatrix();
+
+			//audio
+			audios->at(walking)->stop();
+			isPlayingWalkingSound = false;
+
+			if (!isPlayingScreamSound) {
+				audios->at(scream)->play();
+				isPlayingScreamSound = true;
+			}
+
+			audios->at(scream)->channel->setVolume(screamVolume);
+			screamVolume -= 0.0015;
+			if (screamVolume < 0) {
+				screamVolume = 0;
+			}
+			audios->at(scream)->channel->setPan(calculatePan());
+
+			
+			
+
+			Shell::audioManager.updateSound();
+
 			return;
 		}
 	}
@@ -311,7 +336,7 @@ void Level::characterMovingStatus()
 	}
 }
 
-void Level::enterTrapChecking(){
+void Level::enterTrapChecking() {
 
 	//if character enter into a trap
 	if (map.collidedToTrap(&character.sprite, &collidedTrap)) {
@@ -326,14 +351,13 @@ void Level::enterTrapChecking(){
 		GameManager::playerHasWin = -1;
 
 
-		//audio
-		audios->at(walking)->stop();
-		isPlayingWalkingSound = false;
+
+
 	}
 }
 
-float Level::calculatePan(){
-	return -(MyWindowWidth / 2 - character.sprite.transformation.position.x) / (MyWindowWidth / 8);
+float Level::calculatePan() {
+	return -(MyWindowWidth / 2 - character.sprite.transformation.position.x) / (MyWindowWidth / 4);
 }
 
 

@@ -35,6 +35,6 @@ class MainMenu : public Game {
 	void updateCollidedToButton();
 	void resetToDefault(bool resetBGM = true);
 
-	enum { bgm };
+	enum { button, bgm };
 };
 

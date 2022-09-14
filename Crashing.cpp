@@ -27,6 +27,9 @@ void Crashing::InitializeLevel()
 	spaceship->texture->transformation.rotationCenter = spaceship->texture->transformation.scalingCenter = D3DXVECTOR2(32 / 2, 32 / 2);
 
 
+	//audio
+	audios->push_back(new Audio("Assets/Crashing/crash.mp3"));
+	audios->at(crash)->setLoop(false);
 }
 
 void Crashing::GetInput()
@@ -97,6 +100,8 @@ void Crashing::Update(int framesToUpdate)
 		//circle collide, planet not move
 		if (circlesCollided(spaceship->texture, planet->texture, &vectorBetweenPoints)) {
 			
+			//audio
+			audios->at(crash)->play();
 			spaceship->texture->transformation.position -= spaceship->velocity;
 
 			D3DXVECTOR2 wall = D3DXVECTOR2(-vectorBetweenPoints.y, vectorBetweenPoints.x);
@@ -113,39 +118,9 @@ void Crashing::Update(int framesToUpdate)
 			spaceship->texture->transformation.UpdateMatrix();
 			spaceship->texture->updatePositionRect();
 			stayInsideWindow(spaceship);
+
 		}
 
-		//circle collide, planet move
-		//if (circlesCollided(spaceship->texture, planet->texture, &vectorBetweenPoints)) {
-
-		//	spaceship->texture->transformation.position -= spaceship->velocity;
-
-		//	
-		//	float totalForce;
-
-		//	totalForce = planet->force + spaceship->force ;
-
-		//	spaceship->acceleration.x += (totalForce / 2) / spaceship->mass;
-		//	spaceship->acceleration.y += (totalForce / 2) / spaceship->mass;
-
-
-		//	spaceship->velocity += spaceship->acceleration;
-
-		//	planet->acceleration.x += (totalForce / 2) / planet->mass;
-		//	planet->acceleration.y += (totalForce / 2) / planet->mass;
-
-		//	planet->velocity += planet->acceleration;
-
-
-
-		//	spaceship->texture->transformation.UpdateMatrix();
-		//	spaceship->texture->updatePositionRect();
-		//	stayInsideWindow(spaceship);
-
-		//	planet->texture->transformation.UpdateMatrix();
-		//	planet->texture->updatePositionRect();
-		//	stayInsideWindow(planet);
-		//}
 		else {
 			planet->acceleration = D3DXVECTOR2(0, 0);
 			spaceship->acceleration = D3DXVECTOR2(0, 0);
@@ -169,15 +144,14 @@ D3DXVECTOR2 Crashing::projectionOn(D3DXVECTOR2* projectedAxis, D3DXVECTOR2* proj
 	return(D3DXVec2Dot(projectionOfVector, projectedAxis) / (pow(D3DXVec2Length(projectedAxis), 2)) * *projectedAxis);
 }
 
-void Crashing::Render()
-{
+void Crashing::Render(){
 
 	GameManager::RenderBegin();
 	for (int i = textures->size() - 1; i >= 0; i--) {
 		textures->at(i)->Draw();
 	}
 
-	for (int i = sprites->size() - 1; i >= pointer + 1; i--) {
+	for (int i = sprites->size() - 1; i >= 0; i--) {
 		sprites->at(i)->Draw();
 	}
 

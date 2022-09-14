@@ -5,12 +5,16 @@
 //textures
 enum { VRestart, VReturnmm, VQuit };
 
+
 class Victory : public Game {
 
 	//must
 	KeyStatus altKey;
 	KeyStatus f4Key;
 	KeyStatus leftButton;
+
+	//audio
+	enum {victory};
 
 	// Inherited via Game, must
 	void InitializeLevel() override;

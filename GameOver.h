@@ -18,4 +18,7 @@ class GameOver : public Game {
 	void Update(int framesToUpdate) override;
 	void Render() override;
 	void UninitializeLevel() override;
+
+	//audio
+	enum {gameOver};
 };

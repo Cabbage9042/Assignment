@@ -43,6 +43,12 @@ void Victory::InitializeLevel() {
 	int maxFrame = 1;
 	GameManager::CreateSprite(sprites, "Assets/pointer.png", textureWidth, textureHeight, spriteWidth, spriteHeight,
 		spriteRow, spriteCol, currentColumn, currentRow, maxFrame, D3DXVECTOR2(0, 0));
+
+	//audio
+	audios->push_back(new Audio("Assets/Victory/victory.mp3"));
+	audios->at(victory)->setLoop(false);
+	audios->at(victory)->play();
+
 }
 
 void Victory::GetInput() {

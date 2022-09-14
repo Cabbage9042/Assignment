@@ -44,6 +44,13 @@ void GameOver::InitializeLevel() {
 	int maxFrame = 1;
 	GameManager::CreateSprite(sprites, "Assets/pointer.png", textureWidth, textureHeight, spriteWidth, spriteHeight,
 		spriteRow, spriteCol, currentColumn, currentRow, maxFrame, D3DXVECTOR2(0, 0));
+
+	//audio
+	audios->push_back(new Audio("Assets/GameOver/gameOver.mp3"));
+	
+	audios->at(gameOver)->channel->setVolume(0.5);
+		audios->at(gameOver)->setLoop(false);
+	audios->at(gameOver)->play();
 }
 
 void GameOver::GetInput() {

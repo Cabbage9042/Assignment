@@ -32,9 +32,6 @@ private:
 	KeyStatus sKey;
 	KeyStatus dKey;
 
-	bool startBGM = true;
-	bool isPlayingWalkingSound = false;
-
 	void updateCharacterAnimation();
 	void updateCharacterCollidedToWall();
 	void updateTrapStatus();
@@ -48,6 +45,14 @@ private:
 	int leverForWhichTrap;
 	int collidedTrap;
 	bool isEnteredTrap;
+
+
+
+	bool startBGM = true;
+	bool isPlayingWalkingSound = false;
+	bool isPlayingScreamSound = false;
+
+	float screamVolume = 0.1;
 
 	//audio
 	enum LevelAudio { bgm, lever, walking,scream };

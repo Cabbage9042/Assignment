@@ -20,7 +20,7 @@ void MainMenu::InitializeLevel() {
 	GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 100 * 2), centerAlign);
 
 	//text
-	GameManager::CreateText(texts, "Walking on a spaceship", GameManager::fonts->at(franklin100), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 5), centerAlign);
+	GameManager::CreateText(texts, "Escape From Spaceship", GameManager::fonts->at(franklin100), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 5), centerAlign);
 
 	D3DXVECTOR2 textPosition;
 	textPosition.x = MyWindowWidth / 2;
@@ -71,6 +71,9 @@ void MainMenu::InitializeLevel() {
 
 
 	//audio
+	audios->push_back(new Audio("Assets/button.mp3"));
+	audios->at(button)->setLoop(false);
+
 	audios->push_back(new Audio("Assets/MainMenu/background1.mp3",AUDIO_CREATE_STREAM));
 	audios->at(bgm)->setLoop(true);
 }
@@ -112,6 +115,9 @@ void MainMenu::Update(int framesToUpdate) {
 	}
 
 	if (buttonIsClicked()) {
+
+		//audio
+		audios->at(button)->play();
 		return;
 	}
 

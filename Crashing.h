@@ -40,5 +40,7 @@ private:
 	void stayInsideWindow(FlyingObject *obj);
 	bool circlesCollided(Texture *circleA, Texture* circleB, D3DXVECTOR2* vectorBetweenPoints);
 	
+	//audio
+	enum {crash};
 };
 
