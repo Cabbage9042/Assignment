@@ -33,17 +33,20 @@ void Level::InitializeLevel() {
 	character.sprite.transformation.UpdateMatrix();
 
 	//audio
+	audios->push_back(new Audio("Assets/button.mp3"));
+	audios->at(button)->setLoop(false);
+
 	audios->push_back(new Audio("Assets/Level/background1.mp3", AUDIO_CREATE_STREAM));
 	audios->at(bgm)->setLoop(true);
 
 	audios->push_back(new Audio("Assets/Level/lever.mp3"));
-	audios->at(bgm)->setLoop(false);
+	audios->at(lever)->setLoop(false);
 
 	audios->push_back(new Audio("Assets/Level/walking.mp3"));
-	audios->at(bgm)->setLoop(true);
+	audios->at(walking)->setLoop(true);
 
 	audios->push_back(new Audio("Assets/Level/scream.mp3"));
-	audios->at(bgm)->setLoop(false);
+	audios->at(scream)->setLoop(false);
 
 	GameManager::playerHasWin = 0;
 }
@@ -128,8 +131,8 @@ void Level::Update(int framesToUpdate) {
 			}
 			audios->at(scream)->channel->setPan(calculatePan());
 
-			
-			
+
+
 
 			Shell::audioManager.updateSound();
 

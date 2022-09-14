@@ -14,7 +14,7 @@ class Victory : public Game {
 	KeyStatus leftButton;
 
 	//audio
-	enum {victory};
+	enum { button, victory};
 
 	// Inherited via Game, must
 	void InitializeLevel() override;

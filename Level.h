@@ -55,7 +55,7 @@ private:
 	float screamVolume = 0.1;
 
 	//audio
-	enum LevelAudio { bgm, lever, walking,scream };
+	enum LevelAudio { button, bgm, lever, walking,scream };
 };
 
 

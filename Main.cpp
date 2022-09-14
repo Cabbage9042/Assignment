@@ -23,5 +23,6 @@ void main() {
 		CurrentLevel()->Render();
 	}
 	gameManager.UninitializeGame();
+	
 
 }

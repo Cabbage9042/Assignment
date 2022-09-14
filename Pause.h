@@ -12,6 +12,9 @@ class Pause : public Game {
 	KeyStatus f4Key;
 	KeyStatus leftButton;
 
+	//audio
+	enum { button };
+
 	// Inherited via Game, must
 	void InitializeLevel() override;
 	void GetInput() override;

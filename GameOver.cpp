@@ -46,10 +46,14 @@ void GameOver::InitializeLevel() {
 		spriteRow, spriteCol, currentColumn, currentRow, maxFrame, D3DXVECTOR2(0, 0));
 
 	//audio
+
+	audios->push_back(new Audio("Assets/button.mp3"));
+	audios->at(button)->setLoop(false);
+
 	audios->push_back(new Audio("Assets/GameOver/gameOver.mp3"));
 	
-	audios->at(gameOver)->channel->setVolume(0.5);
-		audios->at(gameOver)->setLoop(false);
+	audios->at(gameOver)->channel->setVolume(0.3);
+	audios->at(gameOver)->setLoop(false);
 	audios->at(gameOver)->play();
 }
 
@@ -87,6 +91,8 @@ void GameOver::Update(int framesToUpdate) {
 		sprites->at(pointer)->currentColumn = 1;
 
 		if (leftButton.isPressed) {
+
+			audios->at(button)->play();
 			//remove all level in vector except for mainmanu, and push back level
 			for (int i = GameManager::levelVector->size() - 1; i >= 1;i--) {
 				GameManager::levelVector->at(i)->UninitializeLevel();
@@ -107,6 +113,7 @@ void GameOver::Update(int framesToUpdate) {
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {
 
+			audios->at(button)->play();
 			//remove all level in vector except for mainmanu
 			for (int i = GameManager::levelVector->size() - 1; i >= 1; i--) {
 				GameManager::levelVector->at(i)->UninitializeLevel();
@@ -122,6 +129,7 @@ void GameOver::Update(int framesToUpdate) {
 
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {
+			audios->at(button)->play();
 			PostQuitMessage(0);
 			return;
 		}

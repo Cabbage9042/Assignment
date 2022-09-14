@@ -31,12 +31,12 @@ void GameManager::InitializeGame() {
 	Shell::audioManager.InitializeAudio();
 
 
-	levelVector->push_back(new MainMenu());
 
 	fonts = new vector<LPD3DXFONT>;
 	InitializeFonts();
 
 
+	levelVector->push_back(new MainMenu());
 	levelVector->back()->InitializeLevel();
 
 }

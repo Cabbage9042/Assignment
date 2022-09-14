@@ -20,5 +20,5 @@ class GameOver : public Game {
 	void UninitializeLevel() override;
 
 	//audio
-	enum {gameOver};
+	enum { button, gameOver};
 };
