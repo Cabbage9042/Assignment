@@ -42,5 +42,10 @@ private:
 	
 	//audio
 	enum {crash};
+
+	//D3DXVECTOR2 calculateFinalVelocity(D3DXVECTOR2 v1, D3DXVECTOR2 v2, float m1, float m2, D3DXVECTOR2 c1, D3DXVECTOR2 c2);
+
+	float distanceSqBetweenCircle;
+
 };
 

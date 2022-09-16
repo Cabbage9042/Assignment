@@ -39,6 +39,7 @@ void GameManager::InitializeGame() {
 	levelVector->push_back(new MainMenu());
 	levelVector->back()->InitializeLevel();
 
+
 }
 
 

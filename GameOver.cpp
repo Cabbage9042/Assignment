@@ -92,7 +92,7 @@ void GameOver::Update(int framesToUpdate) {
 
 		if (leftButton.isPressed) {
 
-			audios->at(button)->play();
+			GameManager::levelVector->at(0)->audios->at(button)->play();
 			//remove all level in vector except for mainmanu, and push back level
 			for (int i = GameManager::levelVector->size() - 1; i >= 1;i--) {
 				GameManager::levelVector->at(i)->UninitializeLevel();
@@ -113,7 +113,7 @@ void GameOver::Update(int framesToUpdate) {
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {
 
-			audios->at(button)->play();
+			GameManager::levelVector->at(0)->audios->at(button)->play();
 			//remove all level in vector except for mainmanu
 			for (int i = GameManager::levelVector->size() - 1; i >= 1; i--) {
 				GameManager::levelVector->at(i)->UninitializeLevel();
@@ -129,7 +129,7 @@ void GameOver::Update(int framesToUpdate) {
 
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {
-			audios->at(button)->play();
+			GameManager::levelVector->at(0)->audios->at(button)->play();
 			PostQuitMessage(0);
 			return;
 		}

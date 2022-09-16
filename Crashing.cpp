@@ -10,7 +10,7 @@ void Crashing::InitializeLevel()
 
 	D3DXVECTOR2 planetPosition = D3DXVECTOR2(GameManager::randomNumber(0, MyWindowWidth - 200), GameManager::randomNumber(0, MyWindowHeight - 200));
 	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, planetPosition);
-	planet = new FlyingObject(D3DXVECTOR2(0, 0), 1.0f, 10000, 0, planetTexture);
+	planet = new FlyingObject(D3DXVECTOR2(0, 0), 1.0f, 1000, 0, planetTexture);
 	planetTexture = NULL;
 
 
@@ -99,21 +99,58 @@ void Crashing::Update(int framesToUpdate)
 
 		//circle collide, planet not move
 		if (circlesCollided(spaceship->texture, planet->texture, &vectorBetweenPoints)) {
-			
-			//audio
+
+			////audio
 			audios->at(crash)->play();
-			spaceship->texture->transformation.position -= spaceship->velocity;
 
-			D3DXVECTOR2 wall = D3DXVECTOR2(-vectorBetweenPoints.y, vectorBetweenPoints.x);
+			////to prevent frame miss
+			spaceship->texture->transformation.position -=
+				spaceship->velocity * (D3DXVec2Length(&vectorBetweenPoints) / distanceSqBetweenCircle);
 
-			D3DXVECTOR2 vectorI = projectionOn(&wall, &spaceship->velocity);
-			D3DXVECTOR2 vectorJ = projectionOn(&vectorBetweenPoints, &spaceship->velocity);
 
-			D3DXVECTOR2 reflexedVector = vectorI - vectorJ;
-			spaceship->velocity = reflexedVector;
+			//spaceship move only collision
 
-			cout << vectorI.x << ' ' << vectorI.y << endl;
-			//cout << reflexedVector.x << ' ' << reflexedVector.y<<endl;
+			{
+
+				//D3DXVECTOR2 wall = D3DXVECTOR2(-vectorBetweenPoints.y, vectorBetweenPoints.x);
+
+				//D3DXVECTOR2 vectorI = projectionOn(&wall, &spaceship->velocity);
+				//D3DXVECTOR2 vectorJ = projectionOn(&vectorBetweenPoints, &spaceship->velocity);
+
+				//D3DXVECTOR2 reflexedVector = vectorI - vectorJ;
+				//spaceship->velocity = reflexedVector;
+
+				//cout << vectorI.x << ' ' << vectorI.y << endl;
+				////cout << reflexedVector.x << ' ' << reflexedVector.y<<endl;
+
+
+			}
+
+			//1d collision
+			//https://en.wikipedia.org/wiki/Elastic_collision
+			{
+				//calculate velocity of both
+
+				D3DXVECTOR2 spaceshipFinalVelocity;
+
+				spaceshipFinalVelocity = (((spaceship->mass - planet->mass) / (spaceship->mass + planet->mass)) * spaceship->velocity)
+					+ (2 * planet->mass * planet->velocity) / (spaceship->mass + planet->mass);
+
+				planet->velocity = (2 * spaceship->mass * spaceship->velocity) / (spaceship->mass + planet->mass)
+					+ (((planet->mass - spaceship->mass) / (spaceship->mass + planet->mass)) * planet->velocity);
+
+				spaceship->velocity = spaceshipFinalVelocity;
+			}
+
+			//2d collision
+			//https://en.wikipedia.org/wiki/Elastic_collision
+			{
+				/*D3DXVECTOR2 spaceshipFinalVelocity 
+				= calculateFinalVelocity(spaceship->velocity,planet->velocity, spaceship->mass, planet->mass, spaceship->texture->transformation.scalingCenter, planet->texture->transformation.scalingCenter );
+				planet->velocity = calculateFinalVelocity(planet->velocity, spaceship->velocity, planet->mass, spaceship->mass, planet->texture->transformation.scalingCenter, spaceship->texture->transformation.scalingCenter );
+			
+				spaceship->velocity = spaceshipFinalVelocity;*/
+			}
 
 			spaceship->texture->transformation.UpdateMatrix();
 			spaceship->texture->updatePositionRect();
@@ -144,7 +181,7 @@ D3DXVECTOR2 Crashing::projectionOn(D3DXVECTOR2* projectedAxis, D3DXVECTOR2* proj
 	return(D3DXVec2Dot(projectionOfVector, projectedAxis) / (pow(D3DXVec2Length(projectedAxis), 2)) * *projectedAxis);
 }
 
-void Crashing::Render(){
+void Crashing::Render() {
 
 	GameManager::RenderBegin();
 	for (int i = textures->size() - 1; i >= 0; i--) {
@@ -223,9 +260,19 @@ bool Crashing::circlesCollided(Texture* circleA, Texture* circleB, D3DXVECTOR2* 
 
 	*vectorBetweenPoints = (circleA->transformation.rotationCenter + circleA->transformation.position) - (circleB->transformation.rotationCenter + circleB->transformation.position);
 	//cout << D3DXVec2LengthSq(vectorBetweenPoints) << endl;
-	return ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) * ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) >=
+	distanceSqBetweenCircle = ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) * ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) -
 		D3DXVec2LengthSq(vectorBetweenPoints);
+	return distanceSqBetweenCircle >= 0;
 
 
 }
+
+//D3DXVECTOR2 Crashing::calculateFinalVelocity(D3DXVECTOR2 v1, D3DXVECTOR2 v2, float m1, float m2, D3DXVECTOR2 c1, D3DXVECTOR2 c2) {
+//	D3DXVECTOR2 diffV = v1 - v2;
+//	D3DXVECTOR2 diffC = c1 - c2;	 
+//	return v1 -						 
+//		(((2 * m2 )/ (m1 + m2)) *
+//		(D3DXVec2Dot(&diffV, &diffC) / D3DXVec2LengthSq(&diffC)) *
+//		(diffC));
+//}
 
