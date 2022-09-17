@@ -180,7 +180,7 @@ void Level::Update(int framesToUpdate) {
 
 		//audio
 		if (startBGM) {
-			audios->at(bgm)->play();
+			//audios->at(bgm)->play();
 			startBGM = false;
 		}
 		Shell::audioManager.updateSound();

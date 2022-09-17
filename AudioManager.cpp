@@ -9,6 +9,7 @@ void AudioManager::InitializeAudio()
 {
 	result = FMOD::System_Create(&system);
 	result = system->init(32, FMOD_INIT_NORMAL, extraDriverData);
+	
 }
 
 void AudioManager::UninitializeAudio()
