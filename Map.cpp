@@ -1,6 +1,12 @@
 #include "Map.h"
 #include "Shell.h"
 
+/// <summary>
+/// get cell type based on the position
+/// </summary>
+/// <param name="row"></param>
+/// <param name="col"></param>
+/// <returns></returns>
 char Map::getCellType(int row, int col) {
 	if (row >= 6 && row <= 11 && col >= 7 && col <= 10) return 'V';
 	else if (row == 0 || row == numberOfCellRow - 1 ||		//first and last row
@@ -16,6 +22,12 @@ char Map::getCellType(int row, int col) {
 	else return 'F';
 }
 
+/// <summary>
+/// whether two rectangle is collided or not
+/// </summary>
+/// <param name="a">first rectangle</param>
+/// <param name="b">second rectangle</param>
+/// <returns>true if collided, else false</returns>
 bool Map::isCollided(RECT a, RECT b) {
 
 	bool collided = true;
@@ -34,13 +46,17 @@ bool Map::isCollided(RECT a, RECT b) {
 
 }
 
-
+/// <summary>
+///		Set the rectangle position for the lever based on the position of trap in the map.
+/// </summary>
+/// <param name="leverForWhichTrap"></param>
 void Map::setLeverAndHole(int leverForWhichTrap) {
 	int col = traps[leverForWhichTrap].lever.nthColumn;
 	int row = traps[leverForWhichTrap].lever.nthRow;
 
 
 	switch (leverForWhichTrap) {
+	//the trap is at the top right corner of the map
 	case topRight:
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top;
 		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left;
@@ -51,7 +67,9 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 			traps[leverForWhichTrap].trapBottomRightPosition.col + 1);
 
 		break;
+	//the trap is at the bottom right corner of the map
 	case bottomRight:
+
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top;
 		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left +
 			floorSprite.spriteWidth / 2;;
@@ -62,6 +80,7 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 		setHoleTo('V', traps[leverForWhichTrap].trapBottomRightPosition.row,
 			traps[leverForWhichTrap].trapBottomRightPosition.col + 1);
 		break;
+	//the trap is at the bottom left corner of the map
 	case bottomLeft:
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top +
 			floorSprite.spriteHeight / 2;
@@ -72,7 +91,7 @@ void Map::setLeverAndHole(int leverForWhichTrap) {
 		setHoleTo('V', traps[leverForWhichTrap].trapBottomRightPosition.row,
 			traps[leverForWhichTrap].trapBottomRightPosition.col - 5);
 		break;
-
+		//the trap is at the top left corner of the map
 	case topLeft:
 		traps[leverForWhichTrap].lever.positionRect.top = cells.at(row).at(col)->positionRect.top;
 		traps[leverForWhichTrap].lever.positionRect.left = cells.at(row).at(col)->positionRect.left;
@@ -138,24 +157,27 @@ void Map::updateWallRect()
 }
 
 void Map::createMap() {
+
+	//map is stored in a 2d vector
 	char charCellType;
 	RECT cellPositionRect;
 
 	for (int row = 0; row < numberOfCellRow; row++) {
-		cells.push_back(vector<Cell*>());
+		cells.push_back(vector<Cell*>());	//push a new vector into the outer vector
 		for (int column = 0; column < numberOfCellColumn; column++) {
-			charCellType = getCellType(row, column);
-
+			charCellType = getCellType(row, column);	//get the cell type of that cell
 
 			cellPositionRect.top = topLeftCorner.y + (row * floorSprite.spriteHeight);
 			cellPositionRect.bottom = cellPositionRect.top + floorSprite.spriteHeight;
 			cellPositionRect.left = topLeftCorner.x + (column * floorSprite.spriteWidth);
 			cellPositionRect.right = cellPositionRect.left + floorSprite.spriteWidth;
 
-
+			// add the cell into cells(map) vector
 			cells.back().push_back(new Cell(
-				GameManager::randomNumber(0, 5), GameManager::randomNumber(0, 2),
+				GameManager::randomNumber(0, 5), GameManager::randomNumber(0, 2), //image of the cell is randomly selected in sprite
 				charCellType, cellPositionRect));
+
+
 			if (charCellType == 'S') {
 				startPosition.x = topLeftCorner.x + (column * floorSprite.spriteWidth);
 				startPosition.y = topLeftCorner.y + (row * floorSprite.spriteHeight);
@@ -164,32 +186,33 @@ void Map::createMap() {
 			else if (charCellType == 'E') {
 				goalRect = cellPositionRect;
 			}
-
 		}
 	}
 
-	updateWallRect();
+	//9 wall rect in the map, outer top right bottom left, inner top right bottom left, wall betwen start and end
+	updateWallRect();	
 
 }
 
 void Map::createTrap() {
 	int createdTrapCount = 0;
 	for (int i = 0; i < 4; i++) {
-		traps[i].isSet = GameManager::randomNumber(0, 2);
-		//traps[i].isSet = true;
-		if (i == 3 && createdTrapCount == 0) traps[i].isSet = true;
-		if (!traps[i].isSet) continue; else createdTrapCount++;
+		traps[i].isSet = GameManager::randomNumber(0, 2);	//the current trap should be set or not
+		if (i == 3 && createdTrapCount == 0) traps[i].isSet = true;	//if no trap is set, set the last trap
+		if (!traps[i].isSet) continue; else createdTrapCount++;		//if trap is not set, skip to next trap 
 
+		//set position of trap in map
 		traps[i].lever.nthColumn = leverPosition[i].col;
 		traps[i].lever.nthRow = leverPosition[i].row;
 		traps[i].trapBottomRightPosition = trapBottomRightPosition[i];
 
-		//positionRect
+		//set positionRect of the trap
 		traps[i].positionRect.right = topLeftCorner.x + (floorSprite.spriteWidth * (traps[i].trapBottomRightPosition.col + 1)) - 1;
 		traps[i].positionRect.bottom = topLeftCorner.y + (floorSprite.spriteHeight * (traps[i].trapBottomRightPosition.row + 1)) - 1;
 		traps[i].positionRect.left = topLeftCorner.x + (floorSprite.spriteWidth * (traps[i].trapBottomRightPosition.col - 4));
 		traps[i].positionRect.top = topLeftCorner.y + (floorSprite.spriteHeight * (traps[i].trapBottomRightPosition.row - 3));
 
+		//set the position of holes (used to calculate the vector between player and holes when flying out)
 		switch (i) {
 		case topRight:
 		case bottomRight:
@@ -201,6 +224,8 @@ void Map::createTrap() {
 			traps[i].positionBetweenWalls.y = topLeftCorner.y + ((traps[i].trapBottomRightPosition.row - 2) * floorSprite.spriteHeight);
 			break;
 		}
+
+		//set the lever and the hole to current trap
 		setLeverAndHole(i);
 
 		setTrapTo('T', traps[i].trapBottomRightPosition);
@@ -236,7 +261,14 @@ void Map::assignDefaultPosition() {
 }
 
 
-
+/// <summary>
+/// Set hole to either holes when setting a trap;
+/// or walls when the lever is triggered
+/// </summary>
+/// <param name="type">The cell type to be changed</param>
+/// <param name="mostBelowRow">The most below row of the holes</param>
+/// <param name="col">The number of column of the holes</param>
+/// <param name="numberOfBlockToChange">Number of block to change</param>
 void Map::setHoleTo(char type, int mostBelowRow, int col, int numberOfBlockToChange) {
 	for (int j = mostBelowRow; j >= mostBelowRow - numberOfBlockToChange + 1; j--)
 		cells.at(j).at(col)->type = type;
@@ -272,11 +304,11 @@ D3DXVECTOR2 Map::getCenterPoint(int side, RECT rect) {
 void Map::InitializeMap() {
 	assignDefaultPosition();
 
-	numberOfCellRow = numberOfCellColumn = 18;
+
+	numberOfCellRow = numberOfCellColumn = 18;	//map is a square
 	int cellWidth = 32, cellHeight = 32;
-	//topLeftCorner = D3DXVECTOR2(
-	//	(MyWindowWidth / 2) - (cellWidth * numberOfCellColumn / 2),
-	//	(MyWindowHeight / 2) - (cellHeight * numberOfCellRow / 2));
+
+	//top left corner of the map on the screen, including walls
 	topLeftCorner = D3DXVECTOR2(
 		(MyWindowWidth / 2) - (cellWidth * numberOfCellColumn / 2),
 		(MyWindowHeight / 2) - (cellHeight * numberOfCellRow / 2));
@@ -428,10 +460,18 @@ void Map::RenderMap() {
 //	return result;
 //}
 
+/// <summary>
+/// character is collided to wall or not
+/// </summary>
+/// <param name="character">character's spritesheet</param>
+/// <param name="characterCollidedStatus">output param that change the collided status</param>
+/// <param name="collidedXAxis">if </param>
+/// <param name="collidedYAxis"></param>
+/// <returns>true if collided, else false</returns>
 bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollidedStatus, int* collidedXAxis, int* collidedYAxis) {
 	bool result = false;
 	for (auto wallrect : wallRect) {
-		if (isCollided(character.positionRect,wallrect)) {
+		if (isCollided(character.positionRect,wallrect)) { // if character is collided to wall
 			result = true;
 			// character is below wall
 			if (character.isHoverOn(wallrect,
@@ -440,6 +480,7 @@ bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollided
 				*collidedYAxis = wallrect.bottom;
 
 			}
+			//character is above wall
 			if (character.isHoverOn(wallrect,
 				getCenterPoint(bottomSide, character.positionRect))) {
 				characterCollidedStatus->bottomCollided = wallrect;
@@ -451,6 +492,7 @@ bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollided
 				characterCollidedStatus->rightCollided = wallrect;
 				*collidedXAxis = wallrect.left;
 			}
+			//character is at right of the wall
 			if (character.isHoverOn(wallrect,
 				getCenterPoint(leftSide, character.positionRect))) {
 				characterCollidedStatus->leftCollided = wallrect;
@@ -464,6 +506,12 @@ bool Map::collidedToWall(Sprite character, RectCollidedStatus* characterCollided
 	return result;
 }
 
+/// <summary>
+/// set trap to trap if set;
+/// or floor if lever is triggered
+/// </summary>
+/// <param name="type"></param>
+/// <param name="topRightPosition"></param>
 void Map::setTrapTo(char type, RelativePosition topRightPosition) {
 	for (int j = topRightPosition.row;
 		j >= topRightPosition.row - 3; j--) {
@@ -479,7 +527,12 @@ bool Map::collidedToGoal(Sprite* character) {
 	return character->isHoverOn(goalRect, character->transformation.position + D3DXVECTOR2(0, character->spriteHeight));
 }
 
-
+/// <summary>
+/// check character is collided to lever or not
+/// </summary>
+/// <param name="character"></param>
+/// <param name="leverForWhichTrap">output parameter to return which lever is collided</param>
+/// <returns></returns>
 bool Map::collidedToLever(Sprite* character, int* leverForWhichTrap) {
 	for (int i = 0; i <= 3; i++) {
 		if (!traps[i].isSet) continue;
@@ -491,6 +544,12 @@ bool Map::collidedToLever(Sprite* character, int* leverForWhichTrap) {
 	return false;
 }
 
+/// <summary>
+/// check character is collided to trap or not
+/// </summary>
+/// <param name="character"></param>
+/// <param name="leverForWhichTrap">output parameter to return which trap is collided</param>
+/// <returns></returns>
 bool Map::collidedToTrap(Sprite* character, int* collidedTrap) {
 	for (int i = 0; i <= 3; i++) {
 		if (!traps[i].isSet) continue;
@@ -498,8 +557,6 @@ bool Map::collidedToTrap(Sprite* character, int* collidedTrap) {
 			*collidedTrap = i;
 			return true;
 		}
-
-
 	}
 	return false;
 }

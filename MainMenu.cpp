@@ -94,6 +94,7 @@ void MainMenu::GetInput() {
 	leftButton.updateKeyStatus(ButtonDown(0));
 	spaceKey.updateKeyStatus(KeyDown(DIK_SPACE));
 
+	cout << spaceKey.isPressed << spaceKey.isHolding << spaceKey.isReleased << endl;
 
 	sprites->at(pointer)->transformation.position.x += Shell::directXManager.mouseState.lX;
 	sprites->at(pointer)->transformation.position.y += Shell::directXManager.mouseState.lY;

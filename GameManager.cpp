@@ -63,14 +63,14 @@ void GameManager::uninitializeFonts() {
 
 void GameManager::CreateTexture(LPCSTR filePath, vector<Texture*>* textures,
 	int textureWidth, int textureHeight, D3DXVECTOR2 position,
-	int alignForm, D3DCOLOR color) {
+	int horizontalAlign, int verticalAlign, D3DCOLOR color) {
 	LPDIRECT3DTEXTURE9 texture = NULL;
 	HRESULT hr = D3DXCreateTextureFromFile(Shell::directXManager.d3dDevice, filePath, &texture);
 	if (FAILED(hr)) {
 		cout << filePath << " failed" << endl;
 	}
 
-	textures->push_back(new Texture(texture, textureWidth, textureHeight, position, alignForm, color));
+	textures->push_back(new Texture(texture, textureWidth, textureHeight, position, horizontalAlign,verticalAlign, color));
 	texture = NULL;
 }
 
@@ -93,7 +93,7 @@ void GameManager::CreateSprite(vector<Sprite*>* sprites, LPCSTR filePath,
 	int currentCol, int currentRow,
 	int maxFrame,
 	D3DXVECTOR2 position,
-	int alignFrom, D3DCOLOR color) {
+	int horizontalAlign, int verticalAlign, D3DCOLOR color) {
 	LPDIRECT3DTEXTURE9 texture = NULL;
 	HRESULT hr = D3DXCreateTextureFromFile(Shell::directXManager.d3dDevice, filePath, &texture);
 	if (FAILED(hr)) {
@@ -101,7 +101,7 @@ void GameManager::CreateSprite(vector<Sprite*>* sprites, LPCSTR filePath,
 	}
 
 	sprites->push_back(new Sprite(texture, textureWidth, textureHeight, spriteWidth, spriteHeight,
-		spriteRow, spriteColumn, currentCol, currentRow, maxFrame, position, alignFrom, color));
+		spriteRow, spriteColumn, currentCol, currentRow, maxFrame, position, horizontalAlign,verticalAlign, color));
 	texture = NULL;
 }
 
@@ -207,8 +207,8 @@ int GameManager::randomNumber(int from, int until)
 	return (rand() % (until - from)) + from;
 }
 
-void GameManager::CreateText(vector<Text*>* texts, LPCSTR text, LPD3DXFONT font, D3DXVECTOR2 position, int alignFrom, D3DXCOLOR color) {
-	texts->push_back(new Text(text, font, position, alignFrom, color));
+void GameManager::CreateText(vector<Text*>* texts, LPCSTR text, LPD3DXFONT font, D3DXVECTOR2 position, int horizontalAlign, int verticalAlign, D3DXCOLOR color) {
+	texts->push_back(new Text(text, font, position, horizontalAlign,verticalAlign, color));
 }
 
 void GameManager::ReleaseTexts(vector<Text*>* texts) {

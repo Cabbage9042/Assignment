@@ -16,13 +16,15 @@ public:
 	Text(LPCSTR pText,
 		LPD3DXFONT pFont,
 		D3DXVECTOR2 pPosition,
-		int pAlignFrom = leftAlign,
+		int phorizontalAlign = leftAlign,
+		int verticalAlign = topAlign,
 		D3DCOLOR pColor = D3DCOLOR_XRGB(255, 255, 255)) {
 
 		text = pText;
 		font = pFont;
 		cropRect = RECT();
-		alignFrom = pAlignFrom;
+		horizontalAlign = phorizontalAlign;
+		this->verticalAlign = verticalAlign;
 
 		updateCropRect();
 		D3DXVECTOR2 topLeftPosition = getTopLeftPosition(pPosition);

@@ -25,9 +25,10 @@ public:
 		int pTextureWidth,
 		int pTextureHeight,
 		D3DXVECTOR2 pPosition,
-		int pAlignFrom = leftAlign,
+		int phorizontalAlign = leftAlign,
+		int verticalAlign = topAlign,
 		D3DCOLOR pColor = D3DCOLOR_XRGB(255, 255, 255)) :
-	StuffToBeDrawn(pPosition,pTextureWidth,pTextureHeight,pAlignFrom,pColor) {
+	StuffToBeDrawn(pPosition,pTextureWidth,pTextureHeight,phorizontalAlign,verticalAlign,pColor) {
 
 		texture = pTexture;
 
@@ -37,9 +38,10 @@ public:
 		int pTextureWidth,
 		int pTextureHeight,
 		D3DXVECTOR2 pPosition,
-		int pAlignFrom = leftAlign,
+		int phorizontalAlign = leftAlign,
+		int verticalAlign = topAlign,
 		D3DCOLOR pColor = D3DCOLOR_XRGB(255, 255, 255)) :
-		StuffToBeDrawn(pPosition, pTextureWidth, pTextureHeight, pAlignFrom, pColor) {
+		StuffToBeDrawn(pPosition, pTextureWidth, pTextureHeight, phorizontalAlign,verticalAlign, pColor) {
 
 		
 		HRESULT hr = D3DXCreateTextureFromFile(DirectXManager::d3dDevice, filePath, &texture);

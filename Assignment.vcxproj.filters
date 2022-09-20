@@ -40,6 +40,9 @@
     <Filter Include="Source Files\Sound">
       <UniqueIdentifier>{1eb6fa38-9ed4-4e40-b3a3-c03d4721c7bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\UI">
+      <UniqueIdentifier>{adffae96-d72e-4948-a8a7-bfc5fb0718c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -126,6 +129,12 @@
     <ClCompile Include="KeyStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Panel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowManager.h">
@@ -209,6 +218,12 @@
     <ClInclude Include="KeyStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Panel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\core\lib\x86\fmod.dll">
@@ -218,5 +233,6 @@
       <Filter>Source Files</Filter>
     </None>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
 </Project>

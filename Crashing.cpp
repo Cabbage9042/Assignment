@@ -109,7 +109,6 @@ void Crashing::Update(int framesToUpdate)
 
 
 			//spaceship move only collision
-
 			{
 
 				//D3DXVECTOR2 wall = D3DXVECTOR2(-vectorBetweenPoints.y, vectorBetweenPoints.x);
@@ -130,7 +129,6 @@ void Crashing::Update(int framesToUpdate)
 			//https://en.wikipedia.org/wiki/Elastic_collision
 			{
 				//calculate velocity of both
-
 				D3DXVECTOR2 spaceshipFinalVelocity;
 
 				spaceshipFinalVelocity = (((spaceship->mass - planet->mass) / (spaceship->mass + planet->mass)) * spaceship->velocity)
@@ -143,14 +141,7 @@ void Crashing::Update(int framesToUpdate)
 			}
 
 			//2d collision
-			//https://en.wikipedia.org/wiki/Elastic_collision
-			{
-				/*D3DXVECTOR2 spaceshipFinalVelocity 
-				= calculateFinalVelocity(spaceship->velocity,planet->velocity, spaceship->mass, planet->mass, spaceship->texture->transformation.scalingCenter, planet->texture->transformation.scalingCenter );
-				planet->velocity = calculateFinalVelocity(planet->velocity, spaceship->velocity, planet->mass, spaceship->mass, planet->texture->transformation.scalingCenter, spaceship->texture->transformation.scalingCenter );
-			
-				spaceship->velocity = spaceshipFinalVelocity;*/
-			}
+
 
 			spaceship->texture->transformation.UpdateMatrix();
 			spaceship->texture->updatePositionRect();

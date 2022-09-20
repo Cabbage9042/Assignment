@@ -31,11 +31,11 @@ public:
 
 	static void CreateTexture(LPCSTR filePath, vector<Texture*>* textures,
 		int textureWidth, int textureHeight, D3DXVECTOR2 position,
-		int alignForm = leftAlign, D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255));
+		int horizontalAlign = leftAlign,int verticalAlign = topAlign, D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255));
 	static void ReleaseTextures(vector<Texture*>* textures);
 
 	static void CreateText(vector<Text*>* texts, LPCSTR text, LPD3DXFONT font, D3DXVECTOR2 position,
-		int alignFrom = leftAlign, D3DXCOLOR color = D3DCOLOR_XRGB(255, 255, 255));
+		int horizontalAlign	= leftAlign, int verticalAlign = topAlign, D3DXCOLOR color = D3DCOLOR_XRGB(255, 255, 255));
 	static void ReleaseTexts(vector<Text*>* text);
 	static void CreateSprite(vector<Sprite*>* sprites, LPCSTR filePath,
 		int textureWidth, int textureHeight,
@@ -44,7 +44,7 @@ public:
 		int currentColumn, int currentRow,
 		int maxFrame,
 		D3DXVECTOR2 position,
-		int alignForm = leftAlign, D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255));
+		int horizontalAlign = leftAlign, int verticalAlign = topAlign, D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255));
 	static void ReleaseSprite(vector<Sprite*>* sprites);
 	static void CreateLine(vector<Line*>* vertices, Line* line);
 	static void ReleaseLines(vector<Line*>* vertices);

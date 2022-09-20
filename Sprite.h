@@ -37,9 +37,10 @@ class Sprite : public Texture {
 		int currentColumn,int currentRow,
 		int maxFrame,
 		D3DXVECTOR2 position,
-		int alignFrom = leftAlign,
+		int horizontalAlign = leftAlign,
+		int verticalAlign = topAlign,
 		D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255)) :
-		Texture(texture, textureWidth, textureHeight, position, alignFrom, color) {
+		Texture(texture, textureWidth, textureHeight, position, horizontalAlign, verticalAlign, color) {
 		this->spriteWidth = spriteWidth;
 		this->spriteHeight = spriteHeight;
 		this->spriteRow = spriteRow;
@@ -58,9 +59,10 @@ class Sprite : public Texture {
 		int currentColumn, int currentRow,
 		int maxFrame,
 		D3DXVECTOR2 position,
-		int alignFrom = leftAlign,
+		int horizontalAlign = leftAlign,
+		int verticalAlign = topAlign,
 		D3DCOLOR color = D3DCOLOR_XRGB(255, 255, 255)) :
-		Texture(filePath, textureWidth, textureHeight, position, alignFrom, color) {
+		Texture(filePath, textureWidth, textureHeight, position, horizontalAlign, verticalAlign, color) {
 		this->spriteWidth = spriteWidth;
 		this->spriteHeight = spriteHeight;
 		this->spriteRow = spriteRow;

@@ -7,11 +7,12 @@
 
 
 enum { leftAlign, centerAlign, rightAlign };
+enum { topAlign, middleAlign, bottomAlign };
 
 class StuffToBeDrawn {
 public:
-
-	int alignFrom;
+	int horizontalAlign;
+	int verticalAlign;
 	RECT cropRect;
 	RECT positionRect;
 	TransformationMatrix transformation;
@@ -35,7 +36,8 @@ public:
 
 	StuffToBeDrawn() {
 		transformation = TransformationMatrix();
-		alignFrom = leftAlign;
+		horizontalAlign = leftAlign;
+		verticalAlign = topAlign;
 
 		textureWidth = 0;
 		textureHeight = 0;
@@ -51,14 +53,15 @@ public:
 	StuffToBeDrawn(D3DXVECTOR2 pPosition,
 		int pTextureWidth,
 		int pTextureHeight,
-		int pAlignFrom = leftAlign,
+		int pHorizontalAlign = leftAlign,
+		int pVerticalAlign = topAlign,
 		D3DCOLOR pColor = D3DCOLOR_XRGB(255, 255, 255)) {
 
 		textureWidth = pTextureWidth;
 		textureHeight = pTextureHeight;
 
-		alignFrom = pAlignFrom;
-
+		horizontalAlign = pHorizontalAlign;
+		verticalAlign = pVerticalAlign;
 		
 		color = pColor;
 		D3DXVECTOR2 topLeftPosition = getTopLeftPosition(pPosition);
