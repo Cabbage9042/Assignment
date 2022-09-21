@@ -66,17 +66,21 @@ void MainMenu::InitializeLevel() {
 
 	buttonPanel->CreateButton(new Button(
 		new Texture("Assets/tbutton.png", 459, 96, D3DXVECTOR2(0, 0)),
-		new Text("Start", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign), buttonPanel->getPosition()
+		new Text("Start", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign)
 	));
 
 	buttonPanel->CreateButton(new Button(
 		new Texture("Assets/tbutton.png", 459, 96, D3DXVECTOR2(0, 100 * 2)),
-		new Text("Quit", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign), buttonPanel->getPosition()
+		new Text("Quit", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign)
 	));
 
 	//option panel, is dependent on button panel
-	optionPanel = new Panel(D3DXVECTOR2(buttonPanel->getPosition().x + MyWindowWidth, buttonPanel->getPosition().y), MyWindowWidth / 3, MyWindowHeight / 5);
+	optionPanel = new Panel(D3DXVECTOR2(buttonPanel->getPosition().x + (MyWindowWidth * 4 / 5), buttonPanel->getPosition().y), MyWindowWidth / 2, MyWindowHeight / 5);
 	optionPanel->CreateLabel(new Text("Background Music", GameManager::fonts->at(arial25), D3DXVECTOR2(0, 0)));
+	optionPanel->CreateSlider(new Slider(
+		new Texture("Assets/MainMenu/slider1.png", 388, 27, D3DXVECTOR2(optionPanel->textureWidth, optionPanel->labels->at(bgmLabel)->relativePosition.y), rightAlign, topAlign),
+		new Texture("Assets/MainMenu/slider2.png", 6, 30, D3DXVECTOR2(0, optionPanel->labels->at(bgmLabel)->relativePosition.y), leftAlign, topAlign)
+	));
 
 	optionPanel->CreateLabel(new Text("Sound Effect", GameManager::fonts->at(arial25), D3DXVECTOR2(0, optionPanel->textureHeight), leftAlign, bottomAlign));
 
@@ -138,6 +142,23 @@ void MainMenu::Update(int framesToUpdate) {
 		}if (dKey.isHolding) {
 			buttonPanel->Move(D3DXVECTOR2(10, 0));
 			optionPanel->Move(D3DXVECTOR2(10, 0));
+		}
+
+
+		if (leftButton.isHolding) {
+			if (sprites->at(pointer)->isHoverOn(optionPanel->sliders->at(bgmSlider)->bar) || optionPanel->sliders->at(bgmSlider)->isChanging) {
+				optionPanel->sliders->at(bgmSlider)->MoveHandle(sprites->at(pointer)->getPosition());
+				optionPanel->sliders->at(bgmSlider)->isChanging = true;
+
+				sprites->at(pointer)->currentColumn = 1;
+			}
+			else {
+
+			}
+
+		}
+		else {
+			optionPanel->sliders->at(bgmSlider)->isChanging = false;
 		}
 
 
@@ -296,6 +317,7 @@ bool MainMenu::buttonIsClicked() {
 	}
 	//must
 	else {
+		if(!optionPanel->sliders->at(bgmSlider)->isChanging)
 		sprites->at(pointer)->currentColumn = 0;
 	}
 	return false;

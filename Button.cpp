@@ -1,14 +1,12 @@
 #include "Button.h"
 
-Button::Button(Texture* ppTexture, Text* label, D3DXVECTOR2 panelPosition)
+Button::Button(Texture* ppTexture, Text* label)
 {
 	texture = ppTexture;
-	texture->transformation.position += panelPosition;
 	this->label = label;
 	this->label->transformation.position +=
 		texture->transformation.position;
-	this->texture->transformation.UpdateMatrix();
-	this->texture->updatePositionRect();
+
 	this->label->transformation.UpdateMatrix();
 	this->label->updatePositionRect();
 }

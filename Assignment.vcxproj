@@ -157,6 +157,7 @@
     <ClCompile Include="Pause.cpp" />
     <ClCompile Include="Shell.cpp" />
     <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="StuffToBeDrawn.cpp" />
     <ClCompile Include="Text.cpp" />
@@ -188,6 +189,7 @@
     <ClInclude Include="Pause.h" />
     <ClInclude Include="Shell.h" />
     <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Slider.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="StuffToBeDrawn.h" />
     <ClInclude Include="Text.h" />

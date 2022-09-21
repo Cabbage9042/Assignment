@@ -13,7 +13,9 @@ enum { pointer, character };
 //platform
 enum { ground, buttonStartTop, buttonQuitTop};
 
-//audio
+enum optionPanelLabel{ bgmLabel, soundEffectLabel};
+
+enum optionPanelSlider{ bgmSlider};
 
 class MainMenu : public Game {
 
@@ -42,6 +44,7 @@ class MainMenu : public Game {
 	void updateCollidedToButton();
 	void resetToDefault(bool resetBGM = true);
 
+//audio
 	enum audio { button, bgm };
 };
 

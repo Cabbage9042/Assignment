@@ -5,13 +5,8 @@
 
 #define CurrentLevel() GameManager::levelVector->back()
 
-Shell shell = Shell();
 GameManager gameManager = GameManager();
 FrameTimer timer = FrameTimer();
-
-void Render() {
-
-}
 
 void main() {
 

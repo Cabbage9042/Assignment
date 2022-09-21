@@ -15,6 +15,7 @@ public:
 	int verticalAlign;
 	RECT cropRect;
 	RECT positionRect;
+	D3DXVECTOR2 relativePosition; // given postion
 	TransformationMatrix transformation;
 
 
@@ -64,6 +65,8 @@ public:
 		verticalAlign = pVerticalAlign;
 		
 		color = pColor;
+
+		relativePosition = pPosition;
 		D3DXVECTOR2 topLeftPosition = getTopLeftPosition(pPosition);
 
 		updateCropRect();

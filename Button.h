@@ -17,7 +17,7 @@ public:
 	/// </summary>
 	/// <param name="label"></param>
 	/// <param name="ppTexture"></param>
-	Button(Texture* ppTexture, Text*label,D3DXVECTOR2 panelPosition);
+	Button(Texture* ppTexture, Text*label);
 
 	void Move(D3DXVECTOR2 vector);
 	void Release();

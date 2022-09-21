@@ -9,9 +9,6 @@
 #define KeyDown(name) Shell::directXManager.diKeys[name] & 0x80
 #define ButtonDown(name) Shell::directXManager.mouseState.rgbButtons[name] & 0x80
 
-
-
-
 class Shell {
 public:
 	static WindowManager windowManager;
