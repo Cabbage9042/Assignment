@@ -14,7 +14,18 @@ Button::Button(Texture* ppTexture, Text* label, D3DXVECTOR2 panelPosition)
 }
 
 
-void Button::Release(){
+void Button::Move(D3DXVECTOR2 vector)
+{
+	texture->transformation.position += vector;
+	texture->updatePositionRect();
+	texture->transformation.UpdateMatrix();
+
+	label->transformation.position += vector;
+	label->updatePositionRect();
+	label->transformation.UpdateMatrix();
+}
+
+void Button::Release() {
 	label->Release();
 	label = NULL;
 	texture = NULL;

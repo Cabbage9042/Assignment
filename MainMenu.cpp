@@ -13,38 +13,8 @@ void MainMenu::InitializeLevel() {
 	lines = new vector<Line*>;
 	audios = new vector<Audio*>;
 
-	////button start
-	//GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
-
-	////button quit
-	//GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 100 * 2), centerAlign);
-
-	//panel
-	buttonPanel = new Panel(D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), 459, 500, centerAlign);
-
-	buttonPanel->CreateButton(new Button(
-		new Texture("Assets/tbutton.png", 459, 96, D3DXVECTOR2(0, 0)),
-		new Text("Start", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign), buttonPanel->getPosition()
-	));
-
-	buttonPanel->CreateButton(new Button(
-		new Texture("Assets/tbutton.png", 459, 96, D3DXVECTOR2(0, 100 * 2)),
-		new Text("Quit", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign), buttonPanel->getPosition()
-	));
-
-
 	//text
 	GameManager::CreateText(texts, "Escape From Spaceship", GameManager::fonts->at(franklin100), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 5), centerAlign);
-
-	//D3DXVECTOR2 textPosition;
-	//textPosition.x = MyWindowWidth / 2;
-	//textPosition.y = textures->at(buttonStart)->transformation.position.y + 35;
-	//GameManager::CreateText(texts, "Start", GameManager::fonts->at(arial25), textPosition, centerAlign);
-
-
-	//textPosition.y = buttonPanel->buttons->at(buttonQuit)->texture->transformation.position.y + 35;
-	//GameManager::CreateText(texts, "Quit", GameManager::fonts->at(arial25), textPosition, centerAlign);
-
 
 	//must
 	int textureWidth = 54;
@@ -85,13 +55,30 @@ void MainMenu::InitializeLevel() {
 
 
 	//audio
-	audios->push_back(new Audio("Assets/button.mp3"));
+	audios->push_back(new Audio("Assets/button.mp3", effectGroup));
 	audios->at(button)->setLoop(false);
 
-	audios->push_back(new Audio("Assets/MainMenu/background1.mp3", AUDIO_CREATE_STREAM));
+	audios->push_back(new Audio("Assets/MainMenu/background1.mp3", bgmGroup, AUDIO_CREATE_STREAM));
 	audios->at(bgm)->setLoop(true);
 
+	//button panel
+	buttonPanel = new Panel(D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), 459, 500, centerAlign);
 
+	buttonPanel->CreateButton(new Button(
+		new Texture("Assets/tbutton.png", 459, 96, D3DXVECTOR2(0, 0)),
+		new Text("Start", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign), buttonPanel->getPosition()
+	));
+
+	buttonPanel->CreateButton(new Button(
+		new Texture("Assets/tbutton.png", 459, 96, D3DXVECTOR2(0, 100 * 2)),
+		new Text("Quit", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign), buttonPanel->getPosition()
+	));
+
+	//option panel, is dependent on button panel
+	optionPanel = new Panel(D3DXVECTOR2(buttonPanel->getPosition().x + MyWindowWidth, buttonPanel->getPosition().y), MyWindowWidth / 3, MyWindowHeight / 5);
+	optionPanel->CreateLabel(new Text("Background Music", GameManager::fonts->at(arial25), D3DXVECTOR2(0, 0)));
+
+	optionPanel->CreateLabel(new Text("Sound Effect", GameManager::fonts->at(arial25), D3DXVECTOR2(0, optionPanel->textureHeight), leftAlign, bottomAlign));
 
 }
 
@@ -109,6 +96,8 @@ void MainMenu::GetInput() {
 	f4Key.updateKeyStatus(KeyDown(DIK_F4));
 	leftButton.updateKeyStatus(ButtonDown(0));
 	spaceKey.updateKeyStatus(KeyDown(DIK_SPACE));
+	dKey.updateKeyStatus(KeyDown(DIK_D));
+	aKey.updateKeyStatus(KeyDown(DIK_A));
 
 	sprites->at(pointer)->transformation.position.x += Shell::directXManager.mouseState.lX;
 	sprites->at(pointer)->transformation.position.y += Shell::directXManager.mouseState.lY;
@@ -129,10 +118,6 @@ void MainMenu::Update(int framesToUpdate) {
 		startBGM = false;
 	}
 
-	if (buttonPanel->buttons->at(0)->isBeingHover(sprites->at(pointer))) {
-
-	}
-
 	if (buttonIsClicked()) {
 
 		//audio
@@ -146,6 +131,15 @@ void MainMenu::Update(int framesToUpdate) {
 		character.velocity.y = JumpForce;
 	}
 	for (int i = 0; i < framesToUpdate; i++) {
+
+		if (aKey.isHolding) {
+			buttonPanel->Move(D3DXVECTOR2(-10, 0));
+			optionPanel->Move(D3DXVECTOR2(-10, 0));
+		}if (dKey.isHolding) {
+			buttonPanel->Move(D3DXVECTOR2(10, 0));
+			optionPanel->Move(D3DXVECTOR2(10, 0));
+		}
+
 
 		if (character.sprite.positionRect.left <= 0) {
 			character.sprite.currentRow = walkingRight;
@@ -216,6 +210,7 @@ void MainMenu::Render() {
 
 	//panel
 	buttonPanel->Draw();
+	optionPanel->Draw();
 
 	//pointer
 	sprites->at(pointer)->Draw();
@@ -229,6 +224,7 @@ void MainMenu::Render() {
 //just copy and paste all
 void MainMenu::UninitializeLevel() {
 	buttonPanel->Release();
+	optionPanel->Release();
 	character.sprite.Release();
 
 	GameManager::ReleaseTextures(textures);

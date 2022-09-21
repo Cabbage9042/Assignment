@@ -133,10 +133,6 @@ void GameManager::ReleaseLines(vector<Line*>* vertices) {
 	vertices = NULL;
 }
 
-void GameManager::CreateAudios(vector<Audio*>* audios, LPCSTR filepath)
-{
-	audios->push_back(new Audio(filepath));
-}
 
 void GameManager::ReleaseAudios(vector<Audio*>* audios)
 {

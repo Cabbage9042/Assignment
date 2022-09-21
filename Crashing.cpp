@@ -8,11 +8,12 @@ void Crashing::InitializeLevel()
 	lines = new vector<Line*>;
 	audios = new vector<Audio*>;
 
+
+	//planet
 	D3DXVECTOR2 planetPosition = D3DXVECTOR2(GameManager::randomNumber(0, MyWindowWidth - 200), GameManager::randomNumber(0, MyWindowHeight - 200));
 	Texture* planetTexture = new Texture("Assets/Crashing/planet.png", 200, 200, planetPosition);
 	planet = new FlyingObject(D3DXVECTOR2(0, 0), 1.0f, 1000, 0, planetTexture);
 	planetTexture = NULL;
-
 
 	planet->texture->transformation.rotationCenter = planet->texture->transformation.scalingCenter = D3DXVECTOR2(100, 100);
 
@@ -28,7 +29,7 @@ void Crashing::InitializeLevel()
 
 
 	//audio
-	audios->push_back(new Audio("Assets/Crashing/crash.mp3"));
+	audios->push_back(new Audio("Assets/Crashing/crash.mp3",effectGroup));
 	audios->at(crash)->setLoop(false);
 }
 

@@ -44,7 +44,7 @@ void Pause::InitializeLevel() {
 		spriteRow, spriteCol, currentColumn, currentRow, maxFrame, D3DXVECTOR2(0, 0));
 
 	//audio
-	audios->push_back(new Audio("Assets/button.mp3"));
+	audios->push_back(new Audio("Assets/button.mp3", effectGroup));
 	audios->at(button)->setLoop(false);
 }
 

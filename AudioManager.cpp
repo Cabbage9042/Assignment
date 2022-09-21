@@ -28,9 +28,9 @@ void AudioManager::createStream(LPCSTR filepath, FMOD::Sound** sound)
 }
 
 
-void AudioManager::playSound(FMOD::Sound* sound, FMOD::Channel** channel)
+void AudioManager::playSound(FMOD::Sound* sound, FMOD::Channel** channel, FMOD::ChannelGroup *channelGroup)
 {
-	result = system->playSound(sound, 0, false, channel);
+	result = system->playSound(sound, channelGroup, false, channel);
 }
 
 

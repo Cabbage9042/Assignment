@@ -33,19 +33,19 @@ void Level::InitializeLevel() {
 	character.sprite.transformation.UpdateMatrix();
 
 	//audio
-	audios->push_back(new Audio("Assets/button.mp3"));
+	audios->push_back(new Audio("Assets/button.mp3", effectGroup));
 	audios->at(button)->setLoop(false);
 
-	audios->push_back(new Audio("Assets/Level/background1.mp3", AUDIO_CREATE_STREAM));
+	audios->push_back(new Audio("Assets/Level/background1.mp3", bgmGroup, AUDIO_CREATE_STREAM));
 	audios->at(bgm)->setLoop(true);
 
-	audios->push_back(new Audio("Assets/Level/lever.mp3"));
+	audios->push_back(new Audio("Assets/Level/lever.mp3", effectGroup));
 	audios->at(lever)->setLoop(false);
 
-	audios->push_back(new Audio("Assets/Level/walking.mp3"));
+	audios->push_back(new Audio("Assets/Level/walking.mp3", effectGroup));
 	audios->at(walking)->setLoop(true);
 
-	audios->push_back(new Audio("Assets/Level/scream.mp3"));
+	audios->push_back(new Audio("Assets/Level/scream.mp3", effectGroup));
 	audios->at(scream)->setLoop(false);
 
 	GameManager::playerHasWin = 0;

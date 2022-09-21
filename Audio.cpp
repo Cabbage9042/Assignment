@@ -3,7 +3,7 @@
 
 
 void Audio::play() {
-	Shell::audioManager.playSound(sound, &channel);
+	Shell::audioManager.playSound(sound, &channel, *channelGroup);
 }
 
 void Audio::stop() {
@@ -26,12 +26,21 @@ void Audio::setLoop(bool loopMode) {
 	}
 }
 
-Audio::Audio(LPCSTR filepath, int createType) {
+Audio::Audio(LPCSTR filepath, int channelGroup, int createType) {
+	//create sound
 	if (createType == AUDIO_CREATE_SOUND) {
 		Shell::audioManager.createSound(filepath, &sound);
 	}
 	else {
 		Shell::audioManager.createStream(filepath, &sound);
+	}
+
+	//add channel group
+	if (channelGroup == bgmGroup) {
+		this->channelGroup = &Shell::audioManager.bgmChannelGroup;
+	}
+	else {
+		this->channelGroup = &Shell::audioManager.effectChannelGroup;
 	}
 }
 

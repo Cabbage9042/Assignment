@@ -47,10 +47,10 @@ void GameOver::InitializeLevel() {
 
 	//audio
 
-	audios->push_back(new Audio("Assets/button.mp3"));
+	audios->push_back(new Audio("Assets/button.mp3",effectGroup));
 	audios->at(button)->setLoop(false);
 
-	audios->push_back(new Audio("Assets/GameOver/gameOver.mp3"));
+	audios->push_back(new Audio("Assets/GameOver/gameOver.mp3", effectGroup));
 	
 	audios->at(gameOver)->channel->setVolume(0.3);
 	audios->at(gameOver)->setLoop(false);

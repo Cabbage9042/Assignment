@@ -38,6 +38,7 @@ public:
 
 	void updateCropRect();
 	void Draw();
+	void Move(D3DXVECTOR2 vector);
 	void Release();
 };
 

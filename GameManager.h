@@ -48,7 +48,6 @@ public:
 	static void ReleaseSprite(vector<Sprite*>* sprites);
 	static void CreateLine(vector<Line*>* vertices, Line* line);
 	static void ReleaseLines(vector<Line*>* vertices);
-	static void CreateAudios(vector<Audio*>* audios, LPCSTR filepath);
 	static void ReleaseAudios(vector<Audio*>* audios);
 	
 	//render

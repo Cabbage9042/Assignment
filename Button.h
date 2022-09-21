@@ -17,10 +17,12 @@ public:
 	/// </summary>
 	/// <param name="label"></param>
 	/// <param name="ppTexture"></param>
+	Button(Texture* ppTexture, Text*label,D3DXVECTOR2 panelPosition);
+
+	void Move(D3DXVECTOR2 vector);
 	void Release();
 	void Draw();
 	bool isClicked(StuffToBeDrawn* pointer, bool mouseIsPressed);
 	bool isBeingHover(StuffToBeDrawn* pointer);
-	Button(Texture* ppTexture, Text*label,D3DXVECTOR2 panelPosition);
 };
 

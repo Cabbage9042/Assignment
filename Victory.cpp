@@ -45,10 +45,10 @@ void Victory::InitializeLevel() {
 		spriteRow, spriteCol, currentColumn, currentRow, maxFrame, D3DXVECTOR2(0, 0));
 
 	//audio
-	audios->push_back(new Audio("Assets/button.mp3"));
+	audios->push_back(new Audio("Assets/button.mp3", effectGroup));
 	audios->at(button)->setLoop(false);
 
-	audios->push_back(new Audio("Assets/Victory/victory.mp3"));
+	audios->push_back(new Audio("Assets/Victory/victory.mp3", effectGroup));
 	audios->at(victory)->setLoop(false);
 	audios->at(victory)->play();
 

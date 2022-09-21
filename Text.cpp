@@ -21,3 +21,11 @@ void Text::Draw() {
 
 }
 
+void Text::Move(D3DXVECTOR2 vector)
+{
+
+	transformation.position += vector;
+	updatePositionRect();
+	transformation.UpdateMatrix();
+}
+

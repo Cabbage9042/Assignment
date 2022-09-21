@@ -23,9 +23,12 @@ class MainMenu : public Game {
 	KeyStatus leftButton;
 	Character character;
 	KeyStatus spaceKey;
+	KeyStatus aKey;
+	KeyStatus dKey;
 	bool startBGM = true;
 
 	Panel* buttonPanel;
+	Panel* optionPanel;
 
 	// Inherited via Game, must
 	void InitializeLevel() override;
