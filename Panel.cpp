@@ -7,11 +7,18 @@ void Panel::CreateButton(Button* button){
 void Panel::Release()
 {
 	for (int i = buttons->size() - 1; i >= 0; i--) {
-		buttons->back()->Release();
-		delete buttons->back();
-		buttons->back() = NULL;
+		buttons->at(i)->Release();
+		delete buttons->at(i);
+		buttons->at(i) = NULL;
 	}
 
 	delete buttons;
 	buttons = NULL;
+}
+
+void Panel::Draw() {
+	for (int i = buttons->size() - 1; i >= 0; i--) {
+		buttons->at(i)->Draw();
+	}
+
 }

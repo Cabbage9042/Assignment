@@ -7,15 +7,18 @@ public:
 	std::vector<Button*>* buttons;
 
 	Panel(D3DXVECTOR2 position,
-		int textureWidth,
-		int textureHeight,
+		int width,
+	int height,
 		int horizontalAlign = leftAlign,
 		int verticalAlign = topAlign) :
-		StuffToBeDrawn(position, textureWidth, textureHeight,
-			horizontalAlign, verticalAlign) {};
+		StuffToBeDrawn(position, width, height,
+			horizontalAlign, verticalAlign) {
+		buttons = new std::vector<Button*>();
+	};
 
 	void CreateButton(Button* button);
 	void Release();
+	void Draw();
 
 };
 

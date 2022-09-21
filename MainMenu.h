@@ -2,6 +2,8 @@
 
 #include "GameManager.h" //must include
 #include "Character.h"
+#include "Panel.h"
+
 //textures
 enum { buttonStart, buttonQuit };
 
@@ -23,6 +25,8 @@ class MainMenu : public Game {
 	KeyStatus spaceKey;
 	bool startBGM = true;
 
+	Panel* buttonPanel;
+
 	// Inherited via Game, must
 	void InitializeLevel() override;
 	void GetInput() override;
@@ -35,6 +39,6 @@ class MainMenu : public Game {
 	void updateCollidedToButton();
 	void resetToDefault(bool resetBGM = true);
 
-	enum { button, bgm };
+	enum audio { button, bgm };
 };
 

@@ -13,23 +13,37 @@ void MainMenu::InitializeLevel() {
 	lines = new vector<Line*>;
 	audios = new vector<Audio*>;
 
-	//button start
-	GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
+	////button start
+	//GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), centerAlign);
 
-	//button quit
-	GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 100 * 2), centerAlign);
+	////button quit
+	//GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 100 * 2), centerAlign);
+
+	//panel
+	buttonPanel = new Panel(D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) - (96 / 2)), 459, 500, centerAlign);
+
+	buttonPanel->CreateButton(new Button(
+		new Texture("Assets/tbutton.png", 459, 96, D3DXVECTOR2(0, 0)),
+		new Text("Start", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign), buttonPanel->getPosition()
+	));
+
+	buttonPanel->CreateButton(new Button(
+		new Texture("Assets/tbutton.png", 459, 96, D3DXVECTOR2(0, 100 * 2)),
+		new Text("Quit", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign), buttonPanel->getPosition()
+	));
+
 
 	//text
 	GameManager::CreateText(texts, "Escape From Spaceship", GameManager::fonts->at(franklin100), D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 5), centerAlign);
 
-	D3DXVECTOR2 textPosition;
-	textPosition.x = MyWindowWidth / 2;
-	textPosition.y = textures->at(buttonStart)->transformation.position.y + 35;
-	GameManager::CreateText(texts, "Start", GameManager::fonts->at(arial25), textPosition, centerAlign);
+	//D3DXVECTOR2 textPosition;
+	//textPosition.x = MyWindowWidth / 2;
+	//textPosition.y = textures->at(buttonStart)->transformation.position.y + 35;
+	//GameManager::CreateText(texts, "Start", GameManager::fonts->at(arial25), textPosition, centerAlign);
 
 
-	textPosition.y = textures->at(buttonQuit)->transformation.position.y + 35;
-	GameManager::CreateText(texts, "Quit", GameManager::fonts->at(arial25), textPosition, centerAlign);
+	//textPosition.y = textures->at(buttonQuit)->transformation.position.y + 35;
+	//GameManager::CreateText(texts, "Quit", GameManager::fonts->at(arial25), textPosition, centerAlign);
 
 
 	//must
@@ -74,8 +88,11 @@ void MainMenu::InitializeLevel() {
 	audios->push_back(new Audio("Assets/button.mp3"));
 	audios->at(button)->setLoop(false);
 
-	audios->push_back(new Audio("Assets/MainMenu/background1.mp3",AUDIO_CREATE_STREAM));
+	audios->push_back(new Audio("Assets/MainMenu/background1.mp3", AUDIO_CREATE_STREAM));
 	audios->at(bgm)->setLoop(true);
+
+
+
 }
 
 
@@ -88,13 +105,10 @@ void MainMenu::GetInput() {
 	Shell::directXManager.dInputKeyboardDevice->GetDeviceState(256, Shell::directXManager.diKeys);
 	Shell::directXManager.dInputMouseDevice->GetDeviceState(sizeof(Shell::directXManager.mouseState), &Shell::directXManager.mouseState);
 
-
 	altKey.updateKeyStatus(KeyDown(DIK_LALT) || KeyDown(DIK_RALT));
 	f4Key.updateKeyStatus(KeyDown(DIK_F4));
 	leftButton.updateKeyStatus(ButtonDown(0));
 	spaceKey.updateKeyStatus(KeyDown(DIK_SPACE));
-
-	cout << spaceKey.isPressed << spaceKey.isHolding << spaceKey.isReleased << endl;
 
 	sprites->at(pointer)->transformation.position.x += Shell::directXManager.mouseState.lX;
 	sprites->at(pointer)->transformation.position.y += Shell::directXManager.mouseState.lY;
@@ -108,11 +122,15 @@ void MainMenu::Update(int framesToUpdate) {
 		PostQuitMessage(0);
 		return;
 	}
-	
+
 	//start bgm will be true after initialazing main menu and before go to level
 	if (startBGM) {
 		audios->at(bgm)->play();
 		startBGM = false;
+	}
+
+	if (buttonPanel->buttons->at(0)->isBeingHover(sprites->at(pointer))) {
+
 	}
 
 	if (buttonIsClicked()) {
@@ -164,7 +182,7 @@ void MainMenu::Update(int framesToUpdate) {
 	//to avoid mouse out of window, must
 	pointerStayInsideWindow();
 
-	
+
 
 	Shell::audioManager.updateSound();
 
@@ -197,14 +215,13 @@ void MainMenu::Render() {
 
 	Line::DrawLines(lines);
 
+	//panel
+	buttonPanel->Draw();
+
 	//pointer
 	sprites->at(pointer)->Draw();
-	//Shell::directXManager.spriteBrush->SetTransform(
-	//	&sprites->at(pointer)->transformation.matrix
-	//);
-	//Shell::directXManager.spriteBrush->Draw(
-	//	sprites->at(pointer)->texture,
-	//	&sprites->at(pointer)->cropRect, NULL, NULL, sprites->at(pointer)->color);
+
+
 
 
 	GameManager::RenderEnd();
@@ -212,6 +229,7 @@ void MainMenu::Render() {
 
 //just copy and paste all
 void MainMenu::UninitializeLevel() {
+	buttonPanel->Release();
 	character.sprite.Release();
 
 	GameManager::ReleaseTextures(textures);
@@ -240,7 +258,7 @@ void MainMenu::pointerStayInsideWindow()
 }
 
 bool MainMenu::buttonIsClicked() {
-	if (sprites->at(pointer)->isHoverOn(textures->at(buttonStart))) {
+	if (buttonPanel->buttons->at(buttonStart)->isBeingHover(sprites->at(pointer))) {
 		//must
 		sprites->at(pointer)->currentColumn = 1;
 
@@ -256,7 +274,7 @@ bool MainMenu::buttonIsClicked() {
 			resetToDefault();
 
 			return true;
-			
+
 		}
 	}
 	else if (sprites->at(pointer)->isHoverOn(texts->at(0))) {
@@ -273,7 +291,7 @@ bool MainMenu::buttonIsClicked() {
 			return true;
 		}
 	}
-	else if (sprites->at(pointer)->isHoverOn(textures->at(buttonQuit))) {
+	else if (buttonPanel->buttons->at(buttonQuit)->isBeingHover(sprites->at(pointer))) {
 
 		sprites->at(pointer)->currentColumn = 1;
 		if (leftButton.isPressed) {
@@ -287,6 +305,55 @@ bool MainMenu::buttonIsClicked() {
 	}
 	return false;
 }
+
+//bool MainMenu::buttonIsClicked() {
+//	if (sprites->at(pointer)->isHoverOn(textures->at(buttonStart))) {
+//		//must
+//		sprites->at(pointer)->currentColumn = 1;
+//
+//		if (leftButton.isPressed) {
+//			Level* level = new Level();
+//			level->InitializeLevel();
+//			GameManager::levelVector->push_back(level);
+//			level = NULL;
+//
+//			audios->at(bgm)->stop();
+//
+//
+//			resetToDefault();
+//
+//			return true;
+//			
+//		}
+//	}
+//	else if (sprites->at(pointer)->isHoverOn(texts->at(0))) {
+//
+//		sprites->at(pointer)->currentColumn = 1;
+//		if (leftButton.isPressed) {
+//			Crashing* crashing = new Crashing();
+//			crashing->InitializeLevel();
+//			GameManager::levelVector->push_back(crashing);
+//			crashing = NULL;
+//
+//			resetToDefault(false);
+//
+//			return true;
+//		}
+//	}
+//	else if (sprites->at(pointer)->isHoverOn(textures->at(buttonQuit))) {
+//
+//		sprites->at(pointer)->currentColumn = 1;
+//		if (leftButton.isPressed) {
+//			PostQuitMessage(0);
+//			return true;;
+//		}
+//	}
+//	//must
+//	else {
+//		sprites->at(pointer)->currentColumn = 0;
+//	}
+//	return false;
+//}
 
 void MainMenu::updateCollidedToButton()
 {

@@ -1,16 +1,37 @@
 #include "Button.h"
 
-Button::Button(Text* label, Texture** ppTexture)
+Button::Button(Texture* ppTexture, Text* label, D3DXVECTOR2 panelPosition)
 {
-	texture = *ppTexture;
+	texture = ppTexture;
+	texture->transformation.position += panelPosition;
 	this->label = label;
 	this->label->transformation.position +=
 		texture->transformation.position;
-	
+	this->texture->transformation.UpdateMatrix();
+	this->texture->updatePositionRect();
+	this->label->transformation.UpdateMatrix();
+	this->label->updatePositionRect();
 }
+
 
 void Button::Release(){
 	label->Release();
 	label = NULL;
 	texture = NULL;
+}
+
+void Button::Draw()
+{
+	texture->Draw();
+	label->Draw();
+}
+
+bool Button::isClicked(StuffToBeDrawn* pointer, bool mouseIsPressed)
+{
+	return isBeingHover(pointer) && mouseIsPressed;
+}
+
+bool Button::isBeingHover(StuffToBeDrawn* pointer)
+{
+	return pointer->isHoverOn(this->texture);
 }

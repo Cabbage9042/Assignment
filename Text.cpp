@@ -8,7 +8,6 @@ void Text::updateCropRect() {
 	textureHeight = cropRect.bottom - cropRect.top;
 	textureWidth = cropRect.right - cropRect.left;
 
-	getTopLeftPosition(D3DXVECTOR2(0,0));
 
 }
 
