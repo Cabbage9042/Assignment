@@ -20,7 +20,7 @@ void MainMenu::InitializeLevel() {
 	//GameManager::CreateTexture("Assets/tbutton.png", textures, 459, 96, D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) + 100 * 2), centerAlign);
 
 	//panel
-	buttonPanel = new Panel(D3DXVECTOR2(MyWindowWidth / 2, (MyWindowHeight / 2) - (96 / 2)), 459, 500, centerAlign);
+	buttonPanel = new Panel(D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight / 2), 459, 500, centerAlign);
 
 	buttonPanel->CreateButton(new Button(
 		new Texture("Assets/tbutton.png", 459, 96, D3DXVECTOR2(0, 0)),
@@ -42,7 +42,7 @@ void MainMenu::InitializeLevel() {
 	//GameManager::CreateText(texts, "Start", GameManager::fonts->at(arial25), textPosition, centerAlign);
 
 
-	//textPosition.y = textures->at(buttonQuit)->transformation.position.y + 35;
+	//textPosition.y = buttonPanel->buttons->at(buttonQuit)->texture->transformation.position.y + 35;
 	//GameManager::CreateText(texts, "Quit", GameManager::fonts->at(arial25), textPosition, centerAlign);
 
 
@@ -142,8 +142,7 @@ void MainMenu::Update(int framesToUpdate) {
 
 	//jump if space is pressed and character is on a platform (on a button or on the floor)
 	if (spaceKey.isPressed && (character.sprite.positionRect.bottom == MyWindowHeight ||
-		character.sprite.positionRect.bottom == textures->at(buttonStart)->positionRect.top ||
-		character.sprite.positionRect.bottom == textures->at(buttonQuit)->positionRect.top)) {
+		character.sprite.positionRect.bottom == buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top)) {
 		character.velocity.y = JumpForce;
 	}
 	for (int i = 0; i < framesToUpdate; i++) {
@@ -179,7 +178,7 @@ void MainMenu::Update(int framesToUpdate) {
 
 
 
-	//to avoid mouse out of window, must
+	//to avoid mouse out of window
 	pointerStayInsideWindow();
 
 
@@ -340,7 +339,7 @@ bool MainMenu::buttonIsClicked() {
 //			return true;
 //		}
 //	}
-//	else if (sprites->at(pointer)->isHoverOn(textures->at(buttonQuit))) {
+//	else if (sprites->at(pointer)->isHoverOn(buttonPanel->buttons->at(buttonQuit)->texture)) {
 //
 //		sprites->at(pointer)->currentColumn = 1;
 //		if (leftButton.isPressed) {
@@ -362,51 +361,51 @@ void MainMenu::updateCollidedToButton()
 		character.velocity.y = 0;
 	}
 	//left button quit
-	else if (character.sprite.positionRect.left < textures->at(buttonQuit)->positionRect.left &&
-		character.sprite.positionRect.right > textures->at(buttonQuit)->positionRect.left &&
-		!(character.sprite.positionRect.top > textures->at(buttonQuit)->positionRect.bottom ||
-			character.sprite.positionRect.bottom < textures->at(buttonQuit)->positionRect.top) &&
+	else if (character.sprite.positionRect.left < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.left &&
+		character.sprite.positionRect.right > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.left &&
+		!(character.sprite.positionRect.top > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom ||
+			character.sprite.positionRect.bottom < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top) &&
 		character.sprite.currentRow == walkingRight) {
-		character.sprite.transformation.position.x = textures->at(buttonQuit)->positionRect.left - character.sprite.spriteWidth;
+		character.sprite.transformation.position.x = buttonPanel->buttons->at(buttonQuit)->texture->positionRect.left - character.sprite.spriteWidth;
 		character.velocity.x *= -1;
 		character.sprite.currentRow = walkingLeft;
 	}
 	//right button quit
-	else if (character.sprite.positionRect.left < textures->at(buttonQuit)->positionRect.right &&
-		character.sprite.positionRect.right > textures->at(buttonQuit)->positionRect.right &&
-		!(character.sprite.positionRect.top > textures->at(buttonQuit)->positionRect.bottom ||
-			character.sprite.positionRect.bottom < textures->at(buttonQuit)->positionRect.top) &&
+	else if (character.sprite.positionRect.left < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.right &&
+		character.sprite.positionRect.right > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.right &&
+		!(character.sprite.positionRect.top > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom ||
+			character.sprite.positionRect.bottom < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top) &&
 		character.sprite.currentRow == walkingLeft) {
-		character.sprite.transformation.position.x = textures->at(buttonQuit)->positionRect.right;
+		character.sprite.transformation.position.x = buttonPanel->buttons->at(buttonQuit)->texture->positionRect.right;
 		character.velocity.x *= -1;
 		character.sprite.currentRow = walkingRight;
 	}
 	//on top of button quit
-	else if (character.sprite.positionRect.right > textures->at(buttonQuit)->positionRect.left &&
-		character.sprite.positionRect.left < textures->at(buttonQuit)->positionRect.right &&
-		character.sprite.positionRect.bottom >  textures->at(buttonQuit)->positionRect.top &&
-		character.sprite.positionRect.top < textures->at(buttonQuit)->positionRect.top &&
+	else if (character.sprite.positionRect.right > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.left &&
+		character.sprite.positionRect.left < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.right &&
+		character.sprite.positionRect.bottom >  buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top &&
+		character.sprite.positionRect.top < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top &&
 		characterIsFalling) {
-		character.sprite.transformation.position.y = textures->at(buttonQuit)->positionRect.top - character.sprite.spriteHeight;
+		character.sprite.transformation.position.y = buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top - character.sprite.spriteHeight;
 		character.velocity.y = 0;
 	}
 	//below button quit
-	else if (character.sprite.positionRect.right > textures->at(buttonQuit)->positionRect.left &&
-		character.sprite.positionRect.left < textures->at(buttonQuit)->positionRect.right &&
-		character.sprite.positionRect.top < textures->at(buttonQuit)->positionRect.bottom &&
-		character.sprite.positionRect.bottom > textures->at(buttonQuit)->positionRect.bottom &&
+	else if (character.sprite.positionRect.right > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.left &&
+		character.sprite.positionRect.left < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.right &&
+		character.sprite.positionRect.top < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom &&
+		character.sprite.positionRect.bottom > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom &&
 		!characterIsFalling) {
-		character.sprite.transformation.position.y = textures->at(buttonQuit)->positionRect.bottom;
+		character.sprite.transformation.position.y = buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom;
 		character.velocity.y *= -1;
 	}
 
 	//below button start
-	else if (character.sprite.positionRect.right > textures->at(buttonStart)->positionRect.left &&
-		character.sprite.positionRect.left < textures->at(buttonStart)->positionRect.right &&
-		character.sprite.positionRect.top < textures->at(buttonStart)->positionRect.bottom &&
-		character.sprite.positionRect.bottom > textures->at(buttonStart)->positionRect.bottom &&
+	else if (character.sprite.positionRect.right > buttonPanel->buttons->at(buttonStart)->texture->positionRect.left &&
+		character.sprite.positionRect.left < buttonPanel->buttons->at(buttonStart)->texture->positionRect.right &&
+		character.sprite.positionRect.top < buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom &&
+		character.sprite.positionRect.bottom > buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom &&
 		!characterIsFalling) {
-		character.sprite.transformation.position.y = textures->at(buttonStart)->positionRect.bottom;
+		character.sprite.transformation.position.y = buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom;
 		character.velocity.y *= -1;
 	}
 

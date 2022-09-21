@@ -1,17 +1,14 @@
-﻿  Button.cpp
-  C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-  MainMenu.cpp
+﻿  MainMenu.cpp
   C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\include\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 E:\TARC\programming\Assignment\Assignment\Level.h(55,21): warning C4305: 'initializing': truncation from 'double' to 'float'
 E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(71,41): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
 E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(73,141): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
 E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(73,123): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(361,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(370,92): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(380,86): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(390,91): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(399,86): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(409,87): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
-E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(418,75): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
-  Generating Code...
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(360,63): warning C4244: '=': conversion from 'int' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(369,113): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(379,107): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(389,112): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(398,107): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(408,108): warning C4244: '=': conversion from 'LONG' to 'FLOAT', possible loss of data
+E:\TARC\programming\Assignment\Assignment\MainMenu.cpp(417,75): warning C4244: 'argument': conversion from 'int' to 'FLOAT', possible loss of data
   Assignment.vcxproj -> E:\TARC\programming\Assignment\Debug\Assignment.exe
