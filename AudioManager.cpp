@@ -9,6 +9,8 @@ void AudioManager::InitializeAudio()
 {
 	result = FMOD::System_Create(&system);
 	result = system->init(32, FMOD_INIT_NORMAL, extraDriverData);
+	result = system->createChannelGroup("", &bgmChannelGroup);
+	result = system->createChannelGroup("", &effectChannelGroup);
 	
 }
 
@@ -37,6 +39,16 @@ void AudioManager::playSound(FMOD::Sound* sound, FMOD::Channel** channel, FMOD::
 void AudioManager::updateSound()
 {
 	result = system->update();
+}
+
+void AudioManager::setBgmVolume(float volume)
+{
+	bgmChannelGroup->setVolume(volume);
+}
+
+void AudioManager::setEffectVolume(float volume)
+{
+	effectChannelGroup->setVolume(volume);
 }
 
 AudioManager::AudioManager()

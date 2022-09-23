@@ -21,10 +21,12 @@ void Panel::Move(D3DXVECTOR2 vector)
 }
 
 void Panel::CreateButton(Button* button){
+	button->texture->relativePosition = button->texture->transformation.position;
 	button->texture->transformation.position += transformation.position;
 	button->texture->updatePositionRect();
 	button->texture->transformation.UpdateMatrix();
 
+	button->label->relativePosition = button->label->transformation.position;
 	button->label->transformation.position += transformation.position;
 	button->label->updatePositionRect();
 	button->label->transformation.UpdateMatrix();
@@ -35,17 +37,21 @@ void Panel::CreateButton(Button* button){
 
 void Panel::CreateLabel(Text* label)
 {
+	label->relativePosition = label->transformation.position;
 	label->transformation.position += transformation.position;
+	label->updatePositionRect();
 	label->transformation.UpdateMatrix();
 	labels->push_back(label);
 }
 
 void Panel::CreateSlider(Slider* slider)
 {
+	slider->bar->relativePosition = slider->bar->transformation.position;
 	slider->bar->transformation.position+=transformation.position;
 	slider->bar->updatePositionRect();
 	slider->bar->transformation.UpdateMatrix();
 
+	slider->handle->relativePosition = slider->handle->transformation.position;
 	slider->handle->transformation.position+=transformation.position;
 	slider->handle->updatePositionRect();
 	slider->handle->transformation.UpdateMatrix();
@@ -75,6 +81,10 @@ void Panel::Release()
 }
 
 void Panel::Draw() {
+	if (this->getPosition().x >= MyWindowWidth || this->getPosition().x + this->textureWidth <= 0) {
+		return;
+	}
+
 	for (int i = buttons->size() - 1; i >= 0; i--) {
 		buttons->at(i)->Draw();
 	}

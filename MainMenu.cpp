@@ -75,15 +75,25 @@ void MainMenu::InitializeLevel() {
 	));
 
 	//option panel, is dependent on button panel
-	optionPanel = new Panel(D3DXVECTOR2(buttonPanel->getPosition().x + (MyWindowWidth * 4 / 5), buttonPanel->getPosition().y), MyWindowWidth / 2, MyWindowHeight / 5);
+	optionPanel = new Panel(D3DXVECTOR2(buttonPanel->getPosition().x + (MyWindowWidth * 4 / 5), buttonPanel->getPosition().y), MyWindowWidth * 3 / 5, MyWindowHeight / 5);
 	optionPanel->CreateLabel(new Text("Background Music", GameManager::fonts->at(arial25), D3DXVECTOR2(0, 0)));
+	
+	bgmVolumeLabel = new Text(bgmVolumeLabelString, GameManager::fonts->at(arial25), D3DXVECTOR2(optionPanel->textureWidth, 0), rightAlign);
+	
+	optionPanel->CreateLabel(bgmVolumeLabel);
 	optionPanel->CreateSlider(new Slider(
-		new Texture("Assets/MainMenu/slider1.png", 388, 27, D3DXVECTOR2(optionPanel->textureWidth, optionPanel->labels->at(bgmLabel)->relativePosition.y), rightAlign, topAlign),
-		new Texture("Assets/MainMenu/slider2.png", 6, 30, D3DXVECTOR2(0, optionPanel->labels->at(bgmLabel)->relativePosition.y), leftAlign, topAlign)
+		new Texture("Assets/MainMenu/slider1.png", 388, 27, D3DXVECTOR2(optionPanel->labels->at(bgmVolumeLabelEnum)->relativePosition.x - 30, optionPanel->labels->at(bgmLabelEnum)->relativePosition.y), rightAlign, topAlign),
+		new Texture("Assets/MainMenu/slider2.png", 6, 30, D3DXVECTOR2(388,0), leftAlign, topAlign)
 	));
 
 	optionPanel->CreateLabel(new Text("Sound Effect", GameManager::fonts->at(arial25), D3DXVECTOR2(0, optionPanel->textureHeight), leftAlign, bottomAlign));
+	effectVolumeLabel = new Text(effectVolumeLabelString, GameManager::fonts->at(arial25), D3DXVECTOR2(optionPanel->textureWidth, optionPanel->textureHeight), rightAlign, bottomAlign);
 
+	optionPanel->CreateLabel(effectVolumeLabel);
+	optionPanel->CreateSlider(new Slider(
+		new Texture("Assets/MainMenu/slider1.png", 388, 27, D3DXVECTOR2(optionPanel->labels->at(effectVolumeLabelEnum)->relativePosition.x - 30, optionPanel->labels->at(effectVolumeLabelEnum)->relativePosition.y), rightAlign, topAlign),
+		new Texture("Assets/MainMenu/slider2.png", 6, 30, D3DXVECTOR2(388, 0), leftAlign, topAlign)
+	));
 }
 
 
@@ -137,58 +147,71 @@ void MainMenu::Update(int framesToUpdate) {
 	for (int i = 0; i < framesToUpdate; i++) {
 
 		if (aKey.isHolding) {
-			buttonPanel->Move(D3DXVECTOR2(-10, 0));
-			optionPanel->Move(D3DXVECTOR2(-10, 0));
+			buttonPanel->Move(D3DXVECTOR2(-20, 0));
+			optionPanel->Move(D3DXVECTOR2(-20, 0));
 		}if (dKey.isHolding) {
-			buttonPanel->Move(D3DXVECTOR2(10, 0));
-			optionPanel->Move(D3DXVECTOR2(10, 0));
+			buttonPanel->Move(D3DXVECTOR2(20, 0));
+			optionPanel->Move(D3DXVECTOR2(20, 0));
 		}
 
 
 		if (leftButton.isHolding) {
 			if (sprites->at(pointer)->isHoverOn(optionPanel->sliders->at(bgmSlider)->bar) || optionPanel->sliders->at(bgmSlider)->isChanging) {
 				optionPanel->sliders->at(bgmSlider)->MoveHandle(sprites->at(pointer)->getPosition());
+				int volume = (int)(100.0 * optionPanel->sliders->at(bgmSlider)->getValue());
+
+
+
+				//int to string
+				if (volume == 100) {
+					bgmVolumeLabelString[0] = '1';
+					bgmVolumeLabelString[1] = bgmVolumeLabelString[2] = '0';
+				}
+				else {
+					bgmVolumeLabelString[0] = (volume) / 10 + 48;
+					bgmVolumeLabelString[1] = (volume) % 10 + 48;
+					bgmVolumeLabelString[2] = ' ';
+				}
+				bgmVolumeLabel->updateCropRect();
+				bgmVolumeLabel->updatePositionRect();
+				bgmVolumeLabel->transformation.UpdateMatrix();
+
+				Shell::audioManager.setBgmVolume(volume / 100.0);
+				
+
 				optionPanel->sliders->at(bgmSlider)->isChanging = true;
-
-				sprites->at(pointer)->currentColumn = 1;
 			}
-			else {
+			else if(sprites->at(pointer)->isHoverOn(optionPanel->sliders->at(effectSlider)->bar) || optionPanel->sliders->at(effectSlider)->isChanging) {
+				optionPanel->sliders->at(effectSlider)->MoveHandle(sprites->at(pointer)->getPosition());
+				int volume = (int)(100.0 * optionPanel->sliders->at(effectSlider)->getValue());
+				//int to string
+				if (volume == 100) {
+					effectVolumeLabelString[0] = '1';
+					effectVolumeLabelString[1] = effectVolumeLabelString[2] = '0';
+				}
+				else {
+					effectVolumeLabelString[0] = (volume) / 10 + 48;
+					effectVolumeLabelString[1] = (volume) % 10 + 48;
+					effectVolumeLabelString[2] = ' ';
+				}
+				effectVolumeLabel->updateCropRect();
+				effectVolumeLabel->updatePositionRect();
+				effectVolumeLabel->transformation.UpdateMatrix();
+
+				Shell::audioManager.setEffectVolume(volume / 100.0);
+
+
+				optionPanel->sliders->at(effectSlider)->isChanging = true;
 
 			}
-
 		}
 		else {
 			optionPanel->sliders->at(bgmSlider)->isChanging = false;
+			optionPanel->sliders->at(effectSlider)->isChanging = false;
 		}
 
 
-		if (character.sprite.positionRect.left <= 0) {
-			character.sprite.currentRow = walkingRight;
-			character.velocity.x = DEFAULT_SPEED;
-		}
-		else if (character.sprite.positionRect.right >= MyWindowWidth) {
-			character.sprite.currentRow = walkingLeft;
-			character.velocity.x = -DEFAULT_SPEED;
-		}
-
-		character.velocity.y += Gravity;
-		character.sprite.transformation.position += character.velocity;
-
-		character.sprite.updatePositionRect();
-
-		updateCollidedToButton();
-
-		character.characterAnimationCounter++;
-		if (character.characterAnimationCounter % (gameFPS / character.characterFPS) == 0) {
-			character.sprite.currentColumn++;
-			if (character.sprite.currentColumn == character.sprite.maxFrame) {
-				character.sprite.currentColumn = 0;
-			}
-		}
-
-
-		character.sprite.updatePositionRect();
-		character.sprite.transformation.UpdateMatrix();
+		moveCharacter();
 	}
 
 
@@ -317,7 +340,6 @@ bool MainMenu::buttonIsClicked() {
 	}
 	//must
 	else {
-		if(!optionPanel->sliders->at(bgmSlider)->isChanging)
 		sprites->at(pointer)->currentColumn = 0;
 	}
 	return false;
@@ -437,4 +459,34 @@ void MainMenu::resetToDefault(bool resetBGM)
 
 	sprites->at(pointer)->transformation.position = D3DXVECTOR2(0, 0);
 	sprites->at(pointer)->updatePositionRect();
+}
+
+void MainMenu::moveCharacter()
+{if (character.sprite.positionRect.left <= 0) {
+			character.sprite.currentRow = walkingRight;
+			character.velocity.x = DEFAULT_SPEED;
+		}
+		else if (character.sprite.positionRect.right >= MyWindowWidth) {
+			character.sprite.currentRow = walkingLeft;
+			character.velocity.x = -DEFAULT_SPEED;
+		}
+
+		character.velocity.y += Gravity;
+		character.sprite.transformation.position += character.velocity;
+
+		character.sprite.updatePositionRect();
+
+		updateCollidedToButton();
+
+		character.characterAnimationCounter++;
+		if (character.characterAnimationCounter % (gameFPS / character.characterFPS) == 0) {
+			character.sprite.currentColumn++;
+			if (character.sprite.currentColumn == character.sprite.maxFrame) {
+				character.sprite.currentColumn = 0;
+			}
+		}
+
+
+		character.sprite.updatePositionRect();
+		character.sprite.transformation.UpdateMatrix();
 }

@@ -15,7 +15,7 @@ public:
 	int verticalAlign;
 	RECT cropRect;
 	RECT positionRect;
-	D3DXVECTOR2 relativePosition; // given postion
+	D3DXVECTOR2 relativePosition; // given postion, or relative position to panel if element is in panel
 	TransformationMatrix transformation;
 
 

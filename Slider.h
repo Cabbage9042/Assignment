@@ -24,6 +24,7 @@ public:
 	/// </summary>
 	/// <param name="position"></param>
 	void MoveHandle(D3DXVECTOR2 pointerPosition);
+	float getValue();
 
 };
 

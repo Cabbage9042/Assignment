@@ -11,6 +11,20 @@ void Text::updateCropRect() {
 
 }
 
+void Text::setText(LPCSTR *text)
+{
+	this->text = *text;
+	updateCropRect();
+	updatePositionRect();
+	transformation.UpdateMatrix();
+}
+
+void Text::deleteText()
+{
+	delete text;
+	text = NULL;
+}
+
 void Text::Release() {
 	font = NULL;
 }

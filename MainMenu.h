@@ -3,6 +3,7 @@
 #include "GameManager.h" //must include
 #include "Character.h"
 #include "Panel.h"
+#include <sstream>
 
 //textures
 enum { buttonStart, buttonQuit };
@@ -13,9 +14,9 @@ enum { pointer, character };
 //platform
 enum { ground, buttonStartTop, buttonQuitTop};
 
-enum optionPanelLabel{ bgmLabel, soundEffectLabel};
+enum optionPanelLabel{ bgmLabelEnum, bgmVolumeLabelEnum, effectLabelEnum, effectVolumeLabelEnum};
 
-enum optionPanelSlider{ bgmSlider};
+enum optionPanelSlider{ bgmSlider, effectSlider};
 
 class MainMenu : public Game {
 
@@ -31,6 +32,9 @@ class MainMenu : public Game {
 
 	Panel* buttonPanel;
 	Panel* optionPanel;
+	
+	Text* bgmVolumeLabel,* effectVolumeLabel;
+	char bgmVolumeLabelString[4] = "100", effectVolumeLabelString[4] = "100";
 
 	// Inherited via Game, must
 	void InitializeLevel() override;
@@ -43,6 +47,7 @@ class MainMenu : public Game {
 	bool buttonIsClicked();
 	void updateCollidedToButton();
 	void resetToDefault(bool resetBGM = true);
+	void moveCharacter();
 
 //audio
 	enum audio { button, bgm };

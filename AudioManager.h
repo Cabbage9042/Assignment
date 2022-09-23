@@ -15,6 +15,8 @@ public:
 	void createSound(LPCSTR filepath, FMOD::Sound** sound);
 	void createStream(LPCSTR filepath, FMOD::Sound** sound);
 	void playSound(FMOD::Sound* sound, FMOD::Channel** channel, FMOD::ChannelGroup* channelGroup);
+	void setBgmVolume(float volume);
+	void setEffectVolume(float volume);
 	void updateSound();
 
 	AudioManager();

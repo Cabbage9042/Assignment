@@ -3,8 +3,9 @@
 #include "StuffToBeDrawn.h"
 
 class Text : public StuffToBeDrawn{
-public:
+private:
 	LPCSTR text = NULL;
+public:
 	LPD3DXFONT font = NULL;
 
 	Text() :StuffToBeDrawn() {
@@ -37,8 +38,11 @@ public:
 	}
 
 	void updateCropRect();
+	void setText(LPCSTR *text);
+	void deleteText();
 	void Draw();
 	void Move(D3DXVECTOR2 vector);
 	void Release();
+
 };
 
