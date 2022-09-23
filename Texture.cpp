@@ -17,6 +17,7 @@ void Texture::updateCropRect() {
 }
 
 void Texture::Draw() {
+	this->transformation.UpdateMatrix();
 	Shell::directXManager.spriteBrush->SetTransform(
 		&transformation.matrix
 	);

@@ -362,11 +362,10 @@ void Map::RenderMap() {
 
 	for (int row = 0; row < numberOfCellRow; row++) {
 		for (int col = 0; col < numberOfCellColumn; col++) {
-			floorSprite.transformation.position =
+			floorSprite.setPosition (
 				D3DXVECTOR2(topLeftCorner.x + (col * floorSprite.spriteWidth),
-					topLeftCorner.y + (row * floorSprite.spriteHeight));
+					topLeftCorner.y + (row * floorSprite.spriteHeight)));
 
-			floorSprite.transformation.UpdateMatrix();
 
 			switch (cells.at(row).at(col)->type) {
 			case 'V': continue;
@@ -386,8 +385,7 @@ void Map::RenderMap() {
 			for (int leverLoop = 0; leverLoop < 4; leverLoop++) {
 				if (!traps[leverLoop].isSet) continue;
 				if (traps[leverLoop].lever.nthRow == row && traps[leverLoop].lever.nthColumn == col) {
-					lever.transformation.position.x = cells.at(row).at(col)->positionRect.left;
-					lever.transformation.position.y = cells.at(row).at(col)->positionRect.top;
+					lever.setPosition(D3DXVECTOR2( cells.at(row).at(col)->positionRect.left,cells.at(row).at(col)->positionRect.top));
 					lever.transformation.rotation = leverLoop * 90 * PI / 180;
 
 					if (traps[leverLoop].lever.hasTurnedOn) {
@@ -397,7 +395,6 @@ void Map::RenderMap() {
 						lever.transformation.scaling = D3DXVECTOR2(1, 1);
 					}
 
-					lever.transformation.UpdateMatrix();
 					lever.Draw();
 					break;
 				}
@@ -524,7 +521,7 @@ void Map::setTrapTo(char type, RelativePosition topRightPosition) {
 }
 
 bool Map::collidedToGoal(Sprite* character) {
-	return character->isHoverOn(goalRect, character->transformation.position + D3DXVECTOR2(0, character->spriteHeight));
+	return character->isHoverOn(goalRect, character->getPosition() + D3DXVECTOR2(0, character->spriteHeight));
 }
 
 /// <summary>

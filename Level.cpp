@@ -28,9 +28,9 @@ void Level::InitializeLevel() {
 
 	map.InitializeMap();
 
-	character.sprite.transformation.position.x = map.startPosition.x + (map.floorSprite.spriteWidth - character.sprite.spriteWidth) / 2;
-	character.sprite.transformation.position.y = map.startPosition.y;
-	character.sprite.transformation.UpdateMatrix();
+	character.sprite.setPositionX( map.startPosition.x + (map.floorSprite.spriteWidth - character.sprite.spriteWidth) / 2);
+	character.sprite.setPositionY( map.startPosition.y);
+	
 
 	//audio
 	audios->push_back(new Audio("Assets/button.mp3", effectGroup));
@@ -87,14 +87,14 @@ void Level::Update(int framesToUpdate) {
 		if (isEnteredTrap && !map.traps[collidedTrap].lever.hasTurnedOn) {
 
 			character.velocity = character.vectorBetweenHole;
-			character.sprite.transformation.position += character.velocity;
+			character.sprite.addPosition(character.velocity);
 			character.sprite.transformation.rotation += 0.1;
 
 			//go to game over if character out of window
-			if (character.sprite.transformation.position.y <0
-				|| character.sprite.transformation.position.y > MyWindowHeight
-				|| character.sprite.transformation.position.x <0
-				|| character.sprite.transformation.position.x > MyWindowWidth) {
+			if (character.sprite.getPosition().y <0
+				|| character.sprite.getPosition().y > MyWindowHeight
+				|| character.sprite.getPosition().x <0
+				|| character.sprite.getPosition().x > MyWindowWidth) {
 
 				//stop scream
 				audios->at(scream)->stop();
@@ -113,7 +113,6 @@ void Level::Update(int framesToUpdate) {
 
 				return;
 			}
-			character.sprite.transformation.UpdateMatrix();
 
 			//audio
 			audios->at(walking)->stop();
@@ -176,7 +175,6 @@ void Level::Update(int framesToUpdate) {
 			character.characterCollidedStatus.rightCollided = character.characterCollidedStatus.bottomCollided = RECT();
 		character.characterIsMoving = false;
 		character.sprite.updatePositionRect();
-		character.sprite.transformation.UpdateMatrix();
 
 		//audio
 		if (startBGM) {
@@ -243,19 +241,19 @@ void Level::updateCharacterCollidedToWall()
 		//cout << "side " << collidedWallSide << " axis " << collidedAxis << endl;
 		if (!GameManager::rectIsEqual(character.characterCollidedStatus.topCollided, RECT())) {
 			//cout << 1;
-			character.sprite.transformation.position.y = collidedYAxis;
+			character.sprite.setPositionY(collidedYAxis);
 		}
 		if (!GameManager::rectIsEqual(character.characterCollidedStatus.bottomCollided, RECT())) {
 			//cout << 2;
-			character.sprite.transformation.position.y = collidedYAxis - character.sprite.spriteHeight;
+			character.sprite.setPositionY(collidedYAxis - character.sprite.spriteHeight);
 		}
 		if (!GameManager::rectIsEqual(character.characterCollidedStatus.leftCollided, RECT())) {
 			//cout << 3;
-			character.sprite.transformation.position.x = collidedXAxis;
+			character.sprite.setPositionX( collidedXAxis);
 		}
 		if (!GameManager::rectIsEqual(character.characterCollidedStatus.rightCollided, RECT())) {
 			//cout << 4;
-			character.sprite.transformation.position.x = collidedXAxis - character.sprite.spriteWidth;
+			character.sprite.setPositionX(collidedXAxis - character.sprite.spriteWidth);
 		}
 		//cout << endl;
 	}
@@ -313,7 +311,7 @@ void Level::characterMovingStatus()
 		character.velocity.x = DEFAULT_SPEED;
 	}
 	if (character.characterIsMoving) {
-		character.sprite.transformation.position += character.velocity;
+		character.sprite.addPosition(character.velocity);
 		if (!wKey.isHolding && !sKey.isHolding) character.velocity.y = 0;
 		if (!aKey.isHolding && !dKey.isHolding) character.velocity.x = 0;
 
@@ -344,7 +342,7 @@ void Level::enterTrapChecking() {
 	//if character enter into a trap
 	if (map.collidedToTrap(&character.sprite, &collidedTrap)) {
 		isEnteredTrap = true;
-		character.vectorBetweenHole = map.traps[collidedTrap].positionBetweenWalls - character.sprite.transformation.position; // distance between character and hole
+		character.vectorBetweenHole = map.traps[collidedTrap].positionBetweenWalls - character.sprite.getPosition(); // distance between character and hole
 
 		//shorten the distance so that the velocity of flying out is not too fast
 		while (D3DXVec2LengthSq(&character.vectorBetweenHole) >= 30) {
@@ -360,7 +358,7 @@ void Level::enterTrapChecking() {
 }
 
 float Level::calculatePan() {
-	return -(MyWindowWidth / 2 - character.sprite.transformation.position.x) / (MyWindowWidth / 4);
+	return -(MyWindowWidth / 2 - character.sprite.getPosition().x) / (MyWindowWidth / 4);
 }
 
 

@@ -62,8 +62,7 @@ void Pause::GetInput() {
 	leftButton.updateKeyStatus(ButtonDown(0));
 
 
-	sprites->at(pointer)->transformation.position.x += Shell::directXManager.mouseState.lX;
-	sprites->at(pointer)->transformation.position.y += Shell::directXManager.mouseState.lY;
+	sprites->at(pointer)->addPosition(D3DXVECTOR2(Shell::directXManager.mouseState.lX, Shell::directXManager.mouseState.lY));
 
 }
 
@@ -135,22 +134,19 @@ void Pause::Update(int framesToUpdate) {
 		sprites->at(pointer)->currentColumn = 0;
 	}
 
-
-	//to avoid mouse out of window, must
-	sprites->at(pointer)->updatePositionRect();
-	if (sprites->at(pointer)->transformation.position.x < 0) {
-		sprites->at(pointer)->transformation.position.x = 0;
+	//to avoid mouse out of window
+	if (sprites->at(pointer)->getPosition().x < 0) {
+		sprites->at(pointer)->setPositionX(0);
 	}
-	if (sprites->at(pointer)->transformation.position.x > MyWindowWidth) {
-		sprites->at(pointer)->transformation.position.x = MyWindowWidth - 1;
+	if (sprites->at(pointer)->getPosition().x > MyWindowWidth) {
+		sprites->at(pointer)->setPositionX(MyWindowWidth - 1);
 	}
-	if (sprites->at(pointer)->transformation.position.y < 0) {
-		sprites->at(pointer)->transformation.position.y = 0;
+	if (sprites->at(pointer)->getPosition().y < 0) {
+		sprites->at(pointer)->setPositionY(0);
 	}
-	if (sprites->at(pointer)->transformation.position.y > MyWindowHeight) {
-		sprites->at(pointer)->transformation.position.y = MyWindowHeight - 1;
+	if (sprites->at(pointer)->getPosition().y > MyWindowHeight) {
+		sprites->at(pointer)->setPositionY(MyWindowHeight - 1);
 	}
-	sprites->at(pointer)->transformation.UpdateMatrix();
 	sprites->at(pointer)->updateCropRect();
 
 

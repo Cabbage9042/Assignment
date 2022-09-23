@@ -37,10 +37,10 @@ D3DXVECTOR2 StuffToBeDrawn::getTopLeftPosition(D3DXVECTOR2 position) {
 }
 
 void StuffToBeDrawn::updatePositionRect(){
-	positionRect.top = transformation.position.y;
-	positionRect.bottom = transformation.position.y + textureHeight;
-	positionRect.left = transformation.position.x;
-	positionRect.right = transformation.position.x + textureWidth;
+	positionRect.top = getPosition().y;
+	positionRect.bottom = getPosition().y + textureHeight;
+	positionRect.left = getPosition().x;
+	positionRect.right = getPosition().x + textureWidth;
 }
 
 
@@ -67,5 +67,41 @@ bool StuffToBeDrawn::isClickedOn(StuffToBeDrawn* textureBelow, bool mouseLeftBut
 	return (isHoverOn(textureBelow) && mouseLeftButtonClicked);
 }
 
+D3DXVECTOR2 StuffToBeDrawn::getPosition() {
+	return transformation.getPosition(); 
+}
 
+void StuffToBeDrawn::setPosition(D3DXVECTOR2 vector) {
+	transformation.setPosition(vector); 
+	updatePositionRect();
+}
+
+void StuffToBeDrawn::setPositionY(float y)
+{
+	transformation.setPositionY(y);
+	updatePositionRect();
+}
+
+void StuffToBeDrawn::setPositionX(float x)
+{
+	transformation.setPositionX(x);
+	updatePositionRect();
+}
+
+void StuffToBeDrawn::addPosition(D3DXVECTOR2 vector) {
+	transformation.addPosition(vector);
+	updatePositionRect();
+}
+void StuffToBeDrawn::subtractPosition(D3DXVECTOR2 vector) {
+	transformation.subtractPosition(vector);
+	updatePositionRect();
+}
+void StuffToBeDrawn::multiplyPosition(float n) {
+	transformation.multiplyPosition(n);
+	updatePositionRect();
+}
+void StuffToBeDrawn::dividePosition(float n) {
+	transformation.dividePosition(n);
+	updatePositionRect();
+}
 

@@ -4,23 +4,16 @@ Button::Button(Texture* ppTexture, Text* label)
 {
 	texture = ppTexture;
 	this->label = label;
-	this->label->transformation.position +=
-		texture->transformation.position;
+	this->label->addPosition(texture->getPosition());
 
-	this->label->transformation.UpdateMatrix();
 	this->label->updatePositionRect();
 }
 
 
 void Button::Move(D3DXVECTOR2 vector)
 {
-	texture->transformation.position += vector;
-	texture->updatePositionRect();
-	texture->transformation.UpdateMatrix();
-
-	label->transformation.position += vector;
-	label->updatePositionRect();
-	label->transformation.UpdateMatrix();
+	texture->addPosition(vector);
+	label->addPosition(vector);
 }
 
 void Button::Release() {

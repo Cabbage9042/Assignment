@@ -17,6 +17,14 @@ class Sprite : public Texture {
 	void Draw();
 
 	void updatePositionRect();
+
+	void setPosition(D3DXVECTOR2 vector);
+	void setPositionX(float x);
+	void setPositionY(float y);
+	void addPosition(D3DXVECTOR2 vector);
+	void subtractPosition(D3DXVECTOR2 vector);
+	void multiplyPosition(float n);
+	void dividePosition(float n);
 	Sprite() :Texture() {
 		spriteWidth = 0;
 		spriteHeight = 0;

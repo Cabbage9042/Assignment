@@ -11,7 +11,7 @@ public:
 	Slider(Texture* bar, Texture* handle) {
 		this->bar = bar;
 
-		handle->transformation.position += bar->transformation.position;
+		handle->addPosition( bar->getPosition());
 		this->handle = handle;
 	}
 

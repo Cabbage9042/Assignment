@@ -46,10 +46,10 @@ void MainMenu::InitializeLevel() {
 
 	//title border
 	vector<D3DXVECTOR2>* vectorVertices = new vector<D3DXVECTOR2>{
-		D3DXVECTOR2(texts->at(0)->transformation.position.x,texts->at(0)->transformation.position.y),
-		D3DXVECTOR2(texts->at(0)->transformation.position.x + texts->at(0)->textureWidth,texts->at(0)->transformation.position.y),
-		D3DXVECTOR2(texts->at(0)->transformation.position.x + texts->at(0)->textureWidth,texts->at(0)->transformation.position.y + texts->at(0)->textureHeight),
-		D3DXVECTOR2(texts->at(0)->transformation.position.x,texts->at(0)->transformation.position.y + texts->at(0)->textureHeight)
+		D3DXVECTOR2(texts->at(0)->getPosition().x,texts->at(0)->getPosition().y),
+		D3DXVECTOR2(texts->at(0)->getPosition().x + texts->at(0)->textureWidth,texts->at(0)->getPosition().y),
+		D3DXVECTOR2(texts->at(0)->getPosition().x + texts->at(0)->textureWidth,texts->at(0)->getPosition().y + texts->at(0)->textureHeight),
+		D3DXVECTOR2(texts->at(0)->getPosition().x,texts->at(0)->getPosition().y + texts->at(0)->textureHeight)
 	};
 	lines->push_back(new Line(vectorVertices));
 
@@ -113,8 +113,7 @@ void MainMenu::GetInput() {
 	dKey.updateKeyStatus(KeyDown(DIK_D));
 	aKey.updateKeyStatus(KeyDown(DIK_A));
 
-	sprites->at(pointer)->transformation.position.x += Shell::directXManager.mouseState.lX;
-	sprites->at(pointer)->transformation.position.y += Shell::directXManager.mouseState.lY;
+	sprites->at(pointer)->addPosition(D3DXVECTOR2(Shell::directXManager.mouseState.lX, Shell::directXManager.mouseState.lY));
 
 }
 
@@ -142,7 +141,7 @@ void MainMenu::Update(int framesToUpdate) {
 	//jump if space is pressed and character is on a platform (on a button or on the floor)
 	if (spaceKey.isPressed && (character.sprite.positionRect.bottom == MyWindowHeight ||
 		character.sprite.positionRect.bottom == buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top)) {
-		character.velocity.y = JumpForce;
+ 		character.velocity.y = JumpForce;
 	}
 	for (int i = 0; i < framesToUpdate; i++) {
 
@@ -174,7 +173,6 @@ void MainMenu::Update(int framesToUpdate) {
 				}
 				bgmVolumeLabel->updateCropRect();
 				bgmVolumeLabel->updatePositionRect();
-				bgmVolumeLabel->transformation.UpdateMatrix();
 
 				Shell::audioManager.setBgmVolume(volume / 100.0);
 				
@@ -196,7 +194,7 @@ void MainMenu::Update(int framesToUpdate) {
 				}
 				effectVolumeLabel->updateCropRect();
 				effectVolumeLabel->updatePositionRect();
-				effectVolumeLabel->transformation.UpdateMatrix();
+
 
 				Shell::audioManager.setEffectVolume(volume / 100.0);
 
@@ -210,8 +208,11 @@ void MainMenu::Update(int framesToUpdate) {
 			optionPanel->sliders->at(effectSlider)->isChanging = false;
 		}
 
-
-		moveCharacter();
+		if (character.velocity.y == JumpForce) {
+ 			cout << "s" << endl;
+		}
+  		moveCharacter();
+		
 	}
 
 
@@ -279,21 +280,21 @@ void MainMenu::UninitializeLevel() {
 }
 void MainMenu::pointerStayInsideWindow()
 {
-	sprites->at(pointer)->updatePositionRect();
-	if (sprites->at(pointer)->transformation.position.x < 0) {
-		sprites->at(pointer)->transformation.position.x = 0;
+	//to avoid mouse out of window, must
+	if (sprites->at(pointer)->getPosition().x < 0) {
+		sprites->at(pointer)->setPositionX(0);
 	}
-	if (sprites->at(pointer)->transformation.position.x > MyWindowWidth) {
-		sprites->at(pointer)->transformation.position.x = MyWindowWidth - 1;
+	if (sprites->at(pointer)->getPosition().x > MyWindowWidth) {
+		sprites->at(pointer)->setPositionX(MyWindowWidth - 1);
 	}
-	if (sprites->at(pointer)->transformation.position.y < 0) {
-		sprites->at(pointer)->transformation.position.y = 0;
+	if (sprites->at(pointer)->getPosition().y < 0) {
+		sprites->at(pointer)->setPositionY(0);
 	}
-	if (sprites->at(pointer)->transformation.position.y > MyWindowHeight) {
-		sprites->at(pointer)->transformation.position.y = MyWindowHeight - 1;
+	if (sprites->at(pointer)->getPosition().y > MyWindowHeight) {
+		sprites->at(pointer)->setPositionY(MyWindowHeight - 1);
 	}
-	sprites->at(pointer)->transformation.UpdateMatrix();
 	sprites->at(pointer)->updateCropRect();
+
 }
 
 bool MainMenu::buttonIsClicked() {
@@ -397,7 +398,7 @@ bool MainMenu::buttonIsClicked() {
 void MainMenu::updateCollidedToButton()
 {
 	if (character.sprite.positionRect.bottom >= MyWindowHeight) {
-		character.sprite.transformation.position.y = MyWindowHeight - character.sprite.spriteHeight;
+		character.sprite.setPositionY( MyWindowHeight - character.sprite.spriteHeight);
 		character.velocity.y = 0;
 	}
 	//left button quit
@@ -406,7 +407,7 @@ void MainMenu::updateCollidedToButton()
 		!(character.sprite.positionRect.top > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom ||
 			character.sprite.positionRect.bottom < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top) &&
 		character.sprite.currentRow == walkingRight) {
-		character.sprite.transformation.position.x = buttonPanel->buttons->at(buttonQuit)->texture->positionRect.left - character.sprite.spriteWidth;
+		character.sprite.setPositionX(buttonPanel->buttons->at(buttonQuit)->texture->positionRect.left - character.sprite.spriteWidth);
 		character.velocity.x *= -1;
 		character.sprite.currentRow = walkingLeft;
 	}
@@ -416,7 +417,7 @@ void MainMenu::updateCollidedToButton()
 		!(character.sprite.positionRect.top > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom ||
 			character.sprite.positionRect.bottom < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top) &&
 		character.sprite.currentRow == walkingLeft) {
-		character.sprite.transformation.position.x = buttonPanel->buttons->at(buttonQuit)->texture->positionRect.right;
+		character.sprite.setPositionX(buttonPanel->buttons->at(buttonQuit)->texture->positionRect.right);
 		character.velocity.x *= -1;
 		character.sprite.currentRow = walkingRight;
 	}
@@ -426,7 +427,7 @@ void MainMenu::updateCollidedToButton()
 		character.sprite.positionRect.bottom >  buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top &&
 		character.sprite.positionRect.top < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top &&
 		characterIsFalling) {
-		character.sprite.transformation.position.y = buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top - character.sprite.spriteHeight;
+		character.sprite.setPositionY(buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top - character.sprite.spriteHeight);
 		character.velocity.y = 0;
 	}
 	//below button quit
@@ -435,7 +436,7 @@ void MainMenu::updateCollidedToButton()
 		character.sprite.positionRect.top < buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom &&
 		character.sprite.positionRect.bottom > buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom &&
 		!characterIsFalling) {
-		character.sprite.transformation.position.y = buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom;
+		character.sprite.setPositionY(buttonPanel->buttons->at(buttonQuit)->texture->positionRect.bottom);
 		character.velocity.y *= -1;
 	}
 
@@ -445,7 +446,7 @@ void MainMenu::updateCollidedToButton()
 		character.sprite.positionRect.top < buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom &&
 		character.sprite.positionRect.bottom > buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom &&
 		!characterIsFalling) {
-		character.sprite.transformation.position.y = buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom;
+		character.sprite.setPositionY( buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom);
 		character.velocity.y *= -1;
 	}
 
@@ -454,11 +455,9 @@ void MainMenu::updateCollidedToButton()
 void MainMenu::resetToDefault(bool resetBGM)
 {
 	startBGM = resetBGM;
-	character.sprite.transformation.position = D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight);
-	character.sprite.updatePositionRect();
+	character.sprite.setPosition ( D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight));
 
-	sprites->at(pointer)->transformation.position = D3DXVECTOR2(0, 0);
-	sprites->at(pointer)->updatePositionRect();
+	sprites->at(pointer)->transformation.setPosition( D3DXVECTOR2(0, 0));
 }
 
 void MainMenu::moveCharacter()
@@ -472,9 +471,8 @@ void MainMenu::moveCharacter()
 		}
 
 		character.velocity.y += Gravity;
-		character.sprite.transformation.position += character.velocity;
+		character.sprite.addPosition(character.velocity);
 
-		character.sprite.updatePositionRect();
 
 		updateCollidedToButton();
 
@@ -488,5 +486,5 @@ void MainMenu::moveCharacter()
 
 
 		character.sprite.updatePositionRect();
-		character.sprite.transformation.UpdateMatrix();
+
 }

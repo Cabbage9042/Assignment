@@ -31,9 +31,15 @@ public:
 	bool isHoverOn(StuffToBeDrawn* textureBelow);
 	bool isHoverOn(RECT rect,D3DXVECTOR2 position);
 	bool isClickedOn(StuffToBeDrawn* textureBelow, bool mouseLeftButtonClicked);
-	D3DXVECTOR2 getPosition() { return transformation.position; }
 
-	
+	D3DXVECTOR2 getPosition();
+	void setPosition(D3DXVECTOR2 vector);
+	void setPositionX(float x);
+	void setPositionY(float y);
+	void addPosition(D3DXVECTOR2 vector);
+	void subtractPosition(D3DXVECTOR2 vector) ;
+	void multiplyPosition(float n) ;
+	void dividePosition(float n);
 
 	StuffToBeDrawn() {
 		transformation = TransformationMatrix();

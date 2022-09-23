@@ -4,11 +4,12 @@
 #include <d3dx9.h>
 
 
-class TransformationMatrix{
+class TransformationMatrix {
+private:
+	D3DXVECTOR2 position;
 public:
 	D3DXMATRIX matrix;
 
-	D3DXVECTOR2 position;
 	D3DXVECTOR2 rotationCenter;
 	D3DXVECTOR2 scalingCenter;
 	D3DXVECTOR2 scaling;
@@ -16,7 +17,6 @@ public:
 	float rotation;
 
 	TransformationMatrix();
-	TransformationMatrix(D3DXMATRIX matrix);
 	TransformationMatrix(D3DXVECTOR2 position);
 	TransformationMatrix(D3DXVECTOR2 position,
 		D3DXVECTOR2 rotationCenter,
@@ -25,5 +25,14 @@ public:
 		float scalingRotation,
 		float rotation);
 	void UpdateMatrix();
+
+	D3DXVECTOR2 getPosition();
+	void setPosition(D3DXVECTOR2 vector);
+	void setPositionX(float x);
+	void setPositionY(float y);
+	void addPosition(D3DXVECTOR2 vector);
+	void subtractPosition(D3DXVECTOR2 vector);
+	void multiplyPosition(float n);
+	void dividePosition(float n);
 };
 

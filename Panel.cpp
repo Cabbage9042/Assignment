@@ -2,9 +2,8 @@
 
 void Panel::Move(D3DXVECTOR2 vector)
 {
-	this->transformation.position += vector;
+	this->transformation.addPosition(vector);
 	this->updatePositionRect();
-	this->transformation.UpdateMatrix();
 
 	for (auto button : *this->buttons) {
 		button->Move(vector);
@@ -21,15 +20,11 @@ void Panel::Move(D3DXVECTOR2 vector)
 }
 
 void Panel::CreateButton(Button* button){
-	button->texture->relativePosition = button->texture->transformation.position;
-	button->texture->transformation.position += transformation.position;
-	button->texture->updatePositionRect();
-	button->texture->transformation.UpdateMatrix();
+	button->texture->relativePosition = button->texture->getPosition();
+	button->texture->addPosition(getPosition());
 
-	button->label->relativePosition = button->label->transformation.position;
-	button->label->transformation.position += transformation.position;
-	button->label->updatePositionRect();
-	button->label->transformation.UpdateMatrix();
+	button->label->relativePosition = button->label->transformation.getPosition();
+	button->label->addPosition(getPosition());
 
 	buttons->push_back(button);
 
@@ -37,24 +32,20 @@ void Panel::CreateButton(Button* button){
 
 void Panel::CreateLabel(Text* label)
 {
-	label->relativePosition = label->transformation.position;
-	label->transformation.position += transformation.position;
-	label->updatePositionRect();
-	label->transformation.UpdateMatrix();
+	label->relativePosition = label->getPosition();
+	label->addPosition(getPosition());
 	labels->push_back(label);
 }
 
 void Panel::CreateSlider(Slider* slider)
 {
-	slider->bar->relativePosition = slider->bar->transformation.position;
-	slider->bar->transformation.position+=transformation.position;
+	slider->bar->relativePosition = slider->bar->getPosition();
+	slider->bar->addPosition(getPosition());
 	slider->bar->updatePositionRect();
-	slider->bar->transformation.UpdateMatrix();
 
-	slider->handle->relativePosition = slider->handle->transformation.position;
-	slider->handle->transformation.position+=transformation.position;
+	slider->handle->relativePosition = slider->handle->getPosition();
+	slider->handle->addPosition(getPosition());
 	slider->handle->updatePositionRect();
-	slider->handle->transformation.UpdateMatrix();
 
 	sliders->push_back(slider);
 }

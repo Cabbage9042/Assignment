@@ -1,13 +1,10 @@
 #include "Slider.h"
 
 void Slider::Move(D3DXVECTOR2 velocity) {
-	bar->transformation.position += velocity;
-	bar->updatePositionRect();
-	bar->transformation.UpdateMatrix();
+	bar->addPosition( velocity);
 
-	handle->transformation.position += velocity;
-	handle->updatePositionRect();
-	handle->transformation.UpdateMatrix();
+	handle->addPosition(velocity);
+
 }
 
 void Slider::Release() {
@@ -24,17 +21,15 @@ void Slider::Draw()
 }
 
 void Slider::MoveHandle(D3DXVECTOR2 pointerPosition) {
-	handle->transformation.position.x =pointerPosition.x - (handle->textureWidth/2.0);
-	handle->updatePositionRect();
+	handle->setPositionX (pointerPosition.x - (handle->textureWidth/2.0));
 
-	if (handle->transformation.position.x - (handle->textureWidth / 2.0) < bar->transformation.position.x) {
-		handle->transformation.position.x = bar->transformation.position.x - (handle->textureWidth / 2.0);
+	if (handle->getPosition().x - (handle->textureWidth / 2.0) < bar->getPosition().x) {
+		handle->setPositionX(bar->getPosition().x - (handle->textureWidth / 2.0));
 	}
-	else if (handle->transformation.position.x + handle->textureWidth / 2.0 > bar->transformation.position.x + bar->textureWidth) {
-		handle->transformation.position.x = bar->transformation.position.x + bar->textureWidth - handle->textureWidth /2.0;
+	else if (handle->getPosition().x + handle->textureWidth / 2.0 > bar->getPosition().x + bar->textureWidth) {
+		handle->setPositionX(bar->getPosition().x + bar->textureWidth - handle->textureWidth /2.0);
 	}
 
-	handle->transformation.UpdateMatrix();
 }
 
 float Slider::getValue()

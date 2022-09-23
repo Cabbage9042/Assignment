@@ -11,7 +11,6 @@ TransformationMatrix::TransformationMatrix() {
 	scalingCenter = D3DXVECTOR2(0.0f, 0.0f);
 	scaling = D3DXVECTOR2(1.0f, 1.0f);
 
-	UpdateMatrix();
 
 }
 
@@ -23,7 +22,6 @@ TransformationMatrix::TransformationMatrix(D3DXVECTOR2 position){
 	this->scalingCenter = D3DXVECTOR2(0.0f, 0.0f);
 	this->scaling = D3DXVECTOR2(1.0f, 1.0f);
 
-	UpdateMatrix();
 }
 
 TransformationMatrix::TransformationMatrix(D3DXVECTOR2 position, D3DXVECTOR2 rotationCenter, D3DXVECTOR2 scalingCenter, D3DXVECTOR2 scaling, float scalingRotation, float rotation) {
@@ -34,11 +32,52 @@ TransformationMatrix::TransformationMatrix(D3DXVECTOR2 position, D3DXVECTOR2 rot
 	this->scalingCenter = scalingCenter;
 	this->scaling = scaling;
 
-	UpdateMatrix();
 }
 
 void TransformationMatrix::UpdateMatrix() {
 	D3DXMatrixTransformation2D(&matrix, &scalingCenter, scalingRotation,
 		&scaling, &rotationCenter, rotation, &position);
 }
+
+D3DXVECTOR2 TransformationMatrix::getPosition()
+{
+	return position;
+}
+
+void TransformationMatrix::setPosition(D3DXVECTOR2 position)
+{
+	this->position = position;
+}
+
+void TransformationMatrix::setPositionX(float x)
+{
+	position.x = x;
+}
+
+void TransformationMatrix::setPositionY(float y)
+{
+	position.y = y;
+}
+
+void TransformationMatrix::addPosition(D3DXVECTOR2 vector)
+{
+	this->position += vector;
+}
+
+void TransformationMatrix::subtractPosition(D3DXVECTOR2 vector)
+{
+	this->position -= vector;
+}
+
+void TransformationMatrix::multiplyPosition(float n)
+{
+	this->position *= n;
+}
+
+void TransformationMatrix::dividePosition(float n)
+{
+	this->position /= n;
+}
+
+
 

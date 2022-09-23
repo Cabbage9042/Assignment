@@ -16,7 +16,6 @@ void Text::setText(LPCSTR *text)
 	this->text = *text;
 	updateCropRect();
 	updatePositionRect();
-	transformation.UpdateMatrix();
 }
 
 void Text::deleteText()
@@ -30,6 +29,7 @@ void Text::Release() {
 }
 
 void Text::Draw() {
+	this->transformation.UpdateMatrix();
 	Shell::directXManager.spriteBrush->SetTransform(&transformation.matrix);
 	font->DrawTextA(Shell::directXManager.spriteBrush, text, strlen(text), &cropRect, 0, color);
 
@@ -37,9 +37,6 @@ void Text::Draw() {
 
 void Text::Move(D3DXVECTOR2 vector)
 {
-
-	transformation.position += vector;
-	updatePositionRect();
-	transformation.UpdateMatrix();
+	addPosition(vector);
 }
 

@@ -87,13 +87,13 @@ void Crashing::Update(int framesToUpdate)
 
 		spaceship->velocity += spaceship->acceleration;
 		spaceship->velocity *= 1 - spaceship->energyLostRate;
-		spaceship->texture->transformation.position += spaceship->velocity;
+
+		spaceship->texture->addPosition( spaceship->velocity);
 
 		//cout << 'a' << " " << spaceship->acceleration.x << " " << spaceship->acceleration.y <<
 		//	'v' << " " << spaceship->velocity.x << " " << spaceship->velocity.y << endl;
 
 
-		spaceship->texture->transformation.UpdateMatrix();
 		spaceship->texture->updatePositionRect();
 		stayInsideWindow(spaceship);
 
@@ -105,8 +105,8 @@ void Crashing::Update(int framesToUpdate)
 			audios->at(crash)->play();
 
 			////to prevent frame miss
-			spaceship->texture->transformation.position -=
-				spaceship->velocity * (D3DXVec2Length(&vectorBetweenPoints) / distanceSqBetweenCircle);
+			spaceship->texture->subtractPosition (
+				spaceship->velocity * (D3DXVec2Length(&vectorBetweenPoints) / distanceSqBetweenCircle));
 
 
 			//spaceship move only collision
@@ -144,7 +144,6 @@ void Crashing::Update(int framesToUpdate)
 			//2d collision
 
 
-			spaceship->texture->transformation.UpdateMatrix();
 			spaceship->texture->updatePositionRect();
 			stayInsideWindow(spaceship);
 
@@ -219,38 +218,35 @@ void Crashing::UninitializeLevel()
 void Crashing::planetMoving()
 {
 	planet->velocity += planet->acceleration;
-	planet->texture->transformation.position += planet->velocity;
-	planet->texture->transformation.UpdateMatrix();
+	planet->texture->addPosition( planet->velocity);
 
 	stayInsideWindow(planet);
 }
 
 void Crashing::stayInsideWindow(FlyingObject* obj)
 {
-	if (obj->texture->transformation.position.x < 0) {
-		obj->texture->transformation.position.x = 0;
+	if (obj->texture->getPosition().x < 0) {
+		obj->texture->setPositionX(0);
 		obj->velocity.x *= -1;
 	}
-	if (obj->texture->transformation.position.x + obj->texture->textureWidth > MyWindowWidth) {
-		obj->texture->transformation.position.x = MyWindowWidth - obj->texture->textureWidth;
+	if (obj->texture->getPosition().x + obj->texture->textureWidth > MyWindowWidth) {
+		obj->texture->setPositionX(MyWindowWidth - obj->texture->textureWidth);
 		obj->velocity.x *= -1;
 	}
-	if (obj->texture->transformation.position.y < 0) {
-		obj->texture->transformation.position.y = 0;
+	if (obj->texture->getPosition().y < 0) {
+		obj->texture->setPositionY(0);
 		obj->velocity.y *= -1;
 	}
-	if (obj->texture->transformation.position.y + obj->texture->textureHeight > MyWindowHeight) {
-		obj->texture->transformation.position.y = MyWindowHeight - obj->texture->textureHeight;
+	if (obj->texture->getPosition().y + obj->texture->textureHeight > MyWindowHeight) {
+		obj->texture->setPositionY(MyWindowHeight - obj->texture->textureHeight);
 		obj->velocity.y *= -1;
 	}
 
-	spaceship->texture->transformation.UpdateMatrix();
-	spaceship->texture->updatePositionRect();
 }
 
 bool Crashing::circlesCollided(Texture* circleA, Texture* circleB, D3DXVECTOR2* vectorBetweenPoints) {
 
-	*vectorBetweenPoints = (circleA->transformation.rotationCenter + circleA->transformation.position) - (circleB->transformation.rotationCenter + circleB->transformation.position);
+	*vectorBetweenPoints = (circleA->transformation.rotationCenter + circleA->getPosition()) - (circleB->transformation.rotationCenter + circleB->getPosition());
 	//cout << D3DXVec2LengthSq(vectorBetweenPoints) << endl;
 	distanceSqBetweenCircle = ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) * ((circleA->textureWidth / 2) + (circleB->textureWidth / 2)) -
 		D3DXVec2LengthSq(vectorBetweenPoints);
