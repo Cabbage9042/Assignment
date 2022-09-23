@@ -1,5 +1,6 @@
 #pragma once
 
+
 #include "StuffToBeDrawn.h"
 
 class Text : public StuffToBeDrawn{
@@ -8,10 +9,7 @@ private:
 public:
 	LPD3DXFONT font = NULL;
 
-	Text() :StuffToBeDrawn() {
-		text = "";
-		font = NULL;
-	}
+	Text();
 
 
 	Text(LPCSTR pText,

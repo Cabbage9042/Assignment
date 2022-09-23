@@ -9,6 +9,12 @@ Button::Button(Texture* ppTexture, Text* label)
 	this->label->updatePositionRect();
 }
 
+Button::Button(Texture* ppTexture)
+{
+	texture = ppTexture;
+	this->label = new Text();
+}
+
 
 void Button::Move(D3DXVECTOR2 vector)
 {
@@ -19,7 +25,9 @@ void Button::Move(D3DXVECTOR2 vector)
 void Button::Release() {
 	label->Release();
 	label = NULL;
+	texture->Release();
 	texture = NULL;
+	
 }
 
 void Button::Draw()

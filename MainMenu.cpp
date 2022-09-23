@@ -74,22 +74,23 @@ void MainMenu::InitializeLevel() {
 		new Text("Quit", GameManager::fonts->at(arial25), D3DXVECTOR2(459 / 2, 96 / 2), centerAlign, middleAlign)
 	));
 
+	//option button
+	optionButton = new Button(new Texture("Assets/MainMenu/setting.png", 100, 100, D3DXVECTOR2(MyWindowWidth, 0),rightAlign));
+
 	//option panel, is dependent on button panel
 	optionPanel = new Panel(D3DXVECTOR2(buttonPanel->getPosition().x + (MyWindowWidth * 4 / 5), buttonPanel->getPosition().y), MyWindowWidth * 3 / 5, MyWindowHeight / 5);
 	optionPanel->CreateLabel(new Text("Background Music", GameManager::fonts->at(arial25), D3DXVECTOR2(0, 0)));
-	
-	bgmVolumeLabel = new Text(bgmVolumeLabelString, GameManager::fonts->at(arial25), D3DXVECTOR2(optionPanel->textureWidth, 0), rightAlign);
-	
-	optionPanel->CreateLabel(bgmVolumeLabel);
+
+
+	optionPanel->CreateLabel(new Text(bgmVolumeLabelString, GameManager::fonts->at(arial25), D3DXVECTOR2(optionPanel->textureWidth, 0), rightAlign));
 	optionPanel->CreateSlider(new Slider(
 		new Texture("Assets/MainMenu/slider1.png", 388, 27, D3DXVECTOR2(optionPanel->labels->at(bgmVolumeLabelEnum)->relativePosition.x - 30, optionPanel->labels->at(bgmLabelEnum)->relativePosition.y), rightAlign, topAlign),
-		new Texture("Assets/MainMenu/slider2.png", 6, 30, D3DXVECTOR2(388,0), leftAlign, topAlign)
+		new Texture("Assets/MainMenu/slider2.png", 6, 30, D3DXVECTOR2(388, 0), leftAlign, topAlign)
 	));
 
 	optionPanel->CreateLabel(new Text("Sound Effect", GameManager::fonts->at(arial25), D3DXVECTOR2(0, optionPanel->textureHeight), leftAlign, bottomAlign));
-	effectVolumeLabel = new Text(effectVolumeLabelString, GameManager::fonts->at(arial25), D3DXVECTOR2(optionPanel->textureWidth, optionPanel->textureHeight), rightAlign, bottomAlign);
 
-	optionPanel->CreateLabel(effectVolumeLabel);
+	optionPanel->CreateLabel(new Text(effectVolumeLabelString, GameManager::fonts->at(arial25), D3DXVECTOR2(optionPanel->textureWidth, optionPanel->textureHeight), rightAlign, bottomAlign));
 	optionPanel->CreateSlider(new Slider(
 		new Texture("Assets/MainMenu/slider1.png", 388, 27, D3DXVECTOR2(optionPanel->labels->at(effectVolumeLabelEnum)->relativePosition.x - 30, optionPanel->labels->at(effectVolumeLabelEnum)->relativePosition.y), rightAlign, topAlign),
 		new Texture("Assets/MainMenu/slider2.png", 6, 30, D3DXVECTOR2(388, 0), leftAlign, topAlign)
@@ -110,8 +111,6 @@ void MainMenu::GetInput() {
 	f4Key.updateKeyStatus(KeyDown(DIK_F4));
 	leftButton.updateKeyStatus(ButtonDown(0));
 	spaceKey.updateKeyStatus(KeyDown(DIK_SPACE));
-	dKey.updateKeyStatus(KeyDown(DIK_D));
-	aKey.updateKeyStatus(KeyDown(DIK_A));
 
 	sprites->at(pointer)->addPosition(D3DXVECTOR2(Shell::directXManager.mouseState.lX, Shell::directXManager.mouseState.lY));
 
@@ -141,16 +140,40 @@ void MainMenu::Update(int framesToUpdate) {
 	//jump if space is pressed and character is on a platform (on a button or on the floor)
 	if (spaceKey.isPressed && (character.sprite.positionRect.bottom == MyWindowHeight ||
 		character.sprite.positionRect.bottom == buttonPanel->buttons->at(buttonQuit)->texture->positionRect.top)) {
- 		character.velocity.y = JumpForce;
+		character.velocity.y = JumpForce;
+	}
+	if (optionButton->isClicked((*sprites)[pointer], leftButton.isPressed) && !panelIsMoving) {
+		panelIsMoving = true;
+		if (buttonPanel->getPosition().x < 0) {
+			panelIsMovingTo = right;
+		}
+		else {
+			panelIsMovingTo = left;
+		}
 	}
 	for (int i = 0; i < framesToUpdate; i++) {
 
-		if (aKey.isHolding) {
-			buttonPanel->Move(D3DXVECTOR2(-20, 0));
-			optionPanel->Move(D3DXVECTOR2(-20, 0));
-		}if (dKey.isHolding) {
-			buttonPanel->Move(D3DXVECTOR2(20, 0));
-			optionPanel->Move(D3DXVECTOR2(20, 0));
+	
+
+		
+		if (panelIsMoving) {
+			optionPanel->Move(panelVelocity * panelIsMovingTo);
+			buttonPanel->Move(panelVelocity * panelIsMovingTo);
+			if (panelIsMovingTo == left && optionPanel->getPosition().x < optionPanel->getTopLeftPosition(D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight), centerAlign, middleAlign).x) {
+				D3DXVECTOR2 offset(optionPanel->getTopLeftPosition(D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight), centerAlign, middleAlign).x - optionPanel->getPosition().x , 0);
+				optionPanel->Move(offset);
+				buttonPanel->Move(offset);
+				panelIsMoving = false;
+				panelIsMovingTo = 0;
+			}
+			else if (panelIsMovingTo == right && buttonPanel->getPosition().x > buttonPanel->getTopLeftPosition(D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight), centerAlign, middleAlign).x) {
+				D3DXVECTOR2 offset(
+					buttonPanel->getTopLeftPosition(D3DXVECTOR2(MyWindowWidth / 2, MyWindowHeight), centerAlign, middleAlign).x	- buttonPanel->getPosition().x, 0);
+				buttonPanel->Move(offset);
+				optionPanel->Move(offset);
+				panelIsMoving = false;
+				panelIsMovingTo = 0;
+			}
 		}
 
 
@@ -162,38 +185,21 @@ void MainMenu::Update(int framesToUpdate) {
 
 
 				//int to string
-				if (volume == 100) {
-					bgmVolumeLabelString[0] = '1';
-					bgmVolumeLabelString[1] = bgmVolumeLabelString[2] = '0';
-				}
-				else {
-					bgmVolumeLabelString[0] = (volume) / 10 + 48;
-					bgmVolumeLabelString[1] = (volume) % 10 + 48;
-					bgmVolumeLabelString[2] = ' ';
-				}
-				bgmVolumeLabel->updateCropRect();
-				bgmVolumeLabel->updatePositionRect();
-
+				volumeToString(bgmVolumeLabelString, volume);
+				optionPanel->labels->at(bgmVolumeLabelEnum)->updateCropRect();
+				optionPanel->labels->at(bgmVolumeLabelEnum)->updatePositionRect();
 				Shell::audioManager.setBgmVolume(volume / 100.0);
-				
+
 
 				optionPanel->sliders->at(bgmSlider)->isChanging = true;
 			}
-			else if(sprites->at(pointer)->isHoverOn(optionPanel->sliders->at(effectSlider)->bar) || optionPanel->sliders->at(effectSlider)->isChanging) {
+			else if (sprites->at(pointer)->isHoverOn(optionPanel->sliders->at(effectSlider)->bar) || optionPanel->sliders->at(effectSlider)->isChanging) {
 				optionPanel->sliders->at(effectSlider)->MoveHandle(sprites->at(pointer)->getPosition());
 				int volume = (int)(100.0 * optionPanel->sliders->at(effectSlider)->getValue());
 				//int to string
-				if (volume == 100) {
-					effectVolumeLabelString[0] = '1';
-					effectVolumeLabelString[1] = effectVolumeLabelString[2] = '0';
-				}
-				else {
-					effectVolumeLabelString[0] = (volume) / 10 + 48;
-					effectVolumeLabelString[1] = (volume) % 10 + 48;
-					effectVolumeLabelString[2] = ' ';
-				}
-				effectVolumeLabel->updateCropRect();
-				effectVolumeLabel->updatePositionRect();
+				volumeToString(effectVolumeLabelString, volume);
+				optionPanel->labels->at(effectVolumeLabelEnum)->updateCropRect();
+				optionPanel->labels->at(effectVolumeLabelEnum)->updatePositionRect();
 
 
 				Shell::audioManager.setEffectVolume(volume / 100.0);
@@ -208,11 +214,8 @@ void MainMenu::Update(int framesToUpdate) {
 			optionPanel->sliders->at(effectSlider)->isChanging = false;
 		}
 
-		if (character.velocity.y == JumpForce) {
- 			cout << "s" << endl;
-		}
-  		moveCharacter();
-		
+		moveCharacter();
+
 	}
 
 
@@ -237,6 +240,9 @@ void MainMenu::Update(int framesToUpdate) {
 void MainMenu::Render() {
 
 	GameManager::RenderBegin();
+
+	optionButton->Draw();
+
 	for (int i = textures->size() - 1; i >= 0; i--) {
 		textures->at(i)->Draw();
 	}
@@ -268,6 +274,8 @@ void MainMenu::Render() {
 
 //just copy and paste all
 void MainMenu::UninitializeLevel() {
+	optionButton->Release();
+	optionButton = NULL;
 	buttonPanel->Release();
 	optionPanel->Release();
 	character.sprite.Release();
@@ -398,7 +406,7 @@ bool MainMenu::buttonIsClicked() {
 void MainMenu::updateCollidedToButton()
 {
 	if (character.sprite.positionRect.bottom >= MyWindowHeight) {
-		character.sprite.setPositionY( MyWindowHeight - character.sprite.spriteHeight);
+		character.sprite.setPositionY(MyWindowHeight - character.sprite.spriteHeight);
 		character.velocity.y = 0;
 	}
 	//left button quit
@@ -446,7 +454,7 @@ void MainMenu::updateCollidedToButton()
 		character.sprite.positionRect.top < buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom &&
 		character.sprite.positionRect.bottom > buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom &&
 		!characterIsFalling) {
-		character.sprite.setPositionY( buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom);
+		character.sprite.setPositionY(buttonPanel->buttons->at(buttonStart)->texture->positionRect.bottom);
 		character.velocity.y *= -1;
 	}
 
@@ -455,36 +463,51 @@ void MainMenu::updateCollidedToButton()
 void MainMenu::resetToDefault(bool resetBGM)
 {
 	startBGM = resetBGM;
-	character.sprite.setPosition ( D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight));
+	character.sprite.setPosition(D3DXVECTOR2(0, MyWindowHeight - character.sprite.spriteHeight));
 
-	sprites->at(pointer)->transformation.setPosition( D3DXVECTOR2(0, 0));
+	sprites->at(pointer)->transformation.setPosition(D3DXVECTOR2(0, 0));
 }
 
 void MainMenu::moveCharacter()
-{if (character.sprite.positionRect.left <= 0) {
-			character.sprite.currentRow = walkingRight;
-			character.velocity.x = DEFAULT_SPEED;
+{
+	if (character.sprite.positionRect.left <= 0) {
+		character.sprite.currentRow = walkingRight;
+		character.velocity.x = DEFAULT_SPEED;
+	}
+	else if (character.sprite.positionRect.right >= MyWindowWidth) {
+		character.sprite.currentRow = walkingLeft;
+		character.velocity.x = -DEFAULT_SPEED;
+	}
+
+	character.velocity.y += Gravity;
+	character.sprite.addPosition(character.velocity);
+
+
+	updateCollidedToButton();
+
+	character.characterAnimationCounter++;
+	if (character.characterAnimationCounter % (gameFPS / character.characterFPS) == 0) {
+		character.sprite.currentColumn++;
+		if (character.sprite.currentColumn == character.sprite.maxFrame) {
+			character.sprite.currentColumn = 0;
 		}
-		else if (character.sprite.positionRect.right >= MyWindowWidth) {
-			character.sprite.currentRow = walkingLeft;
-			character.velocity.x = -DEFAULT_SPEED;
-		}
-
-		character.velocity.y += Gravity;
-		character.sprite.addPosition(character.velocity);
+	}
 
 
-		updateCollidedToButton();
+	character.sprite.updatePositionRect();
 
-		character.characterAnimationCounter++;
-		if (character.characterAnimationCounter % (gameFPS / character.characterFPS) == 0) {
-			character.sprite.currentColumn++;
-			if (character.sprite.currentColumn == character.sprite.maxFrame) {
-				character.sprite.currentColumn = 0;
-			}
-		}
+}
 
-
-		character.sprite.updatePositionRect();
+void MainMenu::volumeToString(char string[], int volume)
+{
+	if (volume == 100) {
+		string[0] = '1';
+		string[1] = string[2] = '0';
+	}
+	else {
+		string[0] = (volume) / 10 + 48;
+		string[1] = (volume) % 10 + 48;
+		string[2] = ' ';
+	}
 
 }

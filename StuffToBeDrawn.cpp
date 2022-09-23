@@ -8,6 +8,11 @@ void StuffToBeDrawn::updateCropRect() {
 }
 
 D3DXVECTOR2 StuffToBeDrawn::getTopLeftPosition(D3DXVECTOR2 position) {
+	return getTopLeftPosition(position, horizontalAlign, verticalAlign);
+}
+
+D3DXVECTOR2 StuffToBeDrawn::getTopLeftPosition(D3DXVECTOR2 position, int horizontalAlign, int verticalAlign)
+{
 	D3DXVECTOR2 topLeftPosition;
 	switch (horizontalAlign) {
 	case leftAlign:
@@ -71,13 +76,15 @@ D3DXVECTOR2 StuffToBeDrawn::getPosition() {
 	return transformation.getPosition(); 
 }
 
-void StuffToBeDrawn::setPosition(D3DXVECTOR2 vector) {
-	transformation.setPosition(vector); 
+void StuffToBeDrawn::setPosition(D3DXVECTOR2 position, int horizontalAlign, int verticalAlign) {
+	relativePosition = position;
+	transformation.setPosition(getTopLeftPosition(position));
 	updatePositionRect();
 }
 
 void StuffToBeDrawn::setPositionY(float y)
 {
+	relativePosition.y = y;
 	transformation.setPositionY(y);
 	updatePositionRect();
 }

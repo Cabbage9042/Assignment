@@ -10,7 +10,10 @@ enum { leftAlign, centerAlign, rightAlign };
 enum { topAlign, middleAlign, bottomAlign };
 
 class StuffToBeDrawn {
+protected:
+	D3DXVECTOR2 getTopLeftPosition(D3DXVECTOR2 position);
 public:
+	D3DXVECTOR2 getTopLeftPosition(D3DXVECTOR2 position, int horizontalAlign, int verticalAlign);
 	int horizontalAlign;
 	int verticalAlign;
 	RECT cropRect;
@@ -26,14 +29,13 @@ public:
 
 
 	void updateCropRect();
-	D3DXVECTOR2 getTopLeftPosition(D3DXVECTOR2 position);
 	void updatePositionRect();
 	bool isHoverOn(StuffToBeDrawn* textureBelow);
 	bool isHoverOn(RECT rect,D3DXVECTOR2 position);
 	bool isClickedOn(StuffToBeDrawn* textureBelow, bool mouseLeftButtonClicked);
 
 	D3DXVECTOR2 getPosition();
-	void setPosition(D3DXVECTOR2 vector);
+	void setPosition(D3DXVECTOR2 position, int horizontalAlign = leftAlign, int verticalAlign = topAlign);
 	void setPositionX(float x);
 	void setPositionY(float y);
 	void addPosition(D3DXVECTOR2 vector);

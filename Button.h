@@ -18,6 +18,7 @@ public:
 	/// <param name="label"></param>
 	/// <param name="ppTexture"></param>
 	Button(Texture* ppTexture, Text*label);
+	Button(Texture* ppTexture);
 
 	void Move(D3DXVECTOR2 vector);
 	void Release();

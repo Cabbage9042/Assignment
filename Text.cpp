@@ -1,6 +1,14 @@
 #include "Text.h"
 #include "Game.h"
+#include "GameManager.h"
 #include "Shell.h"
+
+Text::Text() :StuffToBeDrawn(){
+	
+		text = "";
+		font = GameManager::fonts->at(0);
+	
+}
 
 void Text::updateCropRect() {
 	font->DrawTextA(NULL, text, strlen(text), &cropRect, DT_CALCRECT, D3DCOLOR_XRGB(0, 0, 0));
